@@ -1,4 +1,4 @@
-#' @importFrom diptest diptest
+#' @importFrom diptest dip.test
 # a function that itterates through a dataset and adds single column bimodal data to a list
 monohartigansdipper<-function(dataset,selected_datasets){
 

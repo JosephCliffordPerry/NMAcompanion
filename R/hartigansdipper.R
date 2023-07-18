@@ -1,4 +1,4 @@
-#' @importFrom diptest diptest
+#' @importFrom diptest dip.test
 
 
 
