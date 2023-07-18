@@ -1,5 +1,5 @@
-#' @importFrom Shiny shinyUI
-#' @importFrom Shiny fluidPage
+#' @importFrom shiny shinyUI
+#' @importFrom shiny fluidPage
 #' @importFrom shiny titlePanel
 #' @importFrom shiny mainPanel
 #' @importFrom shiny selectInput
