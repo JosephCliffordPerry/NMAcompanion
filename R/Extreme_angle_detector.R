@@ -1,4 +1,5 @@
 #' @importFrom dplyr %>%
+#' @importFrom dplyr starts_with
 
 Extreme_angle_detector <- function(data){
 
