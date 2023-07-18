@@ -1,5 +1,4 @@
 #' @importFrom factoextra fviz_nbclust
-#' @importFrom factoextra kmeans
 #' @importFrom factoextra hkmeans
 #' @importFrom umap umap
 #' @importFrom ggplot2 ggplot
