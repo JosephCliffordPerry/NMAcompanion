@@ -1,3 +1,9 @@
+#' @importFrom Shiny shinyUI
+#' @importFrom Shiny fluidPage
+#' @importFrom shiny
+#' @importFrom shiny
+#' @importFrom shiny
+
 graphviewerbuilder <- function(testgraphlist){
   # Define the UI
   ui <- shinyUI(
