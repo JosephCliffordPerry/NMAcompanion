@@ -3,6 +3,15 @@
 #' @importFrom shiny titlePanel
 #' @importFrom shiny mainPanel
 #' @importFrom shiny selectInput
+#' @importFrom shiny plotOutput
+#' @importFrom shiny sidebarLayout
+#' @importFrom shiny sidebarPanel
+#' @importFrom shiny verbatimTextOutput
+#' @importFrom shiny shinyServer
+#' @importFrom shiny observe
+#' @importFrom shiny renderPlot
+#' @importFrom shiny renderPrint
+#' @importFrom shiny cat
 
 graphviewerbuilder <- function(testgraphlist){
   # Define the UI
