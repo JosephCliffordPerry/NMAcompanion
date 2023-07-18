@@ -1,3 +1,17 @@
+#' @importFrom factoextra fviz_nbclust
+#' @importFrom factoextra kmeans
+#' @importFrom factoextra hkmeans
+#' @importFrom umap umap
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 geom_point
+#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 facet_wrap
+#' @importFrom ggplot2 geom_line
+#' @importFrom dplyr filter
+
+
+
 fulldatasetclustergrapher <- function(data){
 
   dataset <- dplyr::select_if(data[7:327], is.numeric)
