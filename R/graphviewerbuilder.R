@@ -11,7 +11,7 @@
 #' @importFrom shiny observe
 #' @importFrom shiny renderPlot
 #' @importFrom shiny renderPrint
-#' @importFrom shiny cat
+
 
 graphviewerbuilder <- function(testgraphlist){
   # Define the UI
