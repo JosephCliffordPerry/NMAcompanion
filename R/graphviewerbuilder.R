@@ -1,8 +1,8 @@
 #' @importFrom Shiny shinyUI
 #' @importFrom Shiny fluidPage
-#' @importFrom shiny
-#' @importFrom shiny
-#' @importFrom shiny
+#' @importFrom shiny titlePanel
+#' @importFrom shiny mainPanel
+#' @importFrom shiny selectInput
 
 graphviewerbuilder <- function(testgraphlist){
   # Define the UI
