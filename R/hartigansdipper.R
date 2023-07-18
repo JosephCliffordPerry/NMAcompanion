@@ -1,3 +1,8 @@
+#' @importFrom diptest diptest
+
+
+
+
 # a function that itterates through a dataset and adds bimodal data to a list
 hartigansdipper<-function(dataset,selected_datasets){
 
