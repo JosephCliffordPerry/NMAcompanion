@@ -23,7 +23,8 @@
 #' @importFrom shiny observe
 #' @importFrom shiny renderPlot
 #' @importFrom shiny renderPrint
-
+#' @importFrom shiny shinyApp
+#' @importFrom stringr str_extract_all
 targeted_profile_analysis <- function(rawdata){
 
 
