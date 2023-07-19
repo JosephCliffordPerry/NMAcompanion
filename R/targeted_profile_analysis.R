@@ -153,11 +153,11 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
 
       graph1 <- gromph1 + gromph2
 
-      gromph3 <- ggplot(data = angleumapcluster, aes(V1, V2, color = clusters_factor)) +
+      gromph3 <- ggplot(data = angleumapcluster, aes(angleumapcluster$V1, angleumapcluster$V2, color = clusters_factor)) +
         geom_point() + labs(title = title,colour = "clusters") +
         facet_wrap(clusters_factor)
 
-      gromph4 <- ggplot(data = angleumapcluster, aes(V1, V2, color = clusters_factor)) +
+      gromph4 <- ggplot(data = angleumapcluster, aes(angleumapcluster$V1, angleumapcluster$V2, color = clusters_factor)) +
         geom_point() + labs(title = title,colour = "clusters")
 
       graph2 <- gromph3 + gromph4
@@ -273,20 +273,20 @@ fulldatasetclustergrapher <- function(data){
     clusters_factor <- factor(Clustering_file)
     umapo_cluster<-cbind(umapodata,clusters_factor)
     angleumapcluster <-cbind(angleumapdata,clusters_factor)
-    gromph1 <- ggplot(data = umapo_cluster, aes(V1, V2, color = clusters_factor)) +
+    gromph1 <- ggplot(data = umapo_cluster, aes(umapo_cluster$V1, umapo_cluster$V2, color = clusters_factor)) +
       geom_point() + labs(title = title) +
       facet_wrap(clusters_factor)
 
-    gromph2 <- ggplot(data = umapo_cluster, aes(V1, V2, color = clusters_factor)) +
+    gromph2 <- ggplot(data = umapo_cluster, aes(umapo_cluster$V1, umapo_cluster$V2, color = clusters_factor)) +
       geom_point() + labs(title = title)
 
     graph1 <- gromph1 + gromph2
 
-    gromph3 <- ggplot(data = angleumapcluster, aes(V1, V2, color = clusters_factor)) +
+    gromph3 <- ggplot(data = angleumapcluster, aes(angleumapcluster$V1, angleumapcluster$V2, color = clusters_factor)) +
       geom_point() + labs(title = title) +
       facet_wrap(clusters_factor)
 
-    gromph4 <- ggplot(data = angleumapcluster, aes(V1, V2, color = clusters_factor)) +
+    gromph4 <- ggplot(data = angleumapcluster, aes(angleumapcluster$V1, angleumapcluster$V2, color = clusters_factor)) +
       geom_point() + labs(title = title)
 
     graph2 <- gromph3 + gromph4
