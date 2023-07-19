@@ -6,5 +6,5 @@
 #'
 #'
 load("/NMAcompanion/data/NMA_Testdata.rda")
->
+
 
