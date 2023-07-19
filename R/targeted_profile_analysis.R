@@ -1,3 +1,4 @@
+#'Targeted profile analysis
 #'This function takes a NMA dataset and produces a page of graphs that help show
 #'it's structure
 #' @param rawdata the nuclear measurements exported dataset from NMA

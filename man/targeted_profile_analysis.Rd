@@ -2,7 +2,8 @@
 % Please edit documentation in R/targeted_profile_analysis.R
 \name{targeted_profile_analysis}
 \alias{targeted_profile_analysis}
-\title{This function takes a NMA dataset and produces a page of graphs that help show
+\title{Targeted profile analysis
+This function takes a NMA dataset and produces a page of graphs that help show
 it's structure}
 \usage{
 targeted_profile_analysis(rawdata)
@@ -11,6 +12,7 @@ targeted_profile_analysis(rawdata)
 \item{rawdata}{the nuclear measurements exported dataset from NMA}
 }
 \description{
+Targeted profile analysis
 This function takes a NMA dataset and produces a page of graphs that help show
 it's structure
 }

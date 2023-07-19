@@ -2,7 +2,8 @@
 % Please edit documentation in R/Extreme_angle_detector.R
 \name{Extreme_angle_detector}
 \alias{Extreme_angle_detector}
-\title{This tags the nuclei with angles over 280 that are likely artifacts}
+\title{Extreme angle detector
+This tags the nuclei with angles over 280 that are likely artifacts}
 \usage{
 Extreme_angle_detector(data)
 }
@@ -10,5 +11,6 @@ Extreme_angle_detector(data)
 \item{data}{the nuclear measurements exported dataset from NMA}
 }
 \description{
+Extreme angle detector
 This tags the nuclei with angles over 280 that are likely artifacts
 }

@@ -1,3 +1,4 @@
+#'Extreme angle detector
 #'This tags the nuclei with angles over 280 that are likely artifacts
 #' @param data the nuclear measurements exported dataset from NMA
 #' @importFrom dplyr %>%
