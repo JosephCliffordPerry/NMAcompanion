@@ -27,7 +27,7 @@
 #' @importFrom stringr str_extract_all
 #' @importFrom dplyr %>%
 #' @importFrom dplyr starts_with
-
+#' @importFrom dplyr select
 
 targeted_profile_analysis <- function(rawdata){
 
