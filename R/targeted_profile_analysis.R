@@ -1,3 +1,5 @@
+#'This function takes a NMA dataset and produces a page of graphs that help show
+#'it's structure
 #' @importFrom factoextra fviz_nbclust
 #' @importFrom factoextra hkmeans
 #' @importFrom umap umap
