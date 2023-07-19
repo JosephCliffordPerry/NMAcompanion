@@ -1,5 +1,3 @@
-
-#read in dataset
 #' @importFrom factoextra fviz_nbclust
 #' @importFrom factoextra hkmeans
 #' @importFrom umap umap
