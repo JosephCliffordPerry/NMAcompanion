@@ -4,7 +4,10 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Joe", "Perry", , "theduckofawe@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: A package to process the data from Ben Skinners' nuclear Morphology
+                Analysis program using the nuclear measurements to produce 
+                automatically a series of graphs that explain the features of 
+                the nuclei in the dataset.
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Encoding: UTF-8
