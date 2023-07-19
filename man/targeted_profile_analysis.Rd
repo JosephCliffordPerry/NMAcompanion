@@ -7,6 +7,9 @@ it's structure}
 \usage{
 targeted_profile_analysis(rawdata)
 }
+\arguments{
+\item{rawdata}{the nuclear measurements exported dataset from NMA}
+}
 \description{
 This function takes a NMA dataset and produces a page of graphs that help show
 it's structure

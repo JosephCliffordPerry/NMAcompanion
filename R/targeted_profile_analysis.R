@@ -1,5 +1,6 @@
 #'This function takes a NMA dataset and produces a page of graphs that help show
 #'it's structure
+#' @papram rawdata the nuclear measurements exported dataset from NMA
 #' @importFrom factoextra fviz_nbclust
 #' @importFrom factoextra hkmeans
 #' @importFrom umap umap

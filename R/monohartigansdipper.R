@@ -1,4 +1,9 @@
 #' @importFrom diptest dip.test
+#' #' @param selected_datasets the list you want to add bimodal columns to
+#' @param dataset the dataset you want to take bimodal columns from
+#' this function can itterate through the colunns of a dataset and add the
+#' bimodal columns to a list  this is designed aroud it being used
+#' on regions that contain adjacent columns that aren't conected
 # a function that itterates through a dataset and adds single column bimodal data to a list
 monohartigansdipper<-function(dataset,selected_datasets){
 
