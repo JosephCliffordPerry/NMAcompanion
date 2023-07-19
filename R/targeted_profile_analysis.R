@@ -25,9 +25,30 @@
 #' @importFrom shiny renderPrint
 #' @importFrom shiny shinyApp
 #' @importFrom stringr str_extract_all
+#' @importFrom dplyr %>%
+#' @importFrom dplyr starts_with
+
+
 targeted_profile_analysis <- function(rawdata){
 
 
+  Extreme_angle_detector <- function(data){
+
+    #cutting dataset into different portions based on content
+    dataset<- data %>%(dplyr::select(starts_with("Angle_profile_")))
+
+    # Iterate through the dataset row by row
+    for (i in 1:nrow(dataset)) {
+      # Check if any value in the row is over 280
+      if (any(dataset[i, ] > 280)) {
+        # Tag the row with 2 in "suspected detection error" column
+        data$suspected_detection_error[i] <- 2
+      } else {
+        # Tag the row with 1 in "suspected detection error" column
+        data$suspected_detection_error[i] <- 1
+      }
+    }
+    return(data)}
 
   graphviewerbuilder <- function(testgraphlist){
     # Define the UI
@@ -123,11 +144,11 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
       clusters_factor <- factor(clusters[[i]][["Clustering_file"]])
       umapo_cluster<-cbind(umapodata,clusters_factor)
       angleumapcluster <-cbind(angleumapdata,clusters_factor)
-      gromph1 <- ggplot(data = umapo_cluster, aes(V1, V2, color = clusters_factor)) +
+      gromph1 <- ggplot(data = umapo_cluster, aes(umapo_cluster$V1, umapo_cluster$V2, color = clusters_factor)) +
         geom_point() + labs(title = title,colour = "clusters") +
         facet_wrap(clusters_factor)
 
-      gromph2 <- ggplot(data = umapo_cluster, aes(V1, V2, color = clusters_factor)) +
+      gromph2 <- ggplot(data = umapo_cluster, aes(umapo_cluster$V1, umapo_cluster$V2, color = clusters_factor)) +
         geom_point() + labs(title = title, colour = "clusters")
 
       graph1 <- gromph1 + gromph2
@@ -155,7 +176,7 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
         q <- length(d1)
         d2 <- data.frame(x = 1:100, y = unlist(d1), group = rep(1:q, each = 100))
 
-        x5[[i]] <- ggplot(d2, aes(x, y, group = group, color = as.factor(group))) +
+        x5[[i]] <- ggplot(d2, aes(d2$x, d2$y, group = group, color = as.factor(group))) +
           geom_line() +
           labs(x = "X", y = "Y", color = "Group")
 
