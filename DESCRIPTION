@@ -8,8 +8,7 @@ Description: A package to process the data from Ben Skinners' nuclear Morphology
                 Analysis program using the nuclear measurements to produce 
                 automatically a series of graphs that explain the features of 
                 the nuclei in the dataset.
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
