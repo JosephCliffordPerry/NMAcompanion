@@ -4,5 +4,7 @@
 #'
 #'
 #'
-NMA_Testdata <- NMA_Testdata
+#'
+load("/NMAcompanion/data/NMA_Testdata.rda")
+>
 
