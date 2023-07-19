@@ -4,5 +4,5 @@
 #'
 #'
 #'
-NMA_Testdata <- NMATestdata
+NMA_Testdata <- NMA_Testdata
 
