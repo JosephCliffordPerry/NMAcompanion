@@ -5,6 +5,6 @@
 #'
 #'
 #'
-load("/NMAcompanion/data/NMA_Testdata.rda")
+data("NMA_Testdata.rda")
 
 
