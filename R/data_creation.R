@@ -5,6 +5,6 @@
 #'
 #'
 #'
-data("NMA_Testdata.rda",package = "NMAcompanion")
+Testing_data <- data("smol_dataxz",package = "NMAcompanion")
 
 
