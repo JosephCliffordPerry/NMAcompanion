@@ -1,7 +1,10 @@
 #'Targeted profile analysis
 #'This function takes a NMA dataset and produces a page of graphs that help show
 #'it's structure
-#' @param rawdata the nuclear measurements exported dataset from NMA
+#' @param File_path the file path to nuclear measurements exported dataset
+#' from NMA
+#' @param verbose_output gives the output as a list of graphs and data instead
+#' of a Shiny interface
 #' @importFrom factoextra fviz_nbclust
 #' @importFrom factoextra hkmeans
 #' @importFrom umap umap
@@ -31,8 +34,9 @@
 #' @importFrom dplyr starts_with
 #' @importFrom dplyr select
 
-targeted_profile_analysis <- function(rawdata){
+targeted_profile_analysis <- function(File_path, verbose_output = FALSE){
 
+  rawdata <- read.table(File_path, header = TRUE, sep = "\t")
 
   Extreme_angle_detector <- function(data){
 
@@ -110,8 +114,14 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
     print("umap1 done")
     angleumap <- umap(angle_data, preserve.seed = TRUE)
     print("umap2 done")
+    diameterumap <- umap(diameter_data, preserve.seed = TRUE)
+    print("umap3 done")
+    radiusumap <- umap(radius_data, preserve.seed = TRUE)
+    print("umap4 done")
     umapodata <- as.data.frame(umapo$layout)
     angleumapdata <- as.data.frame(angleumap$layout)
+    diameterumapdata <- as.data.frame(diameterumap$layout)
+    radiusumapdata <- as.data.frame(radiusumap$layout)
     graphs <- list()
     x5 <- list()
 
@@ -142,28 +152,6 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
       else {
         title <- paste0(words2, sep = " ", recycle0 = TRUE)}
 
-      # Convert clusters to factor to preserve the correct order
-      clusters_factor <- factor(clusters[[i]][["Clustering_file"]])
-      umapo_cluster<-cbind(umapodata,clusters_factor)
-      angleumapcluster <-cbind(angleumapdata,clusters_factor)
-      gromph1 <- ggplot(data = umapo_cluster, aes(umapo_cluster$V1, umapo_cluster$V2, color = clusters_factor)) +
-        geom_point() + labs(title = title,colour = "clusters") +
-        facet_wrap(clusters_factor)
-
-      gromph2 <- ggplot(data = umapo_cluster, aes(umapo_cluster$V1, umapo_cluster$V2, color = clusters_factor)) +
-        geom_point() + labs(title = title, colour = "clusters")
-
-      graph1 <- gromph1 + gromph2
-
-      gromph3 <- ggplot(data = angleumapcluster, aes(angleumapcluster$V1, angleumapcluster$V2, color = clusters_factor)) +
-        geom_point() + labs(title = title,colour = "clusters") +
-        facet_wrap(clusters_factor)
-
-      gromph4 <- ggplot(data = angleumapcluster, aes(angleumapcluster$V1, angleumapcluster$V2, color = clusters_factor)) +
-        geom_point() + labs(title = title,colour = "clusters")
-
-      graph2 <- gromph3 + gromph4
-
 
 
       if (ncol(x2) > 0) {
@@ -178,9 +166,11 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
         q <- length(d1)
         d2 <- data.frame(x = 1:100, y = unlist(d1), group = rep(1:q, each = 100))
 
-        x5[[i]] <- ggplot(d2, aes(d2$x, d2$y, group = group, color = as.factor(group))) +
+        x5[[i]] <- ggplot(d2, aes(x, y, group = group, color = as.factor(group))) +
           geom_line() +
-          labs(x = "X", y = "Y", color = "Group")
+          labs(x = "Profile Position", y = "Diameter Length", color = "Group")
+
+        profileumapdata <- diameterumapdata
 
       } else if (ncol(x3) > 0) {
         radius_clusters <- cbind(radius_data, clusters[[i]][["Clustering_file"]])
@@ -196,7 +186,9 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
 
         x5[[i]] <- ggplot(r2, aes(x, y, group = group, color = as.factor(group))) +
           geom_line() +
-          labs(x = "X", y = "Y", color = "Group")
+          labs(x = "Profile Position", y = "Radius Length", color = "Group")
+
+        profileumapdata <- radiusumapdata
 
       } else if (ncol(x4) > 0) {
         angle_clusters <- cbind(angle_data, clusters[[i]][["Clustering_file"]])
@@ -212,16 +204,42 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
 
         x5[[i]] <- ggplot(a2, aes(x, y, group = group, color = as.factor(group))) +
           geom_line() +
-          labs(x = "X", y = "Y", color = "Group")
-
+          labs(x = "Profile Position", y = "Angle", color = "Group")
+        profileumapdata <- angleumapdata
       } else {
         print("No applicable profile graph")
 
       }
+      # Convert clusters to factor to preserve the correct order
+      clusters_factor <- factor(clusters[[i]][["Clustering_file"]])
+        umapo_cluster<-cbind(umapodata,clusters_factor)
+      profileumapcluster <-cbind(profileumapdata,clusters_factor)
+
+      gromph1 <- ggplot(data = umapo_cluster, aes(V1, V2, color = clusters_factor)) +
+        geom_point() + labs(title = title,colour = "clusters") +
+        facet_wrap(clusters_factor)
+
+      gromph2 <- ggplot(data = umapo_cluster, aes(V1, V2, color = clusters_factor)) +
+        geom_point() + labs(title = title, colour = "clusters")
+
+      graph1 <- gromph1 + gromph2
+
+      gromph3 <- ggplot(data = profileumapcluster, aes(V1, V2, color = clusters_factor)) +
+        geom_point() + labs(title = title,colour = "clusters") +
+        facet_wrap(clusters_factor)
+
+      gromph4 <- ggplot(data = profileumapcluster, aes(V1, V2, color = clusters_factor)) +
+        geom_point() + labs(title = title,colour = "clusters")
+
+      graph2 <- gromph3 + gromph4
+
+
       graphs[[i]] <- list(graph1 = graph1, graph2 = graph2, graph3 = x5[i])
       print(paste(i,"/",length(clusters)))}
     return(graphs)
-  }
+
+
+     }
 
 
 fulldatasetclustergrapher <- function(data){
@@ -262,9 +280,9 @@ fulldatasetclustergrapher <- function(data){
     # Extract the clustering results
     Clustering_file <- clusters$cluster
 
-    umapo <- umap(dataset, preserve.seed = TRUE)
+    umapo <- umap(scaleddata, preserve.seed = TRUE)
     print("umap1 done")
-    angleumap <- umap(angle_data, preserve.seed = TRUE)
+    angleumap <- umap(scale(angle_data), preserve.seed = TRUE)
     print("umap2 done")
     umapodata <- as.data.frame(umapo$layout)
     angleumapdata <- as.data.frame(angleumap$layout)
@@ -276,16 +294,16 @@ fulldatasetclustergrapher <- function(data){
     umapo_cluster<-cbind(umapodata,clusters_factor)
     angleumapcluster <-cbind(angleumapdata,clusters_factor)
     gromph1 <- ggplot(data = umapo_cluster, aes(umapo_cluster$V1, umapo_cluster$V2, color = clusters_factor)) +
-      geom_point() + labs(title = title) +
+      geom_point() + labs(title = title,x = "whole dataset variable 1",y = "whole dataset variable 2") +
       facet_wrap(clusters_factor)
 
     gromph2 <- ggplot(data = umapo_cluster, aes(umapo_cluster$V1, umapo_cluster$V2, color = clusters_factor)) +
-      geom_point() + labs(title = title)
+      geom_point() + labs(title = title,x = "whole dataset variable 1",y = "whole dataset variable 2")
 
     graph1 <- gromph1 + gromph2
 
     gromph3 <- ggplot(data = angleumapcluster, aes(angleumapcluster$V1, angleumapcluster$V2, color = clusters_factor)) +
-      geom_point() + labs(title = title) +
+      geom_point() + labs(title = title, x = "profile variable 1",y = "profile variable 2") +
       facet_wrap(clusters_factor)
 
     gromph4 <- ggplot(data = angleumapcluster, aes(angleumapcluster$V1, angleumapcluster$V2, color = clusters_factor)) +
@@ -305,9 +323,9 @@ fulldatasetclustergrapher <- function(data){
     q <- length(d1)
     d2 <- data.frame(x = 1:100, y = unlist(d1), group = rep(1:q, each = 100))
 
-    d3 <- ggplot(d2, aes(x, y, group = group, color = as.factor(group))) +
+    d3 <- ggplot(d2, aes(x = x, y = y, group = group, color = as.factor(group))) +
       geom_line() +
-      labs(x = "X", y = "Y", color = "Group",title = "Diameter profiles")
+      labs(x = "Profile position", y = "Length of Diameter", color = "Group",title = "Diameter profiles")
     radius_clusters <- cbind(radius_data, Clustering_file)
     r1 <- list()
 
@@ -321,7 +339,7 @@ fulldatasetclustergrapher <- function(data){
 
     r3 <- ggplot(r2, aes(x, y, group = group, color = as.factor(group))) +
       geom_line() +
-      labs(x = "X", y = "Y", color = "Group",title = "radius profiles")
+      labs(x = "Profile position", y = "Radius Length", color = "Group",title = "radius profiles")
 
     angle_clusters <- cbind(angle_data, Clustering_file)
     a1 <- list()
@@ -336,13 +354,14 @@ fulldatasetclustergrapher <- function(data){
 
     a3 <- ggplot(a2, aes(x, y, group = group, color = as.factor(group))) +
       geom_line() +
-      labs(x = "X", y = "Y", color = "Group",title = "angle profiles")
+      labs(x = "Profile position", y = "Angle", color = "Group",title = "angle profiles")
 
     graph3 <- d3+a3+r3
 
     graphs <- list(graph1 = graph1, graph2 = graph2, graph3 = graph3)
 
     return(graphs)}
+
 error_tagged_angle_dataset<-Extreme_angle_detector(data = rawdata)
 data <- filter(error_tagged_angle_dataset, suspected_detection_error == 1)
 error <- filter(error_tagged_angle_dataset, suspected_detection_error == 2)
@@ -375,4 +394,12 @@ testgraphlist2[length(testgraphlist2)+1][[1]] <- fulldatasetclustergrapher(data 
 #creates a popout to view the graphs
 graphview<-graphviewerbuilder(testgraphlist = testgraphlist2)
 
-return(graphview)}
+#Creates the verbose output
+umaplist<- list(umapo,angleumap,diameterumap,radiusumap)
+veboseoutput<- append(umaplist,clusters,testgraphlist2)
+
+if (verbose_output){
+  return(veboseoutput)}
+else{
+  return(graphview)}
+}
