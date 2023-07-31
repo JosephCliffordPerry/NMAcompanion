@@ -235,9 +235,12 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
 
 
       graphs[[i]] <- list(graph1 = graph1, graph2 = graph2, graph3 = x5[i])
-      print(paste(i,"/",length(clusters)))}
-    return(graphs)
+      print(paste(i,"/",length(clusters)))
+      }
 
+      umaplist<- list(umapo,angleumap,diameterumap,radiusumap)
+      outputlist<- append(umaplist,graphs)
+      return(outputlist)
 
      }
 
@@ -387,16 +390,18 @@ selected_datasets <- monohartigansdipper(other_data,selected_datasets)
 clusters <- list()
 clusters <-targeted_profile_clusterer(selected_datasets = selected_datasets)
 
-#creates list of graphs
+#creates list of graphs and umaps
 testgraphlist2<-plotbuilder3(clusters = clusters,originaldata = data,angle_data = angle_data,diameter_data = diameter_data,radius_data = radius_data )
 testgraphlist2[length(testgraphlist2)+1][[1]] <- fulldatasetclustergrapher(data = data)
+#split output
+
+graphlist <-testgraphlist2[5:length(testgraphlist2)]
 
 #creates a popout to view the graphs
-graphview<-graphviewerbuilder(testgraphlist = testgraphlist2)
+graphview<-graphviewerbuilder(testgraphlist = graphlist)
 
 #Creates the verbose output
-umaplist<- list(umapo,angleumap,diameterumap,radiusumap)
-veboseoutput<- append(umaplist,clusters,testgraphlist2)
+veboseoutput<- append(clusters,testgraphlist2)
 
 if (verbose_output){
   return(veboseoutput)}
