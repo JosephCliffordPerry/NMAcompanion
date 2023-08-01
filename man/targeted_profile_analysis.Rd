@@ -6,10 +6,14 @@
 This function takes a NMA dataset and produces a page of graphs that help show
 it's structure}
 \usage{
-targeted_profile_analysis(rawdata)
+targeted_profile_analysis(File_path, verbose_output = FALSE)
 }
 \arguments{
-\item{rawdata}{the nuclear measurements exported dataset from NMA}
+\item{File_path}{the file path to nuclear measurements exported dataset
+from NMA}
+
+\item{verbose_output}{gives the output as a list of graphs and data instead
+of a Shiny interface}
 }
 \description{
 Targeted profile analysis
