@@ -13,7 +13,9 @@
 #'@source SkinnerLab NMA data
 #'
 #' @docType data
-NMA_toy_dataset <- data("NMA_toy_dataset", package = "NMAcompanion")
+
+NULL
+
 
 
 
