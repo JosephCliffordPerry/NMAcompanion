@@ -29,6 +29,8 @@
 #' @importFrom shiny renderPlot
 #' @importFrom shiny renderPrint
 #' @importFrom shiny shinyApp
+#' @importFrom shiny tabsetPanel
+#' @importFrom shiny tabPanel
 #' @importFrom stringr str_extract_all
 #' @importFrom dplyr %>%
 #' @importFrom dplyr starts_with
@@ -57,26 +59,36 @@ targeted_profile_analysis <- function(File_path, verbose_output = FALSE){
     return(data)}
 
   graphviewerbuilder <- function(testgraphlist){
-    # Define the UI
     ui <- shinyUI(
       fluidPage(
         titlePanel("Graph Viewer"),
-        mainPanel(
-          selectInput("section", "Select Section", choices = 1:length(testgraphlist)),
-          plotOutput("graph1"),
-          plotOutput("graph2"),
-          plotOutput("graph3"),
-          sidebarLayout(
-            sidebarPanel(
-              # Input controls if needed
-            ),
-            mainPanel(
-              verbatimTextOutput("output")
-            )
-          )
-        ) )
-    )
+        tabsetPanel(
+          # First tab - Graphs
+          tabPanel("Multimodal Regions",
+                   mainPanel(
+                     selectInput("section", "Select Section", choices = 1:(length(testgraphlist)-1)),
+                     plotOutput("graph1"),
+                     plotOutput("graph2"),
+                     plotOutput("graph3")
+                   )
+          ),
 
+          # Second tab - Output
+          tabPanel("Overall Dataset",
+                   mainPanel(
+                     verbatimTextOutput("output"),
+                     plotOutput("graphA"),
+                     plotOutput("graphB"),
+                     plotOutput("graphC"),
+                     plotOutput("graphD"),
+                     plotOutput("graphE"),
+                     plotOutput("graphF"),
+                     plotOutput("graphG")
+                   )
+          )
+        )
+      )
+    )
 
     # Define the server
     server <- shinyServer(function(input, output) {
@@ -91,9 +103,42 @@ targeted_profile_analysis <- function(File_path, verbose_output = FALSE){
         output$graph2 <- renderPlot({
           graphs_section[["graph2"]]
         })
+
         output$graph3 <- renderPlot({
           graphs_section[["graph3"]]
         })
+
+        # Get the last part of graphlist
+        last_graphs <- testgraphlist[[length(graphlist)]]
+
+        output$graphA <- renderPlot({
+          last_graphs[["graphA"]]
+        })
+
+        output$graphB <- renderPlot({
+          last_graphs[["graphB"]]
+        })
+
+        output$graphC <- renderPlot({
+          last_graphs[["graphC"]]
+        })
+
+        output$graphD <- renderPlot({
+          last_graphs[["graphD"]]
+        })
+
+        output$graphE <- renderPlot({
+          last_graphs[["graphE"]]
+        })
+
+        output$graphF <- renderPlot({
+          last_graphs[["graphF"]]
+        })
+
+        output$graphG <- renderPlot({
+          last_graphs[["graphG"]]
+        })
+
         output$output <- renderPrint({
           # Print the variables
           cat("percent bad edge detected:", percent_bad_edge_detected, "\n")
@@ -101,6 +146,7 @@ targeted_profile_analysis <- function(File_path, verbose_output = FALSE){
         })
       })
     })
+
 
     # Run the Shiny app
     graphviewer <- shinyApp(ui, server)
@@ -314,7 +360,7 @@ fulldatasetclustergrapher <- function(data,umaplist){
     gromph2 <- ggplot(data = umapo_cluster, aes(umapo_cluster$V1, umapo_cluster$V2, color = clusters_factor)) +
       geom_point() + labs(title = title,x = "whole dataset variable 1",y = "whole dataset variable 2")
 
-    graph1 <- gromph1 + gromph2
+    graphA <- gromph1 + gromph2
 
     gromph3 <- ggplot(data = angleumapcluster, aes(V1, V2, color = clusters_factor)) +
       geom_point() + labs(title = title, x = "Angle Umap variable 1",y = "Angle Umap variable 2") +
@@ -333,12 +379,10 @@ fulldatasetclustergrapher <- function(data,umaplist){
     gromph8<- ggplot(data = diameterumapcluster, aes(V1, V2, color = clusters_factor)) +
       geom_point() + labs(title = title,x = "Diameter Umap variable 1",y = "Diameter Umap variable 2")
 
-    grimph <- gromph3 + gromph4 +gromph5
-    grimph2 <- gromph6 +gromph7 + gromph8
+    graphB <- gromph3 + gromph6
+    graphC <- gromph5+ gromph8
+    graphD <- gromph4 +gromph7
 
-    graph2 <- grimph + grimph2
-
-    graphs <- list(graph1 = graph1, graph2 = graph2, graph3 = NULL)
     diameter_clusters <- cbind(diameter_data, Clustering_file)
     d1 <- list()
 
@@ -350,7 +394,7 @@ fulldatasetclustergrapher <- function(data,umaplist){
     q <- length(d1)
     d2 <- data.frame(x = 1:100, y = unlist(d1), group = rep(1:q, each = 100))
 
-    d3 <- ggplot(d2, aes(x = x, y = y, group = group, color = as.factor(group))) +
+    graphE <- ggplot(d2, aes(x = x, y = y, group = group, color = as.factor(group))) +
       geom_line() +
       labs(x = "Profile position", y = "Length of Diameter", color = "Group",title = "Diameter profiles")
     radius_clusters <- cbind(radius_data, Clustering_file)
@@ -364,7 +408,7 @@ fulldatasetclustergrapher <- function(data,umaplist){
     q <- length(r1)
     r2 <- data.frame(x = 1:100, y = unlist(r1), group = rep(1:q, each = 100))
 
-    r3 <- ggplot(r2, aes(x, y, group = group, color = as.factor(group))) +
+    graphF <- ggplot(r2, aes(x, y, group = group, color = as.factor(group))) +
       geom_line() +
       labs(x = "Profile position", y = "Radius Length", color = "Group",title = "radius profiles")
 
@@ -379,13 +423,15 @@ fulldatasetclustergrapher <- function(data,umaplist){
     q <- length(a1)
     a2 <- data.frame(x = 1:100, y = unlist(a1), group = rep(1:q, each = 100))
 
-    a3 <- ggplot(a2, aes(x, y, group = group, color = as.factor(group))) +
+    graphG <- ggplot(a2, aes(x, y, group = group, color = as.factor(group))) +
       geom_line() +
       labs(x = "Profile position", y = "Angle", color = "Group",title = "angle profiles")
 
-    graph3 <- d3+a3+r3
 
-    graphs <- list(graph1 = graph1, graph2 = graph2, graph3 = graph3)
+
+    graphs <- list(graphA = graphA, graphB = graphB, graphC = graphC,
+                   graphD = graphD, graphE = graphE, graphF = graphF,
+                   graphG = graphG)
 
     return(graphs)}
 
@@ -421,6 +467,7 @@ testgraphlist2<-plotbuilder3(clusters = clusters,originaldata = data,angle_data 
 umaplist <-testgraphlist2[1:4]
 
 #add a entire dataset clustered graph set
+print("whole dataset clustering")
 testgraphlist2[length(testgraphlist2)+1][[1]] <- fulldatasetclustergrapher(data = data,umaplist = umaplist)
 
 # split out the graphs

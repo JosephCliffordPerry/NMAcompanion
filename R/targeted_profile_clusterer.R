@@ -20,7 +20,7 @@ targeted_profile_clusterer<- function(selected_datasets){
   for (i in 1:length(selected_datasets)) {
     # Get the current dataset
     dataset <- selected_datasets[[i]]
-
+    print(paste(i,"/",length(selected_datasets)))
     # Scale the selected columns
     scaleddata <- scale(dataset)
     #sample out the maximum amount of data that can be processed with  fviz_nbclust
@@ -53,7 +53,6 @@ targeted_profile_clusterer<- function(selected_datasets){
 
     # Add the clustering results to the list
     clustering_results[[i]] <- clustering_data
-    i <- i+1
-    print(paste(i,"/",length(selected_datasets)))
+
   }
   return(clustering_results)}
