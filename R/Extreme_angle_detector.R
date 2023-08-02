@@ -1,23 +1,14 @@
-#'Extreme angle detector
-#'This tags the nuclei with angles over 280 that are likely artifacts
-#' @param data the nuclear measurements exported dataset from NMA
-#' @importFrom dplyr %>%
-#' @importFrom dplyr starts_with
-
-Extreme_angle_detector <- function(data){
-
-  #cutting dataset into different portions based on content
-    dataset<- data %>%(dplyr::select(starts_with("Angle_profile_")))
-
-  # Iterate through the dataset row by row
-  for (i in 1:nrow(dataset)) {
-    # Check if any value in the row is over 280
-    if (any(dataset[i, ] > 280)) {
-      # Tag the row with 2 in "suspected detection error" column
-      data$suspected_detection_error[i] <- 2
-    } else {
-      # Tag the row with 1 in "suspected detection error" column
-      data$suspected_detection_error[i] <- 1
-    }
-  }
-  return(data)}
+#' Detect cells with outlying angle profiles
+#'
+#' Detects cells with angle profiles containing angles greater than a given value.
+#' Use to tag nuclei with angles over a critical value that are likely artefacts.
+#' @param data a nuclear measurements dataset exported from NMA
+#' @param angle the angle in degrees. Defaults to 280.
+#' @return a vector containing T for cells with angle > value, F otherwise
+#' @export
+#' @examples
+#' cell.vector <- detectCellsWithAngleGreaterThan(NMA_toy_dataset, 280)
+detectCellsWithAngleGreaterThan <- function(data, angle=280) {
+  data %>% dplyr::select(dplyr::starts_with("Angle_profile_")) %>%
+    apply(., 1,  function(r) any(r>angle))
+}

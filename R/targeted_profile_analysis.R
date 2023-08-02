@@ -40,24 +40,6 @@ targeted_profile_analysis <- function(File_path, verbose_output = FALSE){
 
   rawdata <- read.table(File_path, header = TRUE, sep = "\t")
 
-  Extreme_angle_detector <- function(data){
-
-    #cutting dataset into different portions based on content
-    dataset<- data %>% dplyr::select(starts_with("Angle_profile_"))
-
-    # Iterate through the dataset row by row
-    for (i in 1:nrow(dataset)) {
-      # Check if any value in the row is over 280
-      if (any(dataset[i, ] > 280)) {
-        # Tag the row with 2 in "suspected detection error" column
-        data$suspected_detection_error[i] <- 2
-      } else {
-        # Tag the row with 1 in "suspected detection error" column
-        data$suspected_detection_error[i] <- 1
-      }
-    }
-    return(data)}
-
   graphviewerbuilder <- function(testgraphlist){
     ui <- shinyUI(
       fluidPage(
@@ -435,9 +417,10 @@ fulldatasetclustergrapher <- function(data,umaplist){
 
     return(graphs)}
 
-error_tagged_angle_dataset<-Extreme_angle_detector(data = rawdata)
-data <- filter(error_tagged_angle_dataset, suspected_detection_error == 1)
-error <- filter(error_tagged_angle_dataset, suspected_detection_error == 2)
+error_tagged_angle_dataset <- rawdata
+error_tagged_angle_dataset$has_Possible_Error <- detectCellsWithAngleGreaterThan(data = rawdata, angle=280)
+data <-  filter(error_tagged_angle_dataset, !has_Possible_Error)
+error <- filter(error_tagged_angle_dataset, has_Possible_Error)
 
 bad_edge_detected <- nrow(error)/nrow(data)
 percent_bad_edge_detected <-round(bad_edge_detected*100,digits = 3)
