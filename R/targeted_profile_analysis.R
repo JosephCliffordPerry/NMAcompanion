@@ -160,12 +160,16 @@ targeted_profile_analysis <- function(Data, verbose_output = FALSE){
 
 plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radius_data){
     numdata <- dplyr::select_if(originaldata, is.numeric)
+    print("umap1 started")
     umapo <- umap(numdata, preserve.seed = TRUE)
     print("umap1 done")
+    print("umap2 started")
     angleumap <- umap(angle_data, preserve.seed = TRUE)
     print("umap2 done")
+    print("umap3 started")
     diameterumap <- umap(diameter_data, preserve.seed = TRUE)
     print("umap3 done")
+    print("umap4 started")
     radiusumap <- umap(radius_data, preserve.seed = TRUE)
     print("umap4 done")
     umapodata <- as.data.frame(umapo$layout)
@@ -302,7 +306,7 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
 
 
 fulldatasetclustergrapher <- function(data,umaplist){
-
+print("clustering whole dataset")
     dataset <- dplyr::select_if(data[7:327], is.numeric)
 
     #function that calculates the number of clusters from the WSS cluster number calculator
@@ -335,7 +339,7 @@ fulldatasetclustergrapher <- function(data,umaplist){
     Nclusters <- round(mean(c(WSSNclusters,SilNclusters,gapNclusters)))#add clusterNBCN if needed
     #clusters dataset
     clusters <- hkmeans(scaleddata, k = Nclusters)
-
+    print("Finished clustering whole dataset")
      # Extract the clustering results
     Clustering_file <- clusters$cluster
 
