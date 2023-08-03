@@ -1,7 +1,7 @@
 #'Targeted profile analysis
 #'This function takes a NMA dataset and produces a page of graphs that help show
 #'it's structure
-#' @param File_path the file path to nuclear measurements exported dataset
+#' @param Data the file path to nuclear measurements exported dataset
 #' from NMA
 #' @param verbose_output gives the output as a list of graphs and data instead
 #' of a Shiny interface
@@ -36,10 +36,14 @@
 #' @importFrom dplyr starts_with
 #' @importFrom dplyr select
 
-targeted_profile_analysis <- function(File_path, verbose_output = FALSE){
-
-  rawdata <- read.table(File_path, header = TRUE, sep = "\t")
-
+targeted_profile_analysis <- function(Data, verbose_output = FALSE){
+  if (is.data.frame(Data)) {
+    print("It's a data frame.")
+    rawdata <-Data
+  } else {
+    print("It's not a data frame.")
+    rawdata <- read.table(Data, header = TRUE, sep = "\t")
+  }
   Extreme_angle_detector <- function(data){
 
     #cutting dataset into different portions based on content
