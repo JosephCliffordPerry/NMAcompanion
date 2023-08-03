@@ -454,7 +454,13 @@ number_of_cells_used<-nrow(data)
 angle_data<- data %>% dplyr::select(starts_with("Angle_profile_"))
 diameter_data<- data %>% dplyr::select(starts_with("Diameter_profile_"))
 radius_data<- data %>% dplyr::select(starts_with("Radius_profile_"))
-other_data <- dplyr::select_if(data[7:27], is.numeric)
+
+# Select columns that are numeric and don't contain the specified words ( redundant data and stuff)
+other_data <- data %>%
+  select_if(is.numeric) %>%
+  select(-matches("Radius_profile_|Diameter_profile_|Angle_profile_|pixels|seg|Seg|suspected_detection_error"))
+
+
 
 
 #makes list for bimodality check
