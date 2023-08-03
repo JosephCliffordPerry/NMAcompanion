@@ -1,3 +1,5 @@
+#' Performs umaps on all of the data
+
 Umaping <- function(originaldata, angle_data, diameter_data, radius_data){
 
 numdata <- dplyr::select_if(originaldata, is.numeric)
