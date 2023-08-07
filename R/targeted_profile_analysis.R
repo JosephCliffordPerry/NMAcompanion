@@ -475,7 +475,7 @@ clusters <- list()
 clusters <-targeted_profile_clusterer(selected_datasets = selected_datasets)
 
 #creates list of graphs and umaps
-testgraphlist2<-plotbuilder3(clusters = clusters,originaldata = data,angle_data = angle_data,diameter_data = diameter_data,radius_data = radius_data )
+testgraphlist2<-plotbuilder3(clusters = clusters,originaldata = data,angle_data = angle_data,diameter_data = diameter_data,radius_data = radius_data,umaplist = umaplist )
 
 #split out the umaps
 umaplist <-testgraphlist2[1:4]

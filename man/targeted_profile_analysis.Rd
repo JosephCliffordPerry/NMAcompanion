@@ -6,10 +6,10 @@
 This function takes a NMA dataset and produces a page of graphs that help show
 it's structure}
 \usage{
-targeted_profile_analysis(File_path, verbose_output = FALSE)
+targeted_profile_analysis(Data, verbose_output = FALSE)
 }
 \arguments{
-\item{File_path}{the file path to nuclear measurements exported dataset
+\item{Data}{the file path to nuclear measurements exported dataset
 from NMA}
 
 \item{verbose_output}{gives the output as a list of graphs and data instead
