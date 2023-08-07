@@ -51,7 +51,7 @@ graphviewerbuilder <- function(testgraphlist){
       })
 
       # Get the last part of graphlist
-      last_graphs <- testgraphlist[[length(graphlist)]]
+      last_graphs <- testgraphlist[[length(testgraphlist)]]
 
       output$graphA <- renderPlot({
         last_graphs[["graphA"]]

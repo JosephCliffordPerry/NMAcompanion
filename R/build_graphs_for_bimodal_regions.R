@@ -1,6 +1,6 @@
 #' Build Graphs for Bimodal regions
 #'
-plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radius_data,umaplist){
+plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radius_data,umaplist,selected_datasets){
 
   # make umap dataframes
   umapo <- umaplist[1]
@@ -105,6 +105,7 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
       Yumap_title <- "Angle Umap Variable 2"
     } else {
       print("No applicable profile graph")
+      x5[[i]] <- "No applicable profile graph"
 
     }
     # Convert clusters to factor to preserve the correct order
