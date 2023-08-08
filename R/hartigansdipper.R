@@ -1,12 +1,12 @@
 #' Bimodality detector(grouped)
 #' @importFrom diptest dip.test
-#' @param selected_datasets the list you want to add bimodal columns to
-#' @param dataset the dataset you want to take bimodal columns from
+#' @param selected_datasets the list you want to add multimodal columns to
+#' @param dataset the dataset you want to take multimodal columns from
 #' this function can itterate through the colunns of a dataset and add the
-#' bimodal columns to a list in blocks of 5 this is designed aroud it being used
+#' multimodal columns to a list in blocks of 5 this is designed aroud it being used
 #' on regions of the profile regions of the dataset
 
-# a function that itterates through a dataset and adds bimodal data to a list
+# a function that itterates through a dataset and adds multimodal data to a list
 hartigansdipper<-function(dataset,selected_datasets){
 
   # Iterate over each column of the dataset
