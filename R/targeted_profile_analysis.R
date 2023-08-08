@@ -36,7 +36,7 @@
 #' @importFrom dplyr starts_with
 #' @importFrom dplyr select
 #' @importFrom dplyr select_if
-
+#' @export
 targeted_profile_analysis <- function(Data, verbose_output = FALSE){
   if (is.data.frame(Data)) {
     print("It's a data frame.")
@@ -84,14 +84,15 @@ other_data <- data %>%
 
 
 #makes list for bimodality check
-selected_datasets <- list()
+
 #checks all portions for bimodality
-selected_datasets <- hartigansdipper(angle_data,selected_datasets)
-selected_datasets <- hartigansdipper(diameter_data,selected_datasets)
-selected_datasets <- hartigansdipper(radius_data,selected_datasets)
-selected_datasets <- monohartigansdipper(other_data,selected_datasets)
+selected_angle_data<- hartigansdipper(angle_data)
+selected_diameter_data <- hartigansdipper(diameter_data)
+selected_radius_data <- hartigansdipper(radius_data)
+selected_other_data <- monohartigansdipper(other_data)
+selected_datasets <- c(selected_angle_data, selected_diameter_data, selected_radius_data, selected_other_data)
 #clusters data
-clusters <- list()
+
 clusters <-targeted_profile_clusterer(selected_datasets = selected_datasets)
 #umapping
 umaplist <- Umaping(originaldata = data,angle_data = angle_data,diameter_data = diameter_data,radius_data = radius_data)

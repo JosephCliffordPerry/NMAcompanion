@@ -6,8 +6,8 @@
 #' bimodal columns to a list  this is designed aroud it being used
 #' on regions that contain adjacent columns that aren't conected
 # a function that itterates through a dataset and adds single column bimodal data to a list
-monohartigansdipper<-function(dataset,selected_datasets){
-
+monohartigansdipper<-function(dataset){
+  selected_datasets <- list()
   # Iterate over each column of the dataset
   i <- 1
   while (i <= ncol(dataset)) {

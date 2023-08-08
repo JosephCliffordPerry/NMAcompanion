@@ -4,7 +4,7 @@
 #'hartigans dippers.
 # function that takes a list of datasets itterates through them determining optimum clusters then clustering
 targeted_profile_clusterer<- function(selected_datasets){
-
+  clusters <- list()
   #function that calculates the number of clusters from the WSS cluster number calculator
   WSSNclustercalc <- function(clusterWSS){
     x <- clusterWSS[["data"]][["y"]]
@@ -27,11 +27,7 @@ targeted_profile_clusterer<- function(selected_datasets){
     sampled_data <- as.data.frame(scaleddata[sample(nrow(dataset),1000), ])
     # Perform clustering and determine the optimal number of clusters
     clustersSil <- fviz_nbclust(sampled_data, FUNcluster = kmeans, method = "silhouette")
-    #clusterNBC <- NbClust(sampled_data, distance = "euclidean",
-    #         min.nc = 2, max.nc = 9,
-    #        method = "complete", index ="all")
-    #   n <- fviz_nbclust(clusterNBC)
-    #clusterNBCN <- as.numeric(gsub("\\D", "", n[["labels"]][["title"]]))
+
     clusterWSS <- fviz_nbclust(sampled_data, FUNcluster = kmeans, method = "wss")
 
     clustergap <- fviz_nbclust(sampled_data, FUNcluster = kmeans, method = "gap")

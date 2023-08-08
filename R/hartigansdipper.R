@@ -7,8 +7,8 @@
 #' on regions of the profile regions of the dataset
 
 # a function that itterates through a dataset and adds bimodal data to a list
-hartigansdipper<-function(dataset,selected_datasets){
-
+hartigansdipper<-function(dataset){
+  selected_datasets <- list()
   # Iterate over each column of the dataset
   i <- 1
   while (i <= ncol(dataset)) {
