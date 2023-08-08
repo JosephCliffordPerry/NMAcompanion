@@ -44,3 +44,53 @@ hartigansdipper<-function(dataset,selected_datasets){
     }
   }
   return(selected_datasets)}
+
+
+#' Get columns of a data.frame that are non-unimodal
+#'
+#' Performs Hartigan's dip-test, and returns subset data frames containing
+#' potentially non-unimodal columns plus the surrounding two columns.
+#'
+#' @param data the data frame to input
+#' @param data.name the name of the data to use in the output
+#' @param dip.test.alpha the p-value threshold for the dip test
+#'
+#' @return a list of data.frames, containing the columns of interest
+#' @export
+#'
+#' @examples
+#' ap <- NMA_toy_dataset %>% dplyr::select(starts_with("Angle_profile"))
+#' get.dip.test.regions(ap, "Angle_profile")
+#'
+#' perims <- NMA_toy_dataset %>% dplyr::select(starts_with("Perimeter_microns"))
+#' get.dip.test.regions(perims, "Perimeter")
+#'
+get.dip.test.regions <- function(data, data.name, dip.test.alpha = 0.05) {
+
+  # run diptest across all columns, get boolean vector output
+  diptest.vals <- sapply(1:ncol(data), function(c) dip.test(data[,c])$p.value<dip.test.alpha)
+
+  # Is each index within 2 indexes of a TRUE?
+  # i - the index to test
+  # returns - TRUE if any index in the range (i-2 : i+2) is TRUE, FALSE otherwise
+  region.is.valid <- function(i) any(diptest.vals[max(1, i-2):min(i+2, length(diptest.vals))])
+
+  # Expand the single significant diptest results to +-2 surrounding indexes
+  # Generates 'blocks' of T and F. Adjacent dip test regions will merge
+  expanded.blocks <- sapply(1:length(diptest.vals), region.is.valid )
+
+  # Find T/F block boundaries - where do we switch from T to F?
+  is.block.start <- sapply(1:length(expanded.blocks), function(i) i==1 || expanded.blocks[i-1]!=expanded.blocks[i])
+  is.block.end <- sapply(1:length(expanded.blocks), function(i) expanded.blocks[i+2]!=expanded.blocks[i+1] || i==length(expanded.blocks))
+
+  # Find start and end indexes of the blocks that are of interest
+  start.indexes <- which(is.block.start & expanded.blocks)
+  end.indexes <- which(is.block.end & expanded.blocks)
+
+  # Subset the input data
+  result <- mapply( function(s, e) data[, s:e], start.indexes, end.indexes, SIMPLIFY = FALSE )
+  if(length(result)>0){
+    names(result) <- paste0(data.name, "_", start.indexes, ":", end.indexes)
+  }
+  result
+}
