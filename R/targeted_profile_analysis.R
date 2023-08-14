@@ -83,16 +83,18 @@ other_data <- data %>%
 
 
 
-#makes list for bimodality check
-
 #checks all portions for bimodality
-selected_angle_data<- hartigansdipper(angle_data)
-selected_diameter_data <- hartigansdipper(diameter_data)
-selected_radius_data <- hartigansdipper(radius_data)
-selected_other_data <- monohartigansdipper(other_data)
-selected_datasets <- c(selected_angle_data, selected_diameter_data, selected_radius_data, selected_other_data)
-#clusters data
+selected_angle_data<- get.dip.test.regions(angle_data)
+selected_diameter_data <- get.dip.test.regions(diameter_data)
+selected_radius_data <- get.dip.test.regions(radius_data)
 
+selected_other_data <- data.frame(lapply(X = other_data,FUN = get.dip.test.regions))
+
+selected_datasets <- c(selected_angle_data, selected_diameter_data, selected_radius_data, selected_other_data)
+
+
+#clusters data
+angle_clusters <- targeted_profile_clusterer(selected_datasets = selected_angle_data)
 clusters <-targeted_profile_clusterer(selected_datasets = selected_datasets)
 #umapping
 umaplist <- Umaping(originaldata = data,angle_data = angle_data,diameter_data = diameter_data,radius_data = radius_data)

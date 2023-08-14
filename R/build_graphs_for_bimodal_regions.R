@@ -140,3 +140,71 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
 
   return(graphs)
 }
+
+############################################################
+
+#' Build a single profile chart over a bimodal region displaying clusters
+#'
+#' @param profile_data the profile that will be graphed against
+#' @param clusters the clustered bimodal regions to be graphed
+
+
+
+#Make_profile_graph <- function(profile_data,clusters)
+
+
+  #profile_clusters <- cbind(profile_data,clusters)
+
+
+
+
+
+
+# Demonstration of how to read a sample tsv of morphology data, extract the relevant
+# columns for the angle profile, and plot all profiles based on their dataset
+#library(tidyverse)
+# if (ncol(x4) > 0) {
+#  angle_clusters <- cbind(angle_data, clusters[[i]][["Clustering_file"]])
+#  a1 <- list()
+
+ # for (j in 1:max(clusters[[i]][["Clustering_file"]])) {
+ #   A1 <- angle_clusters %>% filter(`clusters[[i]][["Clustering_file"]]` == j)
+  #  a1[[j]] <- apply(A1[1:100], 2, median)
+  #}
+#
+ # q <- length(a1)
+  #a2 <- data.frame(x = 1:100, y = unlist(a1), group = rep(1:q, each = 100))
+#
+ # x5[[i]] <- ggplot(a2, aes(x, y, group = group, color = as.factor(group))) +
+  #  geom_line() +
+   # labs(x = "Profile Position", y = "Angle", color = "Group")
+  #profileumapdata <- angleumapdata
+  #Xumap_title <- "Angle Umap Variable 1"
+ # Yumap_title <- "Angle Umap Variable 2"
+#
+  # Extract the profile data and format it suitable for plotting
+#  profile.data = data %>% ungroup() %>% dplyr::select(Dataset, matches("Angle_profile_\\d+$")) %>%
+ #   tidyr::gather(Profile_position, value, -Dataset) %>%
+  #  dplyr::group_by(Profile_position, Dataset) %>%
+   # dplyr::mutate(Position = as.numeric(gsub("Angle_profile_", "", Profile_position)),
+    #              Median = median(value),
+     #             Q25 = quantile(value, 0.25),
+      #            Q75 = quantile(value, 0.75)) %>%
+    #dplyr::ungroup() %>%
+    #dplyr::select(-value, -Profile_position) %>%
+    #dplyr::distinct()
+
+  # Make a chart showing the profiles for each sample
+  #ggplot(profile.data, aes(x=Position, y=Median, fill=Dataset))+
+  #  geom_hline(yintercept=180)+
+ #   geom_ribbon(aes(ymin = Q25, ymax = Q75), alpha = 0.5)+
+ #   geom_line(aes(col=Dataset))+
+ #   xlab("Position")+
+  #  ylab("Angle")+
+ #   ylim(50,250)+
+ #   facet_wrap(~Dataset)+
+ #   theme_classic() +
+  #  theme(legend.position = "top")
+
+
+

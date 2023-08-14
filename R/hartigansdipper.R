@@ -67,7 +67,26 @@ hartigansdipper<-function(dataset){
 #' perims <- NMA_toy_dataset %>% dplyr::select(starts_with("Perimeter_microns"))
 #' get.dip.test.regions(perims, "Perimeter")
 #'
-get.dip.test.regions <- function(data, data.name, dip.test.alpha = 0.05) {
+get.dip.test.regions <- function(data, dip.test.alpha = 0.05) {
+  contains_number <- function(input_string) {
+    pattern <- "[0-9]"  # Regular expression pattern to match any digit
+    result <- grepl(pattern, input_string)
+    return(result)
+  }
+
+
+  if (contains_number(colnames(data)== TRUE)) {
+    print("Column names contain numbers.")
+    words <- str_extract_all(colnames(data), "\\b\\w+\\b")[[1]]
+    extracted2 <- gsub("_\\d+", "", words[1])
+    words2 <- unique(gsub("_", " ",extracted2 ))
+    print(words2)
+  } else {
+    print("Column names do not contain numbers.")
+    words2 <- colnames(data)
+    print(words2)
+  }
+
 
   # run diptest across all columns, get boolean vector output
   diptest.vals <- sapply(1:ncol(data), function(c) dip.test(data[,c])$p.value<dip.test.alpha)
@@ -92,7 +111,7 @@ get.dip.test.regions <- function(data, data.name, dip.test.alpha = 0.05) {
   # Subset the input data
   result <- mapply( function(s, e) data[, s:e], start.indexes, end.indexes, SIMPLIFY = FALSE )
   if(length(result)>0){
-    names(result) <- paste0(data.name, "_", start.indexes-1, ":", end.indexes-1)
+    names(result) <- paste0(  words2, start.indexes-1, ":", end.indexes-1)
   }
   result
 }
