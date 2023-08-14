@@ -83,7 +83,7 @@ get.dip.test.regions <- function(data, data.name, dip.test.alpha = 0.05) {
 
   # Find T/F block boundaries - where do we switch from T to F?
   is.block.start <- sapply(1:length(expanded.blocks), function(i) i==1 || expanded.blocks[i-1]!=expanded.blocks[i])
-  is.block.end <- sapply(1:length(expanded.blocks), function(i) expanded.blocks[i+2]!=expanded.blocks[i+1] || i==length(expanded.blocks))
+  is.block.end <- sapply(1:length(expanded.blocks), function(i) expanded.blocks[i+1]!=expanded.blocks[i] || i==length(expanded.blocks))
 
   # Find start and end indexes of the blocks that are of interest
   start.indexes <- which(is.block.start & expanded.blocks)
@@ -92,7 +92,7 @@ get.dip.test.regions <- function(data, data.name, dip.test.alpha = 0.05) {
   # Subset the input data
   result <- mapply( function(s, e) data[, s:e], start.indexes, end.indexes, SIMPLIFY = FALSE )
   if(length(result)>0){
-    names(result) <- paste0(data.name, "_", start.indexes, ":", end.indexes)
+    names(result) <- paste0(data.name, "_", start.indexes-1, ":", end.indexes-1)
   }
   result
 }
