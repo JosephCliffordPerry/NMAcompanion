@@ -67,51 +67,38 @@ hartigansdipper<-function(dataset){
 #' perims <- NMA_toy_dataset %>% dplyr::select(starts_with("Perimeter_microns"))
 #' get.dip.test.regions(perims, "Perimeter")
 #'
-get.dip.test.regions <- function(data, dip.test.alpha = 0.05) {
-  contains_number <- function(input_string) {
-    pattern <- "[0-9]"  # Regular expression pattern to match any digit
-    result <- grepl(pattern, input_string)
-    return(result)
-  }
+get.dip.test.regions <- function(data, dip.test.alpha = 0.05, is.profile = TRUE) {
+# run diptest across all columns, get boolean vector output
+diptest.vals <- sapply(1:NCOL(data), function(c) dip.test(data[,c])$p.value < dip.test.alpha)
 
-
-  if (contains_number(colnames(data)== TRUE)) {
-    print("Column names contain numbers.")
-    words <- str_extract_all(colnames(data), "\\b\\w+\\b")[[1]]
-    extracted2 <- gsub("_\\d+", "", words[1])
-    words2 <- unique(gsub("_", " ",extracted2 ))
-    print(words2)
-  } else {
-    print("Column names do not contain numbers.")
-    words2 <- colnames(data)
-    print(words2)
-  }
-
-
-  # run diptest across all columns, get boolean vector output
-  diptest.vals <- sapply(1:ncol(data), function(c) dip.test(data[,c])$p.value<dip.test.alpha)
+if (is.profile) {
+  col1.name <- colnames(data)[1]
+  data.name <- gsub("_\\d+$", "", col1.name)
 
   # Is each index within 2 indexes of a TRUE?
-  # i - the index to test
-  # returns - TRUE if any index in the range (i-2 : i+2) is TRUE, FALSE otherwise
   region.is.valid <- function(i) any(diptest.vals[max(1, i-2):min(i+2, length(diptest.vals))])
 
-  # Expand the single significant diptest results to +-2 surrounding indexes
-  # Generates 'blocks' of T and F. Adjacent dip test regions will merge
-  expanded.blocks <- sapply(1:length(diptest.vals), region.is.valid )
+  expanded.blocks <- sapply(1:length(diptest.vals), region.is.valid)
 
-  # Find T/F block boundaries - where do we switch from T to F?
-  is.block.start <- sapply(1:length(expanded.blocks), function(i) i==1 || expanded.blocks[i-1]!=expanded.blocks[i])
-  is.block.end <- sapply(1:length(expanded.blocks), function(i) expanded.blocks[i+1]!=expanded.blocks[i] || i==length(expanded.blocks))
+  is.block.start <- c(TRUE, diff(expanded.blocks) != 0)
+  is.block.end <- c(diff(expanded.blocks) != 0, TRUE)
 
-  # Find start and end indexes of the blocks that are of interest
   start.indexes <- which(is.block.start & expanded.blocks)
   end.indexes <- which(is.block.end & expanded.blocks)
 
-  # Subset the input data
-  result <- mapply( function(s, e) data[, s:e], start.indexes, end.indexes, SIMPLIFY = FALSE )
-  if(length(result)>0){
-    names(result) <- paste0(  words2, start.indexes-1, ":", end.indexes-1)
+  result <- mapply(function(s, e) data[, s:e], start.indexes, end.indexes, SIMPLIFY = FALSE)
+  if (length(result) > 0) {
+    names(result) <- paste0(data.name, start.indexes - 1, ":", end.indexes - 1)
   }
-  result
+} else {
+  selected_data <- data[diptest.vals]
+  result <- lapply(names(selected_data), function(col_name) {
+    section_data <- selected_data[, col_name, drop = FALSE]
+    section <- list(name = col_name, data = section_data)
+    section
+  })
 }
+
+result
+}
+

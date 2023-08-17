@@ -87,14 +87,17 @@ other_data <- data %>%
 selected_angle_data<- get.dip.test.regions(angle_data)
 selected_diameter_data <- get.dip.test.regions(diameter_data)
 selected_radius_data <- get.dip.test.regions(radius_data)
-
-selected_other_data <- data.frame(lapply(X = other_data,FUN = get.dip.test.regions))
+selected_other_data <- get.dip.test.regions(other_data,is.profile = FALSE)
 
 selected_datasets <- c(selected_angle_data, selected_diameter_data, selected_radius_data, selected_other_data)
 
 
 #clusters data
 angle_clusters <- targeted_profile_clusterer(selected_datasets = selected_angle_data)
+diameter_clusters<- targeted_profile_clusterer(selected_datasets = selected_diameter_data)
+radius_clusters<- targeted_profile_clusterer(selected_datasets = selected_radius_data)
+other_clusters<- targeted_profile_clusterer(selected_datasets = selected_other_data)
+
 clusters <-targeted_profile_clusterer(selected_datasets = selected_datasets)
 #umapping
 umaplist <- Umaping(originaldata = data,angle_data = angle_data,diameter_data = diameter_data,radius_data = radius_data)
