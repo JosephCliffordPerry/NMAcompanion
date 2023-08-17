@@ -91,12 +91,12 @@ if (is.profile) {
     names(result) <- paste0(data.name, start.indexes - 1, ":", end.indexes - 1)
   }
 } else {
-  selected_data <- data[diptest.vals]
-  result <- lapply(names(selected_data), function(col_name) {
-    section_data <- selected_data[, col_name, drop = FALSE]
-    section <- list(name = col_name, data = section_data)
-    section
-  })
+  col1.name <- colnames(data)
+  data.name <- gsub("_\\d+$", "", col1.name)[diptest.vals]
+  result<- data[diptest.vals]
+  names(result) <- paste0(data.name, which(diptest.vals) - 1)
+
+
 }
 
 result

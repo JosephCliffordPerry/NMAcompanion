@@ -20,9 +20,6 @@ monohartigansdipper<-function(dataset){
       # Extract the relevant columns
       selected_dataset <- dataset[i]
 
-      # Add 'CellID' column from the original dataset
-      # selected_dataset$CellID <- data$CellID
-      # make the dataset name
       dataset_label <- colnames(selected_dataset)
 
       # Get the dataset name

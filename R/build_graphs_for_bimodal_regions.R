@@ -140,7 +140,22 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
 
   return(graphs)
 }
+###############
+make.umapgraph <- function(clusters, umap ,graphtype){
+  # Convert clusters to factor to preserve the correct order
+  clusters_factor <- factor(clusters)
 
+  profileumapcluster <-cbind(umap,clusters_factor)
+
+  gromph1 <- ggplot(data = umapo_cluster, aes(V1, V2, color = clusters_factor)) +
+    geom_point() + labs(title = title,x = paste0(graphtype, " variable 1"),y = paste0(graphtype, " variable 2"),colour = "clusters") +
+    facet_wrap(clusters_factor)
+
+  gromph2 <- ggplot(data = umapo_cluster, aes(V1, V2, color = clusters_factor)) +
+  geom_point() + labs(title = title,x = paste0(graphtype, " variable 1"),y = paste0(graphtype, " variable 2"), colour = "clusters")
+
+graph1 <- gromph1 + gromph2
+graph1}
 ############################################################
 
 #' Build a single profile chart over a bimodal region displaying clusters
@@ -150,15 +165,21 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
 
 
 
-#Make_profile_graph <- function(profile_data,clusters)
+Make_profile_graphs <- function(profile_data,clusters,umaplist = umaplist,profiletype){
+  umapo <- umaplist[1]
+  profile_umap <- umaplist[profiletype+1]
+  profiletypes <- c("Angle","Diameter","Radius")
 
+  graph1 <- make.umapgraph(clusters = clusters, umap = umapo, graphtype = "Full dataset")
+  graph2 <- make.umapgraph(clusters = clusters, umap = profile_umap, graphtype = paste0(profiletypes[profiletype]," profile"))
 
-  #profile_clusters <- cbind(profile_data,clusters)
+  profile_clusters <- cbind(profile_data,clusters)
 
-
-
-
-
+  for (j in 1:max(clusters)) {
+      A1 <- angle_clusters %>% filter(clusters == j)
+     a1[[j]] <- apply(A1, 2, median)
+  }
+}
 
 # Demonstration of how to read a sample tsv of morphology data, extract the relevant
 # columns for the angle profile, and plot all profiles based on their dataset

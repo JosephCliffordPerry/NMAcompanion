@@ -87,7 +87,7 @@ other_data <- data %>%
 selected_angle_data<- get.dip.test.regions(angle_data)
 selected_diameter_data <- get.dip.test.regions(diameter_data)
 selected_radius_data <- get.dip.test.regions(radius_data)
-selected_other_data <- get.dip.test.regions(other_data,is.profile = FALSE)
+selected_other_data <- monohartigansdipper(dataset = other_data)
 
 selected_datasets <- c(selected_angle_data, selected_diameter_data, selected_radius_data, selected_other_data)
 
