@@ -42,7 +42,7 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
 
       # Create new title
       title <- paste0(words2, sep = " ",number_range, recycle0 = TRUE)}
-    else {
+      else {
       title <- paste0(words2, sep = " ", recycle0 = TRUE)}
 
 
@@ -118,12 +118,12 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
     gromph1 <- ggplot(data = umapo_cluster, aes(V1, V2, color = clusters_factor)) +
       geom_point() + labs(title = title,x = "whole dataset variable 1",y = "whole dataset variable 2",colour = "clusters") +
       facet_wrap(clusters_factor)+
-      scale_fill_viridis_d() +
+      scale_color_viridis_d() +
       theme_minimal()
 
     gromph2 <- ggplot(data = umapo_cluster, aes(V1, V2, color = clusters_factor)) +
       geom_point() + labs(title = title,x = "whole dataset variable 1",y = "whole dataset variable 2", colour = "clusters")+
-      scale_fill_viridis_d() +
+      scale_color_viridis_d() +
       theme_minimal()
 
     graph1 <- gromph1 + gromph2
@@ -131,12 +131,12 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
     gromph3 <- ggplot(data = profileumapcluster, aes(V1, V2, color = clusters_factor)) +
       geom_point() + labs(title = title,x =  Xumap_title, y = Yumap_title,colour = "clusters") +
       facet_wrap(clusters_factor)+
-      scale_fill_viridis_d() +
+      scale_color_viridis_d() +
       theme_minimal()
 
     gromph4 <- ggplot(data = profileumapcluster, aes(V1, V2, color = clusters_factor)) +
       geom_point() + labs(title = title,x =  Xumap_title, y = Yumap_title,colour = "clusters")+
-      scale_fill_viridis_d() +
+      scale_color_viridis_d() +
       theme_minimal()
 
     graph2 <- gromph3 + gromph4
@@ -185,11 +185,44 @@ Make_profile_graphs <- function(profile_data,clusters,umaplist = umaplist,profil
 
   profile_clusters <- cbind(profile_data,clusters)
 
-  for (j in 1:max(clusters)) {
-      A1 <- angle_clusters %>% filter(clusters == j)
-     a1[[j]] <- apply(A1, 2, median)
+  # Initialize a list to store the matrices
+  a <- list()
+  angle_clusterinos <- cbind(angle_data, clusters[[i]][["Clustering_file"]])
+  # Loop through clusters
+  for (j in 1:max(clusters[[1]][["Clustering_file"]])) {
+    A1 <- angle_clusterinos %>% filter(clusters[[i]][["Clustering_file"]] == j)
+    a1 <- apply(A1[1:100], 2, median)
+    a2 <- apply(A1[1:100], 2, quantile, probs = 0.25)
+    a3 <- apply(A1[1:100], 2, quantile, probs = 0.75)
+
+    # Combine the matrices for each cluster into a list
+    a[[j]] <- list(median = a1, Q25 = a2, Q75 = a3)
   }
-}
+
+  # Create a long-format data frame for plotting
+  a_long <- lapply(a, function(cluster) {
+    data.frame(Position = 1:100, Angle = cluster$median, Q25 = cluster$Q25, Q75 = cluster$Q75)
+  }) %>%
+    bind_rows(.id = "Cluster")
+
+  # Create the ggplot plot
+  x5 <- ggplot(a_long, aes(x = Position, y = Angle, group = Cluster, color = Cluster)) +
+    geom_line(linewidth = 1.2) +
+    #geom_ribbon(aes(ymin = Q25, ymax = Q75), alpha = 0.05) +
+    labs(title ,x = "Profile Position", y = paste0(profiletypes[profiletype]), color = "Cluster") +
+    #facet_wrap(~Cluster)+
+    theme_minimal()+
+    scale_color_discrete()
+  x51 <- ggplot(a_long, aes(x = Position, y = Angle, group = Cluster, color = Cluster)) +
+    geom_line(linewidth = 1.2) +
+    #geom_ribbon(aes(ymin = Q25, ymax = Q75), alpha = 0.05) +
+    labs(title ,x = "Profile Position", y = paste0(profiletypes[profiletype]), color = "Cluster") +
+    #facet_wrap(~Cluster)+
+    theme_minimal()+
+    scale_color_discrete()
+  graph3 <- x5 + x51
+  }
+
 
 # Demonstration of how to read a sample tsv of morphology data, extract the relevant
 # columns for the angle profile, and plot all profiles based on their dataset
