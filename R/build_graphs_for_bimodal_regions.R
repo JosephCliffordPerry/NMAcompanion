@@ -1,5 +1,7 @@
 #' Build Graphs for Bimodal regions
 #'
+#' @importFrom ggplot2 scale_fill_viridis_d
+#' @importFrom ggplot2 theme_minimal
 plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radius_data,umaplist,selected_datasets){
 
   # make umap dataframes
@@ -115,19 +117,27 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
 
     gromph1 <- ggplot(data = umapo_cluster, aes(V1, V2, color = clusters_factor)) +
       geom_point() + labs(title = title,x = "whole dataset variable 1",y = "whole dataset variable 2",colour = "clusters") +
-      facet_wrap(clusters_factor)
+      facet_wrap(clusters_factor)+
+      scale_fill_viridis_d() +
+      theme_minimal()
 
     gromph2 <- ggplot(data = umapo_cluster, aes(V1, V2, color = clusters_factor)) +
-      geom_point() + labs(title = title,x = "whole dataset variable 1",y = "whole dataset variable 2", colour = "clusters")
+      geom_point() + labs(title = title,x = "whole dataset variable 1",y = "whole dataset variable 2", colour = "clusters")+
+      scale_fill_viridis_d() +
+      theme_minimal()
 
     graph1 <- gromph1 + gromph2
 
     gromph3 <- ggplot(data = profileumapcluster, aes(V1, V2, color = clusters_factor)) +
       geom_point() + labs(title = title,x =  Xumap_title, y = Yumap_title,colour = "clusters") +
-      facet_wrap(clusters_factor)
+      facet_wrap(clusters_factor)+
+      scale_fill_viridis_d() +
+      theme_minimal()
 
     gromph4 <- ggplot(data = profileumapcluster, aes(V1, V2, color = clusters_factor)) +
-      geom_point() + labs(title = title,x =  Xumap_title, y = Yumap_title,colour = "clusters")
+      geom_point() + labs(title = title,x =  Xumap_title, y = Yumap_title,colour = "clusters")+
+      scale_fill_viridis_d() +
+      theme_minimal()
 
     graph2 <- gromph3 + gromph4
 
