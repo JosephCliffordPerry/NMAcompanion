@@ -4,7 +4,7 @@
 \alias{monohartigansdipper}
 \title{Bimodality detector (single column)}
 \usage{
-monohartigansdipper(dataset, selected_datasets)
+monohartigansdipper(dataset)
 }
 \arguments{
 \item{dataset}{the dataset you want to take bimodal columns from

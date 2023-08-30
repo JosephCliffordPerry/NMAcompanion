@@ -14,6 +14,7 @@
 #' @importFrom ggplot2 labs
 #' @importFrom ggplot2 facet_wrap
 #' @importFrom ggplot2 geom_line
+#' @importFrom ggplot2 scale_color_discrete
 #' @importFrom dplyr filter
 #' @importFrom shiny shinyUI
 #' @importFrom shiny fluidPage
@@ -97,8 +98,8 @@ angle_clusters <- targeted_profile_clusterer(selected_datasets = selected_angle_
 diameter_clusters<- targeted_profile_clusterer(selected_datasets = selected_diameter_data)
 radius_clusters<- targeted_profile_clusterer(selected_datasets = selected_radius_data)
 other_clusters<- targeted_profile_clusterer(selected_datasets = selected_other_data)
-
-clusters <-targeted_profile_clusterer(selected_datasets = selected_datasets)
+clusters <- c(angle_clusters,diameter_clusters,radius_clusters,other_clusters)
+#clusters <-targeted_profile_clusterer(selected_datasets = selected_datasets)
 #umapping
 umaplist <- Umaping(originaldata = data,angle_data = angle_data,diameter_data = diameter_data,radius_data = radius_data)
 #creates list of graphs and umaps

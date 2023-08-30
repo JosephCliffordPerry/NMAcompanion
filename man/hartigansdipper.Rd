@@ -4,15 +4,15 @@
 \alias{hartigansdipper}
 \title{Bimodality detector(grouped)}
 \usage{
-hartigansdipper(dataset, selected_datasets)
+hartigansdipper(dataset)
 }
 \arguments{
-\item{dataset}{the dataset you want to take bimodal columns from
+\item{dataset}{the dataset you want to take multimodal columns from
 this function can itterate through the colunns of a dataset and add the
-bimodal columns to a list in blocks of 5 this is designed aroud it being used
+multimodal columns to a list in blocks of 5 this is designed aroud it being used
 on regions of the profile regions of the dataset}
 
-\item{selected_datasets}{the list you want to add bimodal columns to}
+\item{selected_datasets}{the list you want to add multimodal columns to}
 }
 \description{
 Bimodality detector(grouped)
