@@ -1,6 +1,5 @@
-#' Shiny Ui builder
-
-graphviewerbuilder <- function(testgraphlist){
+# Shiny UI builder
+graphviewerbuilder <- function(testgraphlist, clusters, data) {
   ui <- shinyUI(
     fluidPage(
       titlePanel("Graph Viewer"),
@@ -25,7 +24,16 @@ graphviewerbuilder <- function(testgraphlist){
                    plotOutput("graphD"),
                    plotOutput("graphE"),
                    plotOutput("graphF"),
-                   plotOutput("graphG")
+                   plotOutput("graphG"),
+                   actionButton("exportButton", "Export Cluster Data")
+                 )
+        ),
+
+        # Third tab - Export
+        tabPanel("Export",
+                 mainPanel(
+                   numericInput("exportSection", "Select Section to Export", min = 1, max = length(testgraphlist)-1, value = 1),
+                   actionButton("runExportButton", "Run Export")
                  )
         )
       )
@@ -87,8 +95,13 @@ graphviewerbuilder <- function(testgraphlist){
         cat("number of cells used:", number_of_cells_used, "\n")
       })
     })
-  })
 
+    # Export cluster data when the export button is clicked
+    observeEvent(input$runExportButton, {
+      clusternumber <- input$exportSection
+      export_cluster(paste("cluster_", clusternumber, ".txt", sep = ""), data, clusters)
+    })
+  })
 
   # Run the Shiny app
   graphviewer <- shinyApp(ui, server)

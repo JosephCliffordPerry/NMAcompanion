@@ -112,7 +112,7 @@ testgraphlist2[length(testgraphlist2)+1][[1]] <- fulldatasetclustergrapher(data 
 
 
 #creates a popout to view the graphs
-graphview<-graphviewerbuilder(testgraphlist = testgraphlist2)
+graphview<-graphviewerbuilder(testgraphlist = testgraphlist2,clusters = clusters,data = data)
 
 #Creates the verbose output
 veboseoutput<- append(clusters,testgraphlist2)
