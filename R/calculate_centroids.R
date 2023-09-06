@@ -28,7 +28,7 @@ calc_clus_centroids <- function(umap, clusters, clustertype) {
 
 
 ####################
-build_full_centroid_list<-function(umaplist,angle_clusters,radius_clusters,diameter_clusters,other_clusters){
+build_full_centroid_list<-function(umaplist,angle_clusters,radius_clusters ,diameter_clusters ,other_clusters ){
 angle_centroids <- calc_clus_centroids(umap = umaplist[[2]],clusters = angle_clusters,"angle_cluster")
 radius_centroids <- calc_clus_centroids(umap = umaplist[[4]],clusters = radius_clusters,"radius_cluster")
 diameter_centroids <- calc_clus_centroids(umap = umaplist[[3]],clusters = diameter_clusters,"diameter_cluster")
@@ -36,6 +36,7 @@ other_centroids <- calc_clus_centroids(umap = umaplist[[1]],clusters = other_clu
 full_centroid_list <- c(angle_centroids,radius_centroids,diameter_centroids,other_centroids)
 return(full_centroid_list)
 }
+#full_centroid_list<-build_full_centroid_list(umaplist,angle_clusters,radius_clusters ,diameter_clusters ,other_clusters )
 #######################
 build_distance_matrix <- function(full_centroid_list){
 # Extract centroid coordinates from the nested list
@@ -45,7 +46,7 @@ centroid_distance_matrix <- as.matrix(dist(centroid_matrix))
 return(centroid_distance_matrix)
 }
 
-#acdm<-build_distance_matrix(angle_centroids)
+#acdm<-build_distance_matrix(full_centroid_list)
 #######################
 extract_centroid_table<-function(threshold,centroid_distance_matrix){
   centroid_table <- list()  # Initialize an empty data frame
