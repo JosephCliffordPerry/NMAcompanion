@@ -13,7 +13,7 @@ calc_clus_centroids <- function(umap, clusters, clustertype) {
     for (j in 1:max(x)) {
       part <- umapclusframe %>% filter(x == j)
       centroid <- c(mean(part$V1), mean(part$V2))
-      inner_name <- paste0(section_name, "_", j)  # Create the centroid name
+      inner_name <- paste0(section_name, "_", ".",j)  # Create the centroid name
       section_centroids[[inner_name]] <- centroid  # Assign the centroid to the section list
     }
  #   umapclusframe %>% dplyr::group_by("Clustering_file") %>% dplyr::summarise(meanX = mean(V1), meanY = mean(V2))%>%
@@ -23,9 +23,35 @@ calc_clus_centroids <- function(umap, clusters, clustertype) {
 
   return(centroids)
 }
+################
+calc_clus_centroid_matrix <- function(umap, clusters, clustertype) {
+  centroids <- list()
+
+  for (i in 1:length(clusters)) {
+    x <- clusters[[i]][["Clustering_file"]]
+
+    z <- as.data.frame(umap$layout)
+    umapclusframe <- data.frame(z, x)  # Convert to data frame
+
+    section_name <- paste0(i)  # Create the section name
+    section_centroids <- list()
+
+    for (j in 1:max(x)) {
+      part <- umapclusframe %>% filter(x == j)
+      centroid <- c(mean(part$V1), mean(part$V2))
+      inner_name <- paste0(section_name, ".", j)  # Create the centroid name
+      section_centroids[[inner_name]] <- centroid  # Assign the centroid to the section list
+    }
+
+    centroids[[section_name]] <- section_centroids  # Assign the section to the main list
+  }
+
+  return(centroids)
+}
 
 
 
+full_centroid_list<- calc_clus_centroids(umap = umaplist[[1]],clusters = clusters,"whole_dataset")
 
 ####################
 build_full_centroid_list<-function(umaplist,angle_clusters,radius_clusters ,diameter_clusters ,other_clusters ){
@@ -46,7 +72,7 @@ centroid_distance_matrix <- as.matrix(dist(centroid_matrix))
 return(centroid_distance_matrix)
 }
 
-#acdm<-build_distance_matrix(full_centroid_list)
+#cdm<-build_distance_matrix(full_centroid_list)
 #######################
 extract_centroid_table<-function(threshold,centroid_distance_matrix){
   centroid_table <- list()  # Initialize an empty data frame
@@ -62,5 +88,5 @@ extract_centroid_table<-function(threshold,centroid_distance_matrix){
   return(centroid_table)
   }
 
-#act<-extract_centroid_table(threshold = 1, centroid_distance_matrix = acdm )
+#ct<-extract_centroid_table(threshold = 1, centroid_distance_matrix = cdm )
 

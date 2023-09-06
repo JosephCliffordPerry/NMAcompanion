@@ -8,4 +8,9 @@ rand_df<- as.data.frame(rand_matrix)
   low_confidence_grouping<- which(condition_1, arr.ind = TRUE)
   medium_confidence_grouping<- which(condition_2, arr.ind = TRUE)
   high_confidence_grouping<- which(condition_3, arr.ind = TRUE)
+
+
 }
+
+
+numbers <- as.numeric(gsub("[^0-9.]+", "", ct[["1whole_dataset.1whole_dataset_.1"]]))

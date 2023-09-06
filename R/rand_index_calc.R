@@ -46,6 +46,6 @@ calculate_rand_indexes <- function(rand_data) {
 }
 
 
-#result_matrix <- calculate_rand_indexes(rand_data)
+#rand_matrix <- calculate_rand_indexes(rand_data)
 
 
