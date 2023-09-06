@@ -10,7 +10,8 @@ plotbuilder3(
   angle_data,
   diameter_data,
   radius_data,
-  umaplist
+  umaplist,
+  selected_datasets
 )
 }
 \description{
