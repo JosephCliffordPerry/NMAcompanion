@@ -155,13 +155,13 @@ make.umapgraph <- function(clusters, umap ,graphtype){
   # Convert clusters to factor to preserve the correct order
   clusters_factor <- factor(clusters)
 
-  profileumapcluster <-cbind(umap,clusters_factor)
+  umapcluster <-cbind(umap,clusters_factor)
 
-  gromph1 <- ggplot(data = umapo_cluster, aes(V1, V2, color = clusters_factor)) +
+  gromph1 <- ggplot(data = umapcluster, aes(V1, V2, color = clusters_factor)) +
     geom_point() + labs(title = title,x = paste0(graphtype, " variable 1"),y = paste0(graphtype, " variable 2"),colour = "clusters") +
     facet_wrap(clusters_factor)
 
-  gromph2 <- ggplot(data = umapo_cluster, aes(V1, V2, color = clusters_factor)) +
+  gromph2 <- ggplot(data = umapcluster, aes(V1, V2, color = clusters_factor)) +
   geom_point() + labs(title = title,x = paste0(graphtype, " variable 1"),y = paste0(graphtype, " variable 2"), colour = "clusters")
 
 graph1 <- gromph1 + gromph2
