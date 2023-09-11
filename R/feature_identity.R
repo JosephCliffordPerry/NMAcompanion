@@ -13,4 +13,4 @@ rand_df<- as.data.frame(rand_matrix)
 }
 
 
-numbers <- as.numeric(gsub("[^0-9.]+", "", ct[["1whole_dataset.1whole_dataset_.1"]]))
+#numbers <- as.numeric(gsub("[^0-9.]+", "", ct[["1whole_dataset.1whole_dataset_.1"]]))

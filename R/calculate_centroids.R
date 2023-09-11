@@ -51,7 +51,7 @@ calc_clus_centroid_matrix <- function(umap, clusters, clustertype) {
 
 
 
-full_centroid_list<- calc_clus_centroids(umap = umaplist[[1]],clusters = clusters,"whole_dataset")
+#full_centroid_list<- calc_clus_centroids(umap = umaplist[[1]],clusters = clusters,"whole_dataset")
 
 ####################
 build_full_centroid_list<-function(umaplist,angle_clusters,radius_clusters ,diameter_clusters ,other_clusters ){
