@@ -25,20 +25,20 @@ graphviewerbuilder <- function(testgraphlist, clusters, data) {
                    plotOutput("graphE"),
                    plotOutput("graphF"),
                    plotOutput("graphG"),
-                   actionButton("exportButton", "Export Cluster Data")
+                  # actionButton("exportButton", "Export Cluster Data")
                  )
         ),
 
-        # Third tab - Export
-        tabPanel("Export",
-                 mainPanel(
-                   numericInput("exportSection", "Select Section to Export", min = 1, max = length(testgraphlist)-1, value = 1),
-                   actionButton("runExportButton", "Run Export")
-                 )
+        # # Third tab - Export
+        # tabPanel("Export",
+        #          mainPanel(
+        #            numericInput("exportSection", "Select Section to Export", min = 1, max = length(testgraphlist)-1, value = 1),
+        #            actionButton("runExportButton", "Run Export")
+        #          )
         )
       )
     )
-  )
+ # )
 
   # Define the server
   server <- shinyServer(function(input, output) {
@@ -96,11 +96,11 @@ graphviewerbuilder <- function(testgraphlist, clusters, data) {
       })
     })
 
-    # Export cluster data when the export button is clicked
-    observeEvent(input$runExportButton, {
-      clusternumber <- input$exportSection
-      export_cluster(paste("cluster_", clusternumber, ".txt", sep = ""), data, clusters)
-    })
+    # # Export cluster data when the export button is clicked
+    # observeEvent(input$runExportButton, {
+    #   clusternumber <- input$exportSection
+    #   export_cluster(paste("cluster_", clusternumber, ".txt", sep = ""), data, clusters)
+    # })
   })
 
   # Run the Shiny app

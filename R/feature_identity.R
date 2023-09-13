@@ -15,57 +15,43 @@ groupinglist<-list()
 return(groupinglist)
 }
 
-#chumbo<-give_featureidentities(rand_matrix)
-#numbers <- as.numeric(gsub("[^0-9.]+", "", ct[["1whole_dataset.1whole_dataset_.1"]]))
+#confidence_groups<-give_featureidentities(rand_matrix)
 
-ids <- paste0(rand_data$Clustering_1, rand_data$Clustering_2,rand_data$Clustering_3,rand_data$Clustering_4,rand_data$Clustering_5,rand_data$Clustering_6,rand_data$Clustering_7,rand_data$Clustering_8,rand_data$Clustering_9,rand_data$Clustering_10,rand_data$Clustering_11 )
+#ids <- paste0(rand_data$Clustering_1, rand_data$Clustering_2,rand_data$Clustering_3,rand_data$Clustering_4,rand_data$Clustering_5,rand_data$Clustering_6,rand_data$Clustering_7,rand_data$Clustering_8,rand_data$Clustering_9,rand_data$Clustering_10,rand_data$Clustering_11 )
+#ids<-paste0(rand_data$Clustering_5,rand_data$Clustering_9)
+
+cluster_characterising<-function(data,ids){
+
 cellcluster<- cbind(data$CellID,ids)
-## Create a data frame to store UUIDs and numeric strings
+# Create a data frame to store UUIDs and numeric strings
 df <- data.frame(UUID = character(), Numeric = character(), stringsAsFactors = FALSE)
 
 # Iterate through rows and add UUIDs and numeric strings to the data frame
 for (i in 1:nrow(cellcluster)) {
   uuid <- cellcluster[i, 1]
-  numeric_section <- gsub("[^0-9]", "", cellcluster[i, 2])
+ numeric_section <- gsub("[^0-9]", "", cellcluster[i, 2])
   df <- rbind(df, data.frame(UUID = uuid, Numeric = numeric_section, stringsAsFactors = FALSE))
 }
 
-# Group UUIDs by identical numeric strings using the dplyr package
+# # Group UUIDs by identical numeric strings using the dplyr package
 #library(dplyr)
 #library(tidyr)
 
-#result <- df %>%
- #group_by(Numeric) %>%
- # summarize(UUIDs = list(UUID))
+result <- df %>%
+ group_by(Numeric) %>%
+  summarize(UUIDs = list(UUID))
 
 
-
-###################
-
-
-#Randids
-
-
-
-#ids <- paste0( rand_data$Clustering_1,rand_data$Clustering_2,rand_data$Clustering_4,rand_data$Clustering_5,rand_data$Clustering_6,rand_data$Clustering_11 )
-#cellcluster1<- as.data.frame(cbind(data$CellID,ids))
-
-#####################
 #take big groups
 
-#filtered_df <- result %>%
- # filter(lengths(UUIDs) > 50)
-#
+filtered_df <- result %>%
+  filter(lengths(UUIDs) > 50)
 
-#unested_df<- filtered_df %>%
-#  unnest(UUIDs)
-
-#doof<-unested_df
-##################
+#make character Vectors
 CharVectors<-filtered_df$Numeric
 
 ###########
-#hamming amalgamate data
+#hamming aglomerate data
 
 # Function to calculate Hamming distance between two character vectors
 hamming_distance <- function(str1, str2) {
@@ -75,7 +61,7 @@ hamming_distance <- function(str1, str2) {
 # Iterate through the dataframe and replace character vectors
 for (i in 1:nrow(df)) {
   char_vector <- df$Numeric[i]
-  min_distance <- Inf
+min_distance <- Inf
   closest_char_vector <- NULL
 
   # Find the closest character vector in the vector
@@ -83,7 +69,7 @@ for (i in 1:nrow(df)) {
     distance <- sum(sapply(char_vector, function(x) hamming_distance(x, cv)))
     if (distance < min_distance) {
       min_distance <- distance
-      closest_char_vector <- cv
+     closest_char_vector <- cv
     }
   }
 
@@ -95,9 +81,6 @@ for (i in 1:nrow(df)) {
 doof<-df
 
 
-##################
-#make a clustering
-#reversed_doof <- doof[, ncol(doof):1]
 
 # Convert 'ids' to a factor
   doof$Numeric<- factor(doof$Numeric)
@@ -105,4 +88,8 @@ doof<-df
 # Convert the factor levels to integer values
  doof$Numeric <- as.integer(doof$Numeric)
 
-write.table(doof, file = "D:/Joe_Perry_2022-2023_sperm_images/NMA_companion_ehibitdata/chumbus7.txt", sep = "\t", quote = FALSE, row.names = FALSE)
+ return(doof)
+ }
+
+#datafrumb<-cluster_characterising(data = data,ids = ids)
+ #write.table(datafrumb, file = "D:/Joe_Perry_2022-2023_sperm_images/NMA_companion_ehibitdata/oinker.txt", sep = "\t", quote = FALSE, row.names = FALSE)
