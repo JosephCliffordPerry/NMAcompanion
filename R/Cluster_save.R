@@ -7,4 +7,4 @@ export_cluster <- function(filename, data, clusters, clusternumber) {
   write.table(export, file = filename, sep = "\t", quote = FALSE, row.names = FALSE)
 }
 
-#export_cluster(filename = "ppllcluster.txt",data =data,clusters = clusters, clusternumber = 2 )
+#export_cluster(filename = "testclusterguster.txt",data =data,clusters = clusters, clusternumber = 5 )

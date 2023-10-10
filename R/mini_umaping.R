@@ -21,17 +21,35 @@ make_miniumaps <- function(clusters) {
 make.miniumapgraph <- function(clusters, umap ,graphtype){
   # Convert clusters to factor to preserve the correct order
   clusters_factor <- factor(clusters)
-
-  umapcluster <-cbind(umap,clusters_factor)
-
+umapdf<-as.data.frame(umap[["layout"]])
+  umapcluster <-as.data.frame(cbind(umapdf,clusters_factor))
+title<-paste0(graphtype)
   gromph1 <- ggplot(data = umapcluster, aes(V1, V2, color = clusters_factor)) +
-    geom_point() + labs(title = title,x = paste0(graphtype, " variable 1"),y = paste0(graphtype, " variable 2"),colour = "clusters") +
-    facet_wrap(clusters_factor)
+    geom_point() + labs(title = NULL,x = NULL,y = NULL,colour = "clusters") +
+    facet_wrap(clusters_factor)+theme_minimal()+theme(legend.position = "none")
 
   gromph2 <- ggplot(data = umapcluster, aes(V1, V2, color = clusters_factor)) +
-    geom_point() + labs(title = title,x = paste0(graphtype, " variable 1"),y = paste0(graphtype, " variable 2"), colour = "clusters")
+    geom_point() + labs(title = "UMAP of multimodal regions",x = "UMAP1",y = "UMAP2", colour = "clusters")+theme_minimal()+theme(legend.position = "none")
 
-  graph1 <- gromph1 + gromph2
+  graph1 <- gromph2 + gromph1
   graph1}
+
+make_miniumap_graphlist<-saveminiumap<-function(selected_datasets,miniumaps,clusters){
+ miniumaplist<-list()
+   for (i in 1:length(selected_datasets)) {
+
+  miniumapgraph1<-make.miniumapgraph(clusters = clusters[[i]][["Clustering_file"]],umap = miniumaps[[i]],graphtype = names(selected_datasets)[i])
+
+  miniumaplist[[i]] <- list(miniumapgraph1)
+   }
+ return(miniumaplist)
+}
+
+saveminiumap<-function(clusternum,selected_datasets,miniumaps,clusters){
+miniumapgraph1<-make.miniumapgraph(clusters = clusters[[clusternum]][["Clustering_file"]],umap = miniumaps[[clusternum]],graphtype = names(selected_datasets)[clusternum])
+ggsave(plot = miniumapgraph1,filename = paste0("miniumap",clusternum,".png"),path = "C:/Users/User/Documents/0stuff/Masters project/Write up/Figures/Results figures/Miniumapgraphs", dpi=300, units="mm", width = 170, height = 78)
+}
+
+#miniumapgraphs<-make_miniumap_graphlist(selected_datasets = selected_datasets,miniumaps = miniumaps,clusters = clusters)
 
 

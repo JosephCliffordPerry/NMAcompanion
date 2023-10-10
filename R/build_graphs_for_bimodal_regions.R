@@ -119,27 +119,30 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
       geom_point() + labs(title = title,x = "whole dataset variable 1",y = "whole dataset variable 2",colour = "clusters") +
       facet_wrap(clusters_factor)+
       scale_color_discrete() +
-      theme_minimal()
+      theme_minimal()+
+      theme(legend.position = "none")
+
 
     gromph2 <- ggplot(data = umapo_cluster, aes(V1, V2, color = clusters_factor)) +
       geom_point() + labs(title = title,x = "whole dataset variable 1",y = "whole dataset variable 2", colour = "clusters")+
       scale_color_discrete() +
-      theme_minimal()
-
-    graph1 <- gromph1 + gromph2
+      theme_minimal()+
+      theme(legend.position = "none")
+    graph1 <- gromph2 + gromph1
 
     gromph3 <- ggplot(data = profileumapcluster, aes(V1, V2, color = clusters_factor)) +
-      geom_point() + labs(title = title,x =  Xumap_title, y = Yumap_title,colour = "clusters") +
+      geom_point() + labs(title = NULL,x =  NULL, y = NULL,colour = "clusters") +
       facet_wrap(clusters_factor)+
+      theme(legend.position = "none")+
       scale_color_discrete() +
-      theme_minimal()
-
+      theme_minimal()+
+    theme(legend.position = "none")
     gromph4 <- ggplot(data = profileumapcluster, aes(V1, V2, color = clusters_factor)) +
-      geom_point() + labs(title = title,x =  Xumap_title, y = Yumap_title,colour = "clusters")+
+      geom_point() + labs(title = "UMAP on overall profile",x =  "UMAP1", y = "UMAP2",colour = "clusters")+
       scale_color_discrete() +
-      theme_minimal()
-
-    graph2 <- gromph3 + gromph4
+      theme_minimal()+
+      theme(legend.position = "none")
+    graph2 <- gromph4 + gromph3
 
 
 
@@ -222,53 +225,5 @@ Make_profile_graphs <- function(profile_data,clusters,umaplist = umaplist,profil
     scale_color_discrete()
   graph3 <- x5 + x51
   }
-
-
-# Demonstration of how to read a sample tsv of morphology data, extract the relevant
-# columns for the angle profile, and plot all profiles based on their dataset
-#library(tidyverse)
-# if (ncol(x4) > 0) {
-#  angle_clusters <- cbind(angle_data, clusters[[i]][["Clustering_file"]])
-#  a1 <- list()
-
- # for (j in 1:max(clusters[[i]][["Clustering_file"]])) {
- #   A1 <- angle_clusters %>% filter(`clusters[[i]][["Clustering_file"]]` == j)
-  #  a1[[j]] <- apply(A1[1:100], 2, median)
-  #}
-#
- # q <- length(a1)
-  #a2 <- data.frame(x = 1:100, y = unlist(a1), group = rep(1:q, each = 100))
-#
- # x5[[i]] <- ggplot(a2, aes(x, y, group = group, color = as.factor(group))) +
-  #  geom_line() +
-   # labs(x = "Profile Position", y = "Angle", color = "Group")
-  #profileumapdata <- angleumapdata
-  #Xumap_title <- "Angle Umap Variable 1"
- # Yumap_title <- "Angle Umap Variable 2"
-#
-  # Extract the profile data and format it suitable for plotting
-#  profile.data = data %>% ungroup() %>% dplyr::select(Dataset, matches("Angle_profile_\\d+$")) %>%
- #   tidyr::gather(Profile_position, value, -Dataset) %>%
-  #  dplyr::group_by(Profile_position, Dataset) %>%
-   # dplyr::mutate(Position = as.numeric(gsub("Angle_profile_", "", Profile_position)),
-    #              Median = median(value),
-     #             Q25 = quantile(value, 0.25),
-      #            Q75 = quantile(value, 0.75)) %>%
-    #dplyr::ungroup() %>%
-    #dplyr::select(-value, -Profile_position) %>%
-    #dplyr::distinct()
-
-  # Make a chart showing the profiles for each sample
-  #ggplot(profile.data, aes(x=Position, y=Median, fill=Dataset))+
-  #  geom_hline(yintercept=180)+
- #   geom_ribbon(aes(ymin = Q25, ymax = Q75), alpha = 0.5)+
- #   geom_line(aes(col=Dataset))+
- #   xlab("Position")+
-  #  ylab("Angle")+
- #   ylim(50,250)+
- #   facet_wrap(~Dataset)+
- #   theme_classic() +
-  #  theme(legend.position = "top")
-
 
 

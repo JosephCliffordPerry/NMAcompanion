@@ -15,7 +15,7 @@ targeted_profile_clusterer<- function(selected_datasets){
 
   # Create an empty list to store the clustering results
   clustering_results <- list()
-
+set.seed(0800001066)
   # Iterate through the selected datasets
   for (i in 1:length(selected_datasets)) {
     # Get the current dataset
