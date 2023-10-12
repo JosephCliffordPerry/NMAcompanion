@@ -2,7 +2,7 @@
 #'
 #' @importFrom ggplot2 scale_color_discrete
 #' @importFrom ggplot2 theme_minimal
-plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radius_data,umaplist,selected_datasets){
+plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radius_data,umaplist,selected_datasets,miniumapgraphs){
 
   # make umap dataframes
   umapo <- umaplist[1]
@@ -146,7 +146,7 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
 
 
 
-    graphs[[i]] <- list(graph1 = graph1, graph2 = graph2, graph3 = x5[[i]])
+    graphs[[i]] <- list(graph1 = graph1, graph2 = graph2, graph3 = x5[[i]], graph4 = miniumapgraphs[[i]])
     print(paste(i,"/",length(clusters)))
   }
 

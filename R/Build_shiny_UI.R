@@ -10,7 +10,8 @@ graphviewerbuilder <- function(testgraphlist, clusters, data) {
                    selectInput("section", "Select Section", choices = 1:(length(testgraphlist)-1)),
                    plotOutput("graph1"),
                    plotOutput("graph2"),
-                   plotOutput("graph3")
+                   plotOutput("graph3"),
+                   plotOutput("graph4")
                  )
         ),
 
@@ -56,6 +57,9 @@ graphviewerbuilder <- function(testgraphlist, clusters, data) {
 
       output$graph3 <- renderPlot({
         graphs_section[["graph3"]]
+      })
+      output$graph4 <- renderPlot({
+        graphs_section[["graph4"]]
       })
 
       # Get the last part of graphlist

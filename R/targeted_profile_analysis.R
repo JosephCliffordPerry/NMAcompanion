@@ -15,6 +15,7 @@
 #' @importFrom ggplot2 facet_wrap
 #' @importFrom ggplot2 geom_line
 #' @importFrom ggplot2 scale_color_discrete
+#' @importFrom ggplot2 theme
 #' @importFrom dplyr filter
 #' @importFrom shiny shinyUI
 #' @importFrom shiny fluidPage
@@ -102,16 +103,20 @@ clusters <- c(angle_clusters,diameter_clusters,radius_clusters,other_clusters)
 #clusters <-targeted_profile_clusterer(selected_datasets = selected_datasets)
 #umapping
 umaplist <- Umaping(originaldata = data,angle_data = angle_data,diameter_data = diameter_data,radius_data = radius_data)
+miniumaps<-make_miniumaps(clusters = clusters)
 #creates list of graphs and umaps
 testgraphlist2<-plotbuilder3(clusters = clusters,originaldata = data,angle_data = angle_data,diameter_data = diameter_data,radius_data = radius_data,
-                             umaplist = umaplist,selected_datasets = selected_datasets)
-
+                             umaplist = umaplist,selected_datasets = selected_datasets,miniumapgraphs = miniumapgraphs)
+# does umaps of each individual clusters
+#miniumapgraphs<-make_miniumap_graphlist(selected_datasets = selected_datasets,miniumaps = miniumaps,clusters = clusters)
 
 #add a entire dataset clustered graph set
 print("whole dataset clustering")
 testgraphlist2[length(testgraphlist2)+1][[1]] <- fulldatasetclustergrapher(data = data,umaplist = umaplist)
-
-
+#calculate rand index matrix
+rand_data<-make_randindex_data(data = data,clusters = clusters)
+rand_matrix <- calculate_rand_indexes(rand_data)
+confidence_groups<-give_featureidentities(rand_matrix)
 #creates a popout to view the graphs
 graphview<-graphviewerbuilder(testgraphlist = testgraphlist2,clusters = clusters,data = data)
 
