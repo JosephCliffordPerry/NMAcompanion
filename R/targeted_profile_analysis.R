@@ -104,11 +104,15 @@ clusters <- c(angle_clusters,diameter_clusters,radius_clusters,other_clusters)
 #umapping
 umaplist <- Umaping(originaldata = data,angle_data = angle_data,diameter_data = diameter_data,radius_data = radius_data)
 miniumaps<-make_miniumaps(clusters = clusters)
+#makes graphs of umaps of individual multimodal regions
+miniumapgraphs<-make_miniumap_graphlist(selected_datasets = selected_datasets,miniumaps = miniumaps,clusters = clusters)
+
+# makes consensus images
+outlinedata<- data %>% dplyr::select(starts_with("Outline_Oriented"))
+Cluster_consensus_images<- make_consensus_for_all_clusters(clusters,outlinedata = outlinedata)
 #creates list of graphs and umaps
 testgraphlist2<-plotbuilder3(clusters = clusters,originaldata = data,angle_data = angle_data,diameter_data = diameter_data,radius_data = radius_data,
-                             umaplist = umaplist,selected_datasets = selected_datasets,miniumapgraphs = miniumapgraphs)
-# does umaps of each individual clusters
-#miniumapgraphs<-make_miniumap_graphlist(selected_datasets = selected_datasets,miniumaps = miniumaps,clusters = clusters)
+                             umaplist = umaplist,selected_datasets = selected_datasets,miniumapgraphs = miniumapgraphs,Cluster_consensus_images = Cluster_consensus_images)
 
 #add a entire dataset clustered graph set
 print("whole dataset clustering")

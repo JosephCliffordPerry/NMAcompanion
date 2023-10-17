@@ -11,7 +11,8 @@ graphviewerbuilder <- function(testgraphlist, clusters, data) {
                    plotOutput("graph1"),
                    plotOutput("graph2"),
                    plotOutput("graph3"),
-                   plotOutput("graph4")
+                   plotOutput("graph4"),
+                   plotOutput("graph5")
                  )
         ),
 
@@ -60,6 +61,9 @@ graphviewerbuilder <- function(testgraphlist, clusters, data) {
       })
       output$graph4 <- renderPlot({
         graphs_section[["graph4"]]
+      })
+      output$graph5 <- renderPlot({
+        graphs_section[["graph5"]]
       })
 
       # Get the last part of graphlist
@@ -111,3 +115,4 @@ graphviewerbuilder <- function(testgraphlist, clusters, data) {
   graphviewer <- shinyApp(ui, server)
   return(graphviewer)
 }
+

@@ -11,7 +11,8 @@ plotbuilder3(
   diameter_data,
   radius_data,
   umaplist,
-  selected_datasets
+  selected_datasets,
+  miniumapgraphs
 )
 }
 \description{

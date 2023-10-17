@@ -56,7 +56,7 @@ ID_creation<- function(df) {
 
   return(result_list)
 }
-ID_list<-ID_creation(confidence_groups[["high_confidence_grouping"]])
+#ID_list<-ID_creation(confidence_groups[["high_confidence_grouping"]])
 ###############
 cluster_characterising<-function(data,ids){
 

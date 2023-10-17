@@ -40,15 +40,15 @@ make_miniumap_graphlist<-saveminiumap<-function(selected_datasets,miniumaps,clus
 
   miniumapgraph1<-make.miniumapgraph(clusters = clusters[[i]][["Clustering_file"]],umap = miniumaps[[i]],graphtype = names(selected_datasets)[i])
 
-  miniumaplist[[i]] <- list(miniumapgraph1)
+  miniumaplist[[i]] <- miniumapgraph1
    }
  return(miniumaplist)
 }
 
-saveminiumap<-function(clusternum,selected_datasets,miniumaps,clusters){
-miniumapgraph1<-make.miniumapgraph(clusters = clusters[[clusternum]][["Clustering_file"]],umap = miniumaps[[clusternum]],graphtype = names(selected_datasets)[clusternum])
-ggsave(plot = miniumapgraph1,filename = paste0("miniumap",clusternum,".png"),path = "C:/Users/User/Documents/0stuff/Masters project/Write up/Figures/Results figures/Miniumapgraphs", dpi=300, units="mm", width = 170, height = 78)
-}
+# # saveminiumap<-function(clusternum,selected_datasets,miniumaps,clusters){
+# # miniumapgraph1<-make.miniumapgraph(clusters = clusters[[clusternum]][["Clustering_file"]],umap = miniumaps[[clusternum]],graphtype = names(selected_datasets)[clusternum])
+# ggsave(plot = miniumapgraph1,filename = paste0("miniumap",clusternum,".png"),path = "C:/Users/User/Documents/0stuff/Masters project/Write up/Figures/Results figures/Miniumapgraphs", dpi=300, units="mm", width = 170, height = 78)
+# }
 
 #miniumapgraphs<-make_miniumap_graphlist(selected_datasets = selected_datasets,miniumaps = miniumaps,clusters = clusters)
 
