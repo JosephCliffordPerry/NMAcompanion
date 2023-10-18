@@ -23,7 +23,7 @@ return(groupinglist)
 # #confidence_groups<-give_featureidentities(rand_matrix)
 
 # #ids <- paste0(rand_data$Clustering_1, rand_data$Clustering_2,rand_data$Clustering_3,rand_data$Clustering_4,rand_data$Clustering_5,rand_data$Clustering_6,rand_data$Clustering_7,rand_data$Clustering_8,rand_data$Clustering_9,rand_data$Clustering_10,rand_data$Clustering_11 )
-# #ids<-paste0(rand_data$Clustering_5,rand_data$Clustering_9)
+#ids<-paste0(rand_data$Clustering_5,rand_data$Clustering_9)
 # ids<-paste0(rand_data$Clustering_7,rand_data$Clustering_8,rand_data$Clustering_9,rand_data$Clustering_10,rand_data$Clustering_11,rand_data$Clustering_12,rand_data$Clustering_13,rand_data$Clustering_14,rand_data$Clustering_15,rand_data$Clustering_16)
 
 ###############
@@ -56,7 +56,10 @@ ID_creation<- function(df) {
 
   return(result_list)
 }
-#ID_list<-ID_creation(confidence_groups[["high_confidence_grouping"]])
+# ID_list<-ID_creation(confidence_groups[["high_confidence_grouping"]])
+# ID_list2<-ID_creation(confidence_groups[["medium_confidence_grouping"]])
+# ID_list3<-ID_creation(confidence_groups[["low_confidence_grouping"]])
+#full_id_list<-c(ID_list,ID_list2,ID_list3)
 ###############
 cluster_characterising<-function(data,ids){
 
@@ -128,9 +131,35 @@ doof<-df
  return(doof)
  }
 #
-# #datafrumb<-cluster_characterising(data = data,ids = ids)
+#datafrumb<-cluster_characterising(data = data,ids = ids)
 ####################
-#a function to make the cluster dataframes
+#a function to make the to make a list of hamming amalgamated dataframes that can then be used to make consensus images
+hamming_amalgamate_Clustering<- function(data = data, ID_list = ID_list, rand_data = rand_data, outlinedata = outlinedata){
+  hamming_consensus_list<-list()
+for (i in 1:length(ID_list)) {
+ X<-as.numeric(ID_list[[i]])
+titleX<-X
+#adds one so that it X matches column indexes in rand data
+ X<- X+1
+
+ iddf <- data.frame(
+   combined_column = apply(rand_data[, X], 1, function(row) {
+     paste(row, collapse = "")
+   }))
+   ids<-iddf[[1]]
+#makes a hamming cluster
+ hamming_cluster<-cluster_characterising(data = data,ids = ids)
+#makes the right column for cluster consensus then makes the consensus
+ hamming_cluster$Clustering_file<-hamming_cluster$Numeric
+ hamming_consensus<-make_cluster_consensus(outlinedata = outlinedata,cluster = hamming_cluster)
+ # Determine the range of numbers
+
+ hamming_consensus<- hamming_consensus+ labs(title = paste0("Morphotypes from clusterings"," ", paste(titleX, collapse = ", ")))
+ hamming_consensus_list[[i]]<-list(graph1 = hamming_consensus)
+}
+  cat("done")
+  return(hamming_consensus_list)
+}
 
 ####################
 # #write.table(datafrumb, file = "C:/Users/User/Documents/0stuff/Masters project/2023_02_17WWLL/2023-02-21_11-45-43/hamming_clusters.txt", sep = "\t", quote = FALSE, row.names = FALSE)

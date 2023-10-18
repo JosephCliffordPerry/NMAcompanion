@@ -1,5 +1,5 @@
 # Shiny UI builder
-graphviewerbuilder <- function(testgraphlist, clusters, data) {
+graphviewerbuilder <- function(testgraphlist, clusters, data, hamming_consensus) {
   ui <- shinyUI(
     fluidPage(
       titlePanel("Graph Viewer"),
@@ -7,7 +7,7 @@ graphviewerbuilder <- function(testgraphlist, clusters, data) {
         # First tab - Graphs
         tabPanel("Multimodal Regions",
                  mainPanel(
-                   selectInput("section", "Select Section", choices = 1:(length(testgraphlist)-1)),
+                   selectInput("section", "Select Section", choices = 1:(length(testgraphlist) - 1)),
                    plotOutput("graph1"),
                    plotOutput("graph2"),
                    plotOutput("graph3"),
@@ -26,21 +26,20 @@ graphviewerbuilder <- function(testgraphlist, clusters, data) {
                    plotOutput("graphD"),
                    plotOutput("graphE"),
                    plotOutput("graphF"),
-                   plotOutput("graphG"),
-                  # actionButton("exportButton", "Export Cluster Data")
+                   plotOutput("graphG")
                  )
         ),
 
-        # # Third tab - Export
-        # tabPanel("Export",
-        #          mainPanel(
-        #            numericInput("exportSection", "Select Section to Export", min = 1, max = length(testgraphlist)-1, value = 1),
-        #            actionButton("runExportButton", "Run Export")
-        #          )
+        # Third tab - Morphotypes
+        tabPanel("Morphotypes",
+                 mainPanel(
+                   selectInput("morphoSection", "Select Morphotype Section", choices = 1:(length(hamming_consensus))),
+                   plotOutput("morphoGraph1")
+                 )
         )
       )
     )
- # )
+  )
 
   # Define the server
   server <- shinyServer(function(input, output) {
@@ -59,9 +58,11 @@ graphviewerbuilder <- function(testgraphlist, clusters, data) {
       output$graph3 <- renderPlot({
         graphs_section[["graph3"]]
       })
+
       output$graph4 <- renderPlot({
         graphs_section[["graph4"]]
       })
+
       output$graph5 <- renderPlot({
         graphs_section[["graph5"]]
       })
@@ -104,15 +105,17 @@ graphviewerbuilder <- function(testgraphlist, clusters, data) {
       })
     })
 
-    # # Export cluster data when the export button is clicked
-    # observeEvent(input$runExportButton, {
-    #   clusternumber <- input$exportSection
-    #   export_cluster(paste("cluster_", clusternumber, ".txt", sep = ""), data, clusters)
-    # })
+    observe({
+      morphoSection <- input$morphoSection
+      morpho_graphs_section <- hamming_consensus[[as.numeric(morphoSection)]]
+
+      output$morphoGraph1 <- renderPlot({
+        morpho_graphs_section[["graph1"]]
+      })
+    })
   })
 
   # Run the Shiny app
   graphviewer <- shinyApp(ui, server)
   return(graphviewer)
 }
-

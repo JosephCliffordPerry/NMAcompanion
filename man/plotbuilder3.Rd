@@ -12,7 +12,8 @@ plotbuilder3(
   radius_data,
   umaplist,
   selected_datasets,
-  miniumapgraphs
+  miniumapgraphs,
+  Cluster_consensus_images
 )
 }
 \description{

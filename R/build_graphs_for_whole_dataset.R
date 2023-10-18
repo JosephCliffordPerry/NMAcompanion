@@ -1,7 +1,7 @@
 #' Build graphs for whole dataset tab
 fulldatasetclustergrapher <- function(data,umaplist){
   print("clustering whole dataset")
-  dataset <- dplyr::select_if(data[7:327], is.numeric)
+  dataset <- cbind(other_data,radius_data,angle_data,diameter_data)
 
   #function that calculates the number of clusters from the WSS cluster number calculator
   WSSNclustercalc <- function(clusterWSS){
@@ -129,10 +129,12 @@ fulldatasetclustergrapher <- function(data,umaplist){
     geom_line() +
     labs(x = "Profile position", y = "Angle", color = "Group",title = "angle profiles")
 
+  dataset$Clustering_file<-Clustering_file
+   graphH<- make_cluster_consensus(cluster = dataset ,outlinedata = outlinedata)
 
 
   graphs <- list(graphA = graphA, graphB = graphB, graphC = graphC,
                  graphD = graphD, graphE = graphE, graphF = graphF,
-                 graphG = graphG)
+                 graphG = graphG,graphH = graphH)
 
   return(graphs)}

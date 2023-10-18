@@ -38,7 +38,9 @@
 #' @importFrom dplyr starts_with
 #' @importFrom dplyr select
 #' @importFrom dplyr select_if
+#' @importFrom dplyr summarize
 #' @export
+
 targeted_profile_analysis <- function(Data, verbose_output = FALSE){
   if (is.data.frame(Data)) {
     print("It's a data frame.")
@@ -114,15 +116,23 @@ Cluster_consensus_images<- make_consensus_for_all_clusters(clusters,outlinedata 
 testgraphlist2<-plotbuilder3(clusters = clusters,originaldata = data,angle_data = angle_data,diameter_data = diameter_data,radius_data = radius_data,
                              umaplist = umaplist,selected_datasets = selected_datasets,miniumapgraphs = miniumapgraphs,Cluster_consensus_images = Cluster_consensus_images)
 
-#add a entire dataset clustered graph set
-print("whole dataset clustering")
+# #add a entire dataset clustered graph set
+# print("whole dataset clustering")
 testgraphlist2[length(testgraphlist2)+1][[1]] <- fulldatasetclustergrapher(data = data,umaplist = umaplist)
 #calculate rand index matrix
 rand_data<-make_randindex_data(data = data,clusters = clusters)
 rand_matrix <- calculate_rand_indexes(rand_data)
+#calculate IDs from rand index confidence groups
 confidence_groups<-give_featureidentities(rand_matrix)
+ID_list<-ID_creation(confidence_groups[["high_confidence_grouping"]])
+ID_list2<-ID_creation(confidence_groups[["medium_confidence_grouping"]])
+ID_list3<-ID_creation(confidence_groups[["low_confidence_grouping"]])
+full_id_list<-c(ID_list,ID_list2,ID_list3)
+# make consensus images of hamming amalgamated confidence grouping ids
+hamming_consensus<-hamming_amalgamate_Clustering(data = data,rand_data = rand_data,ID_list = full_id_list,outlinedata = outlinedata)
+
 #creates a popout to view the graphs
-graphview<-graphviewerbuilder(testgraphlist = testgraphlist2,clusters = clusters,data = data)
+graphview<-graphviewerbuilder(testgraphlist = testgraphlist2,clusters = clusters,data = data,hamming_consensus = hamming_consensus)
 
 #Creates the verbose output
 veboseoutput<- append(clusters,testgraphlist2)
