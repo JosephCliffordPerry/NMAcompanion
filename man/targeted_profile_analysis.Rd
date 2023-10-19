@@ -6,7 +6,11 @@
 This function takes a NMA dataset and produces a page of graphs that help show
 it's structure}
 \usage{
-targeted_profile_analysis(Data, verbose_output = FALSE)
+targeted_profile_analysis(
+  Data,
+  verbose_output = FALSE,
+  make_whole_dataset_tab = TRUE
+)
 }
 \arguments{
 \item{Data}{the file path to nuclear measurements exported dataset
