@@ -39,9 +39,10 @@
 #' @importFrom dplyr select
 #' @importFrom dplyr select_if
 #' @importFrom dplyr summarize
+#' @importFrom dplyr group_by
 #' @export
 
-targeted_profile_analysis <- function(Data, verbose_output = FALSE){
+targeted_profile_analysis <- function(Data, verbose_output = FALSE , make_whole_dataset_tab = TRUE){
   if (is.data.frame(Data)) {
     print("It's a data frame.")
     rawdata <-Data
@@ -115,10 +116,12 @@ Cluster_consensus_images<- make_consensus_for_all_clusters(clusters,outlinedata 
 #creates list of graphs and umaps
 testgraphlist2<-plotbuilder3(clusters = clusters,originaldata = data,angle_data = angle_data,diameter_data = diameter_data,radius_data = radius_data,
                              umaplist = umaplist,selected_datasets = selected_datasets,miniumapgraphs = miniumapgraphs,Cluster_consensus_images = Cluster_consensus_images)
+if (make_whole_dataset_tab) {
 
 # #add a entire dataset clustered graph set
 # print("whole dataset clustering")
 testgraphlist2[length(testgraphlist2)+1][[1]] <- fulldatasetclustergrapher(data = data,umaplist = umaplist)
+}
 #calculate rand index matrix
 rand_data<-make_randindex_data(data = data,clusters = clusters)
 rand_matrix <- calculate_rand_indexes(rand_data)

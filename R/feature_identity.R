@@ -63,6 +63,11 @@ ID_creation<- function(df) {
 ###############
 cluster_characterising<-function(data,ids){
 
+# Function to calculate Hamming distance between two character vectors
+  hamming_distance_calc <- function(str1, str2) {
+    sum(charToRaw(str1) != charToRaw(str2))
+  }
+
 cellcluster<- cbind(data$CellID,ids)
 # Create a data frame to store UUIDs and numeric strings
 df <- data.frame(UUID = character(), Numeric = character(), stringsAsFactors = FALSE)
@@ -81,22 +86,60 @@ result <- df %>%
  group_by(Numeric) %>%
   summarize(UUIDs = list(UUID))
 
-
-#take big groups
-
+filternum <- 1
+while(nrow(filtered_df) > 350){
 filtered_df <- result %>%
-  filter(lengths(UUIDs) > 50)
-
+  filter(lengths(UUIDs) > filternum)
+filternum<- filternum + 1
+}
 #make character Vectors
 CharVectors<-filtered_df$Numeric
 
-###########
+vecnum<-nchar(CharVectors)
+if(vecnum[[1]]/10 > 0.9){
+  n <- length(CharVectors)
+  result_matrix <- matrix(NA, nrow = n, ncol = n)
+
+  for (i in 1:(n-1)) {
+    for (j in (i + 1):n) {
+      # Extract the vectors from the data frame
+      char1 <- CharVectors[i]
+      char2 <- CharVectors[j]
+
+
+
+      hamming_distance <- hamming_distance_calc(char1,char2)
+      result_matrix[i , j ] <- hamming_distance
+      # result_matrix[j - 1, i - 1] <- rand_idx
+      # Print progress
+      cat("Calculated hamming distance",i, "vs", j, "\n")
+    }
+}
+glorpopotomas <- 1
+while (length(unique_values) >= 16) {
+condition_goopo <- result_matrix <= glorpopotomas
+similar_ids<- which(condition_goopo, arr.ind = TRUE)
+chumb_vector<-CharVectors
+# Replace values based on the replacement matrix
+for (i in 1:nrow(similar_ids)) {
+  target_idx <- similar_ids[i, 1]
+  source_idx <- similar_ids[i, 2]
+  chumb_vector[target_idx] <- chumb_vector[source_idx]
+}
+
+glorpopotomas <- glorpopotomas + 1
+cat(glorpopotomas, "_")
+
+# Extract unique values
+unique_values <- unique(chumb_vector)
+}
+} else {
+  unique_values <- CharVectors
+}
+CharVectors<- unique_values
+
 #hamming aglomerate data
 
-# Function to calculate Hamming distance between two character vectors
-hamming_distance <- function(str1, str2) {
-  sum(charToRaw(str1) != charToRaw(str2))
-}
 
 # Iterate through the dataframe and replace character vectors
 for (i in 1:nrow(df)) {
@@ -106,7 +149,7 @@ min_distance <- Inf
 
   # Find the closest character vector in the vector
   for (cv in CharVectors) {
-    distance <- sum(sapply(char_vector, function(x) hamming_distance(x, cv)))
+    distance <- sum(sapply(char_vector, function(x) hamming_distance_calc(x, cv)))
     if (distance < min_distance) {
       min_distance <- distance
      closest_char_vector <- cv
@@ -129,13 +172,13 @@ doof<-df
  doof$Numeric <- as.integer(doof$Numeric)
 
  return(doof)
- }
-#
+}
+
 #datafrumb<-cluster_characterising(data = data,ids = ids)
 ####################
-#a function to make the to make a list of hamming amalgamated dataframes that can then be used to make consensus images
+#a function to make consensus images of hamming amalgamated data
 hamming_amalgamate_Clustering<- function(data = data, ID_list = ID_list, rand_data = rand_data, outlinedata = outlinedata){
-  hamming_consensus_list<-list()
+hamming_consensus_list<-list()
 for (i in 1:length(ID_list)) {
  X<-as.numeric(ID_list[[i]])
 titleX<-X
