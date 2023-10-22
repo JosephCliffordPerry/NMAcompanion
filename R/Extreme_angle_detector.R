@@ -1,13 +1,12 @@
-#'Extreme angle detector
-#'This tags the nuclei with angles over 280 that are likely artifacts
+#' Extreme angle detector
+#' This tags the nuclei with angles over 280 that are likely artifacts
 #' @param data the nuclear measurements exported dataset from NMA
 #' @importFrom dplyr %>%
 #' @importFrom dplyr starts_with
 
-Extreme_angle_detector <- function(data){
-
-  #cutting dataset into different portions based on content
-    dataset<- data %>%(dplyr::select(starts_with("Angle_profile_")))
+Extreme_angle_detector <- function(data) {
+  # cutting dataset into different portions based on content
+  dataset <- data %>% (dplyr::select(starts_with("Angle_profile_")))
 
   # Iterate through the dataset row by row
   for (i in 1:nrow(dataset)) {
@@ -20,4 +19,5 @@ Extreme_angle_detector <- function(data){
       data$suspected_detection_error[i] <- 1
     }
   }
-  return(data)}
+  return(data)
+}

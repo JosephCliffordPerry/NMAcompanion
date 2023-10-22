@@ -2,13 +2,12 @@
 #'
 #' @importFrom ggplot2 scale_color_discrete
 #' @importFrom ggplot2 theme_minimal
-plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radius_data,umaplist,selected_datasets,miniumapgraphs,Cluster_consensus_images){
-
+plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radius_data, umaplist, selected_datasets, miniumapgraphs, Cluster_consensus_images) {
   # make umap dataframes
   umapo <- umaplist[1]
   angleumap <- umaplist[2]
   diameterumap <- umaplist[3]
-  radiusumap <-umaplist[4]
+  radiusumap <- umaplist[4]
 
   umapodata <- as.data.frame(umapo[[1]][["layout"]])
   angleumapdata <- as.data.frame(angleumap[[1]][["layout"]])
@@ -29,7 +28,7 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
     words <- str_extract_all(title, "\\b\\w+\\b")[[1]]
     # Extract words and numbers
     extracted2 <- gsub("_\\d+", "", words[1])
-    words2 <- unique(gsub("_", " ",extracted2 ))
+    words2 <- unique(gsub("_", " ", extracted2))
 
     numbers <- gsub("[^0-9]+", " ", title)
 
@@ -39,11 +38,11 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
     # Determine the range of numbers
     number_range <- paste(min(number_parts, na.rm = TRUE), max(number_parts, na.rm = TRUE), sep = ":")
     if (any(grepl("\\d+:\\d+", number_range))) {
-
       # Create new title
-      title <- paste0(words2, sep = " ",number_range, recycle0 = TRUE)}
-      else {
-      title <- paste0(words2, sep = " ", recycle0 = TRUE)}
+      title <- paste0(words2, sep = " ", number_range, recycle0 = TRUE)
+    } else {
+      title <- paste0(words2, sep = " ", recycle0 = TRUE)
+    }
 
 
 
@@ -66,7 +65,6 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
       profileumapdata <- diameterumapdata
       Xumap_title <- "Diameter Umap Variable 1"
       Yumap_title <- "Diameter Umap Variable 2"
-
     } else if (ncol(x3) > 0) {
       radius_clusters <- cbind(radius_data, clusters[[i]][["Clustering_file"]])
       r1 <- list()
@@ -86,7 +84,6 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
       profileumapdata <- radiusumapdata
       Xumap_title <- "Radius Umap Variable 1"
       Yumap_title <- "Radius Umap Variable 2"
-
     } else if (ncol(x4) > 0) {
       angle_clusters <- cbind(angle_data, clusters[[i]][["Clustering_file"]])
       a1 <- list()
@@ -108,67 +105,73 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
     } else {
       print("No applicable profile graph")
       x5[[i]] <- "No applicable profile graph"
-
     }
     # Convert clusters to factor to preserve the correct order
     clusters_factor <- factor(clusters[[i]][["Clustering_file"]])
-    umapo_cluster<-cbind(umapodata,clusters_factor)
-    profileumapcluster <-cbind(profileumapdata,clusters_factor)
+    umapo_cluster <- cbind(umapodata, clusters_factor)
+    profileumapcluster <- cbind(profileumapdata, clusters_factor)
 
     gromph1 <- ggplot(data = umapo_cluster, aes(V1, V2, color = clusters_factor)) +
-      geom_point() + labs(title = title,x = "whole dataset variable 1",y = "whole dataset variable 2",colour = "clusters") +
-      facet_wrap(clusters_factor)+
+      geom_point() +
+      labs(title = title, x = "whole dataset variable 1", y = "whole dataset variable 2", colour = "clusters") +
+      facet_wrap(clusters_factor) +
       scale_color_discrete() +
-      theme_minimal()+
+      theme_minimal() +
       theme(legend.position = "none")
 
 
     gromph2 <- ggplot(data = umapo_cluster, aes(V1, V2, color = clusters_factor)) +
-      geom_point() + labs(title = title,x = "whole dataset variable 1",y = "whole dataset variable 2", colour = "clusters")+
+      geom_point() +
+      labs(title = title, x = "whole dataset variable 1", y = "whole dataset variable 2", colour = "clusters") +
       scale_color_discrete() +
-      theme_minimal()+
+      theme_minimal() +
       theme(legend.position = "none")
     graph1 <- gromph2 + gromph1
 
     gromph3 <- ggplot(data = profileumapcluster, aes(V1, V2, color = clusters_factor)) +
-      geom_point() + labs(title = NULL,x =  NULL, y = NULL,colour = "clusters") +
-      facet_wrap(clusters_factor)+
-      theme(legend.position = "none")+
+      geom_point() +
+      labs(title = NULL, x = NULL, y = NULL, colour = "clusters") +
+      facet_wrap(clusters_factor) +
+      theme(legend.position = "none") +
       scale_color_discrete() +
-      theme_minimal()+
-    theme(legend.position = "none")
+      theme_minimal() +
+      theme(legend.position = "none")
     gromph4 <- ggplot(data = profileumapcluster, aes(V1, V2, color = clusters_factor)) +
-      geom_point() + labs(title = "UMAP on overall profile",x =  "UMAP1", y = "UMAP2",colour = "clusters")+
+      geom_point() +
+      labs(title = "UMAP on overall profile", x = "UMAP1", y = "UMAP2", colour = "clusters") +
       scale_color_discrete() +
-      theme_minimal()+
+      theme_minimal() +
       theme(legend.position = "none")
     graph2 <- gromph4 + gromph3
 
 
 
     graphs[[i]] <- list(graph1 = graph1, graph2 = graph2, graph3 = x5[[i]], graph4 = miniumapgraphs[[i]], graph5 = Cluster_consensus_images[[i]])
-    print(paste(i,"/",length(clusters)))
+    print(paste(i, "/", length(clusters)))
   }
 
 
   return(graphs)
 }
 ###############
-make.umapgraph <- function(clusters, umap ,graphtype){
+make.umapgraph <- function(clusters, umap, graphtype) {
   # Convert clusters to factor to preserve the correct order
   clusters_factor <- factor(clusters)
 
-  umapcluster <-cbind(umap,clusters_factor)
+  umapcluster <- cbind(umap, clusters_factor)
 
   gromph1 <- ggplot(data = umapcluster, aes(V1, V2, color = clusters_factor)) +
-    geom_point() + labs(title = title,x = paste0(graphtype, " variable 1"),y = paste0(graphtype, " variable 2"),colour = "clusters") +
+    geom_point() +
+    labs(title = title, x = paste0(graphtype, " variable 1"), y = paste0(graphtype, " variable 2"), colour = "clusters") +
     facet_wrap(clusters_factor)
 
   gromph2 <- ggplot(data = umapcluster, aes(V1, V2, color = clusters_factor)) +
-  geom_point() + labs(title = title,x = paste0(graphtype, " variable 1"),y = paste0(graphtype, " variable 2"), colour = "clusters")
+    geom_point() +
+    labs(title = title, x = paste0(graphtype, " variable 1"), y = paste0(graphtype, " variable 2"), colour = "clusters")
 
-graph1 <- gromph1 + gromph2
-graph1}
+  graph1 <- gromph1 + gromph2
+  graph1
+}
 ############################################################
 
 #' Build a single profile chart over a bimodal region displaying clusters
@@ -178,15 +181,15 @@ graph1}
 
 
 
-Make_profile_graphs <- function(profile_data,clusters,umaplist = umaplist,profiletype){
+Make_profile_graphs <- function(profile_data, clusters, umaplist = umaplist, profiletype) {
   umapo <- umaplist[1]
-  profile_umap <- umaplist[profiletype+1]
-  profiletypes <- c("Angle","Diameter","Radius")
+  profile_umap <- umaplist[profiletype + 1]
+  profiletypes <- c("Angle", "Diameter", "Radius")
 
   graph1 <- make.umapgraph(clusters = clusters, umap = umapo, graphtype = "Full dataset")
-  graph2 <- make.umapgraph(clusters = clusters, umap = profile_umap, graphtype = paste0(profiletypes[profiletype]," profile"))
+  graph2 <- make.umapgraph(clusters = clusters, umap = profile_umap, graphtype = paste0(profiletypes[profiletype], " profile"))
 
-  profile_clusters <- cbind(profile_data,clusters)
+  profile_clusters <- cbind(profile_data, clusters)
 
   # Initialize a list to store the matrices
   a <- list()
@@ -211,19 +214,17 @@ Make_profile_graphs <- function(profile_data,clusters,umaplist = umaplist,profil
   # Create the ggplot plot
   x5 <- ggplot(a_long, aes(x = Position, y = Angle, group = Cluster, color = Cluster)) +
     geom_line(linewidth = 1.2) +
-    #geom_ribbon(aes(ymin = Q25, ymax = Q75), alpha = 0.05) +
-    labs(title ,x = "Profile Position", y = paste0(profiletypes[profiletype]), color = "Cluster") +
-    #facet_wrap(~Cluster)+
-    theme_minimal()+
+    # geom_ribbon(aes(ymin = Q25, ymax = Q75), alpha = 0.05) +
+    labs(title, x = "Profile Position", y = paste0(profiletypes[profiletype]), color = "Cluster") +
+    # facet_wrap(~Cluster)+
+    theme_minimal() +
     scale_color_discrete()
   x51 <- ggplot(a_long, aes(x = Position, y = Angle, group = Cluster, color = Cluster)) +
     geom_line(linewidth = 1.2) +
-    #geom_ribbon(aes(ymin = Q25, ymax = Q75), alpha = 0.05) +
-    labs(title ,x = "Profile Position", y = paste0(profiletypes[profiletype]), color = "Cluster") +
-    #facet_wrap(~Cluster)+
-    theme_minimal()+
+    # geom_ribbon(aes(ymin = Q25, ymax = Q75), alpha = 0.05) +
+    labs(title, x = "Profile Position", y = paste0(profiletypes[profiletype]), color = "Cluster") +
+    # facet_wrap(~Cluster)+
+    theme_minimal() +
     scale_color_discrete()
   graph3 <- x5 + x51
-  }
-
-
+}

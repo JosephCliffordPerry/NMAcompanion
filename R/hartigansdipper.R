@@ -8,7 +8,7 @@
 
 
 # a function that itterates through a dataset and adds multimodal data to a list
-hartigansdipper<-function(dataset){
+hartigansdipper <- function(dataset) {
   selected_datasets <- list()
 
   # Iterate over each column of the dataset
@@ -45,7 +45,8 @@ hartigansdipper<-function(dataset){
       i <- i + 1
     }
   }
-  return(selected_datasets)}
+  return(selected_datasets)
+}
 
 
 #' Get columns of a data.frame that are non-unimodal
@@ -68,37 +69,34 @@ hartigansdipper<-function(dataset){
 #' get.dip.test.regions(perims, "Perimeter")
 #'
 get.dip.test.regions <- function(data, dip.test.alpha = 0.05, is.profile = TRUE) {
-# run diptest across all columns, get boolean vector output
-diptest.vals <- sapply(1:NCOL(data), function(c) dip.test(data[,c])$p.value < dip.test.alpha)
+  # run diptest across all columns, get boolean vector output
+  diptest.vals <- sapply(1:NCOL(data), function(c) dip.test(data[, c])$p.value < dip.test.alpha)
 
-if (is.profile) {
-  col1.name <- colnames(data)[1]
-  data.name <- gsub("_\\d+$", "", col1.name)
+  if (is.profile) {
+    col1.name <- colnames(data)[1]
+    data.name <- gsub("_\\d+$", "", col1.name)
 
-  # Is each index within 2 indexes of a TRUE?
-  region.is.valid <- function(i) any(diptest.vals[max(1, i-2):min(i+2, length(diptest.vals))])
+    # Is each index within 2 indexes of a TRUE?
+    region.is.valid <- function(i) any(diptest.vals[max(1, i - 2):min(i + 2, length(diptest.vals))])
 
-  expanded.blocks <- sapply(1:length(diptest.vals), region.is.valid)
+    expanded.blocks <- sapply(1:length(diptest.vals), region.is.valid)
 
-  is.block.start <- c(TRUE, diff(expanded.blocks) != 0)
-  is.block.end <- c(diff(expanded.blocks) != 0, TRUE)
+    is.block.start <- c(TRUE, diff(expanded.blocks) != 0)
+    is.block.end <- c(diff(expanded.blocks) != 0, TRUE)
 
-  start.indexes <- which(is.block.start & expanded.blocks)
-  end.indexes <- which(is.block.end & expanded.blocks)
+    start.indexes <- which(is.block.start & expanded.blocks)
+    end.indexes <- which(is.block.end & expanded.blocks)
 
-  result <- mapply(function(s, e) data[, s:e], start.indexes, end.indexes, SIMPLIFY = FALSE)
-  if (length(result) > 0) {
-    names(result) <- paste0(data.name, start.indexes - 1, ":", end.indexes - 1)
+    result <- mapply(function(s, e) data[, s:e], start.indexes, end.indexes, SIMPLIFY = FALSE)
+    if (length(result) > 0) {
+      names(result) <- paste0(data.name, start.indexes - 1, ":", end.indexes - 1)
+    }
+  } else {
+    col1.name <- colnames(data)
+    data.name <- gsub("_\\d+$", "", col1.name)[diptest.vals]
+    result <- data[diptest.vals]
+    names(result) <- paste0(data.name, which(diptest.vals) - 1)
   }
-} else {
-  col1.name <- colnames(data)
-  data.name <- gsub("_\\d+$", "", col1.name)[diptest.vals]
-  result<- data[diptest.vals]
-  names(result) <- paste0(data.name, which(diptest.vals) - 1)
 
-
+  result
 }
-
-result
-}
-

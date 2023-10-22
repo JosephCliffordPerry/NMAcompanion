@@ -6,7 +6,7 @@
 #' bimodal columns to a list  this is designed aroud it being used
 #' on regions that contain adjacent columns that aren't conected
 # a function that itterates through a dataset and adds single column bimodal data to a list
-monohartigansdipper<-function(dataset){
+monohartigansdipper <- function(dataset) {
   selected_datasets <- list()
   # Iterate over each column of the dataset
   i <- 1
@@ -16,7 +16,6 @@ monohartigansdipper<-function(dataset){
 
     # Check if the distribution is bimodal
     if (dip_test$p.value < 0.05) {
-
       # Extract the relevant columns
       selected_dataset <- dataset[i]
 
@@ -36,4 +35,5 @@ monohartigansdipper<-function(dataset){
       i <- i + 1
     }
   }
-  return(selected_datasets)}
+  return(selected_datasets)
+}

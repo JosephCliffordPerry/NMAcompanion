@@ -5,37 +5,40 @@ graphviewerbuilder <- function(testgraphlist, clusters, data, hamming_consensus)
       titlePanel("Graph Viewer"),
       tabsetPanel(
         # First tab - Graphs
-        tabPanel("Multimodal Regions",
-                 mainPanel(
-                   selectInput("section", "Select Section", choices = 1:(length(testgraphlist) - 1)),
-                   plotOutput("graph1"),
-                   plotOutput("graph2"),
-                   plotOutput("graph3"),
-                   plotOutput("graph4"),
-                   plotOutput("graph5")
-                 )
+        tabPanel(
+          "Multimodal Regions",
+          mainPanel(
+            selectInput("section", "Select Section", choices = 1:(length(testgraphlist) - 1)),
+            plotOutput("graph1"),
+            plotOutput("graph2"),
+            plotOutput("graph3"),
+            plotOutput("graph4"),
+            plotOutput("graph5")
+          )
         ),
 
         # Second tab - Output
-        tabPanel("Overall Dataset",
-                 mainPanel(
-                   verbatimTextOutput("output"),
-                   plotOutput("graphA"),
-                   plotOutput("graphB"),
-                   plotOutput("graphC"),
-                   plotOutput("graphD"),
-                   plotOutput("graphE"),
-                   plotOutput("graphF"),
-                   plotOutput("graphG")
-                 )
+        tabPanel(
+          "Overall Dataset",
+          mainPanel(
+            verbatimTextOutput("output"),
+            plotOutput("graphA"),
+            plotOutput("graphB"),
+            plotOutput("graphC"),
+            plotOutput("graphD"),
+            plotOutput("graphE"),
+            plotOutput("graphF"),
+            plotOutput("graphG")
+          )
         ),
 
         # Third tab - Morphotypes
-        tabPanel("Morphotypes",
-                 mainPanel(
-                   selectInput("morphoSection", "Select Morphotype Section", choices = 1:(length(hamming_consensus))),
-                   plotOutput("morphoGraph1")
-                 )
+        tabPanel(
+          "Morphotypes",
+          mainPanel(
+            selectInput("morphoSection", "Select Morphotype Section", choices = 1:(length(hamming_consensus))),
+            plotOutput("morphoGraph1")
+          )
         )
       )
     )

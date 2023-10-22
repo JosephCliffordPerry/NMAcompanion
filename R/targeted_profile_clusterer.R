@@ -1,30 +1,31 @@
 #############################################
-#'clusters data automatically using hkmeans
-#'@param selected_datasets this is the output of the hartigansdippers and mono
-#'hartigans dippers.
+#' clusters data automatically using hkmeans
+#' @param selected_datasets this is the output of the hartigansdippers and mono
+#' hartigans dippers.
 # function that takes a list of datasets itterates through them determining optimum clusters then clustering
-targeted_profile_clusterer<- function(selected_datasets){
+targeted_profile_clusterer <- function(selected_datasets) {
   clusters <- list()
-  #function that calculates the number of clusters from the WSS cluster number calculator
-  WSSNclustercalc <- function(clusterWSS){
+  # function that calculates the number of clusters from the WSS cluster number calculator
+  WSSNclustercalc <- function(clusterWSS) {
     x <- clusterWSS[["data"]][["y"]]
     x2 <- diff(x)
-    x3 <- which(x2 > x2[1]/5)
-    return(min(x3))}
+    x3 <- which(x2 > x2[1] / 5)
+    return(min(x3))
+  }
 
 
   # Create an empty list to store the clustering results
   clustering_results <- list()
-set.seed(0800001066)
+  set.seed(0800001066)
   # Iterate through the selected datasets
   for (i in 1:length(selected_datasets)) {
     # Get the current dataset
     dataset <- selected_datasets[[i]]
-    print(paste(i,"/",length(selected_datasets)))
+    print(paste(i, "/", length(selected_datasets)))
     # Scale the selected columns
     scaleddata <- scale(dataset)
-    #sample out the maximum amount of data that can be processed with  fviz_nbclust
-    sampled_data <- as.data.frame(scaleddata[sample(nrow(dataset),1000), ])
+    # sample out the maximum amount of data that can be processed with  fviz_nbclust
+    sampled_data <- as.data.frame(scaleddata[sample(nrow(dataset), 1000), ])
     # Perform clustering and determine the optimal number of clusters
     clustersSil <- fviz_nbclust(sampled_data, FUNcluster = kmeans, method = "silhouette")
 
@@ -36,8 +37,8 @@ set.seed(0800001066)
 
     WSSNclusters <- WSSNclustercalc(clusterWSS)
 
-    Nclusters <- round(mean(c(WSSNclusters,SilNclusters,gapNclusters)))#add clusterNBCN if needed
-    #clusters dataset
+    Nclusters <- round(mean(c(WSSNclusters, SilNclusters, gapNclusters))) # add clusterNBCN if needed
+    # clusters dataset
     clusters <- hkmeans(scaleddata, k = Nclusters)
 
     # Extract the clustering results
@@ -45,10 +46,10 @@ set.seed(0800001066)
 
 
     # Create a data frame with the original data and clustering results
-    clustering_data <- cbind(dataset,Clustering_file)
+    clustering_data <- cbind(dataset, Clustering_file)
 
     # Add the clustering results to the list
     clustering_results[[i]] <- clustering_data
-
   }
-  return(clustering_results)}
+  return(clustering_results)
+}
