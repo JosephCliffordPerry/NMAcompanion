@@ -1,7 +1,6 @@
-# #install.packages("fossil")
-# #library(fossil)
-# #rand index calc
-#' @importFrom fossil rand.index
+# install.packages("fossil")
+# library(fossil)
+# rand index calc
 make_randindex_data <- function(data, clusters) {
   clusties <- data$CellID
 
@@ -21,17 +20,11 @@ make_randindex_data <- function(data, clusters) {
 }
 
 # rand_data<-make_randindex_data(data = data,clusters = clusters)
-###########
-# sampled_rows <- sample(nrow(rand_data), size = 10000, replace = FALSE)
-#
-#
-# sample_rand_data<- rand_data[sampled_rows, ]
-#
-# sample_rand_data<rand_data[sample_rand_data,]
-# ######################
+
+
+######################
 calculate_rand_indexes <- function(rand_data) {
   n <- ncol(rand_data)
-
   result_matrix <- matrix(NA, nrow = n - 1, ncol = n - 1)
 
   for (i in 2:(n - 1)) {
@@ -52,8 +45,6 @@ calculate_rand_indexes <- function(rand_data) {
 
   return(result_matrix)
 }
-#
-#
-# rand_matrix <- calculate_rand_indexes(sample_rand_data)
-#
-#
+
+
+# rand_matrix <- calculate_rand_indexes(rand_data)

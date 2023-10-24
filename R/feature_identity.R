@@ -63,10 +63,10 @@ ID_creation <- function(df) {
 ###############
 # Function to calculate Hamming distance between two integer vectors
 hamming_distance_calc <- function(vector1, vector2) {
-  sum(vector1 != vector2)
+  sum(charToRaw(vector1) != charToRaw(vector2))
 }
 ###############
-Make_cluster_id_df <- function(data, ids){
+Make_cluster_id_df <- function(data, ids) {
   cellcluster <- cbind(data$CellID, ids)
   # Create a data frame to store UUIDs and numeric strings
   df <- data.frame(UUID = character(), Cluster_characterising_ids = character(), stringsAsFactors = FALSE)
@@ -75,76 +75,20 @@ Make_cluster_id_df <- function(data, ids){
   for (i in 1:nrow(cellcluster)) {
     uuid <- cellcluster[i, 1]
 
-    numeric_section <- as.integer(unlist(strsplit(cellcluster[i,2], "")))
+    numeric_section <- cellcluster[i, 2]
 
     df <- rbind(df, data.frame(UUID = uuid, Cluster_characterising_ids = as.vector(numeric_section), stringsAsFactors = FALSE))
   }
   cat("dataframe values added")
 
-return(df)}
-
-
-########################
-Make_hamming_seeds<-function(df){
-#seed id creation
-  result <- df %>%
-    group_by(Cluster_characterising_ids) %>%
-    summarize(UUIDs = list(UUID))
-
-  # filternum <- 1
-  # while (nrow(filtered_df) > 350) {
-  #   filtered_df <- result %>%
-  #     filter(lengths(UUIDs) > filternum)
-  #   filternum <- filternum + 1
-  # }
-  #make character Vectors
-  CharVectors <- result$Cluster_characterising_ids
-
-    n <- length(CharVectors)
-    result_matrix <- matrix(NA, nrow = n, ncol = n)
-
-    for (i in 1:(n - 1)) {
-      for (j in (i + 1):n) {
-        # Extract the vectors from the data frame
-        char1 <- CharVectors[i]
-        char2 <- CharVectors[j]
+  return(df)
+}
 
 
 
-        hamming_distance <- hamming_distance_calc(char1, char2)
-        result_matrix[i, j] <- hamming_distance
-        # result_matrix[j - 1, i - 1] <- rand_idx
-        # Print progress
-        cat("Calculated hamming distance", i, "vs", j, "\n")
-      }
-    }
-unique_values<- 1:17
-    hamming_distance_threshold <- 1
-    while (length(unique_values) >= 16) {
-      hamming_threshold_condition <- result_matrix <= hamming_distance_threshold
-      similar_ids <- which(hamming_threshold_condition, arr.ind = TRUE)
-      vector_donky <- CharVectors
-      # Replace values based on the replacement matrix
-      for (i in 1:nrow(similar_ids)) {
-        target_idx <- similar_ids[i, 1]
-        source_idx <- similar_ids[i, 2]
-        vector_donky[target_idx] <- vector_donky[source_idx]
-      }
-
-      hamming_distance_threshold <- hamming_distance_threshold + 1
-      cat(hamming_distance_threshold, "_")
-
-      # Extract unique values
-      unique_values <- unique(vector_donky)
-     }
-
-
-  CharVectors <- unique_values
-  return(CharVectors)}
 ###########################
-  # hamming amalgamation data
-Do_hamming_amalgamation<-function(df,CharVectors){
-
+# hamming amalgamation data
+Do_hamming_amalgamation <- function(df, CharVectors) {
   # Iterate through the dataframe and replace character vectors
   for (i in 1:nrow(df)) {
     char_vector <- df$Cluster_characterising_ids[i]
@@ -161,7 +105,7 @@ Do_hamming_amalgamation<-function(df,CharVectors){
     }
 
     # Update the dataframe with the closest character vector
-    df$Numeric[i] <- closest_char_vector
+    df$Cluster_characterising_ids[i] <- closest_char_vector
   }
 
 
@@ -170,21 +114,21 @@ Do_hamming_amalgamation<-function(df,CharVectors){
 
 
   # Convert 'ids' to a factor
-  doof$Numeric <- factor(doof$Numeric)
+  doof$Cluster_characterising_ids <- factor(doof$Cluster_characterising_ids)
 
   # Convert the factor levels to integer values
-  doof$Numeric <- as.integer(doof$Numeric)
+  doof$Cluster_characterising_ids <- as.integer(doof$Cluster_characterising_ids)
 
   return(doof)
 }
 
 # datafrumb<-cluster_characterising(data = data,ids = ids)
 ####################
-cluster_characterising<- function(data = data, ids = ids){
-id_dataframe<-Make_cluster_id_df(data = data,ids = ids)
-seeds<-Make_hamming_seeds(id_dataframe)
-output<-Do_hamming_amalgamation(df = id_dataframe,CharVectors = seeds)
-return(output)
+cluster_characterising <- function(data = data, ids = ids) {
+  id_dataframe <- Make_cluster_id_df(data = data, ids = ids)
+  seeds <- as.vector(Make_hamming_seeds(id_dataframe, data))
+  output <- Do_hamming_amalgamation(df = id_dataframe, CharVectors = seeds)
+  return(output)
 }
 
 ####################
@@ -202,12 +146,12 @@ hamming_amalgamate_Clustering <- function(data = data, ID_list = ID_list, rand_d
         paste(row, collapse = "")
       })
     )
-    #makes a vector of all cluster ids from the feature group
+    # makes a vector of all cluster ids from the feature group
     ids <- iddf[[1]]
     # makes a hamming cluster
     hamming_cluster <- cluster_characterising(data = data, ids = ids)
     # makes the right column for cluster consensus then makes the consensus
-    hamming_cluster$Clustering_file <- hamming_cluster$Numeric
+    hamming_cluster$Clustering_file <- hamming_cluster$Cluster_characterising_ids
     hamming_consensus <- make_cluster_consensus(outlinedata = outlinedata, cluster = hamming_cluster)
     # Determine the range of numbers
 
@@ -217,4 +161,4 @@ hamming_amalgamate_Clustering <- function(data = data, ID_list = ID_list, rand_d
   cat("done")
 
   return(hamming_consensus_list)
-  }
+}
