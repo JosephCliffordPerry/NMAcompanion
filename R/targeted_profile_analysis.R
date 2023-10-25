@@ -40,6 +40,8 @@
 #' @importFrom dplyr select_if
 #' @importFrom dplyr summarize
 #' @importFrom dplyr group_by
+#' @importFrom dplyr mutate
+#' @importFrom fossil rand.index
 #' @export
 
 targeted_profile_analysis <- function(Data, verbose_output = FALSE, make_whole_dataset_tab = TRUE) {
