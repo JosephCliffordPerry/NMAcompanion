@@ -10,10 +10,15 @@ graphviewerbuilder <- function(testgraphlist, clusters, data, hamming_consensus)
           mainPanel(
             selectInput("section", "Select Section", choices = 1:(length(testgraphlist) - 1)),
             plotOutput("graph1"),
+            verbatimTextOutput("text1"),
             plotOutput("graph2"),
+            verbatimTextOutput("text2"),
             plotOutput("graph3"),
+            verbatimTextOutput("text3"),
             plotOutput("graph4"),
-            plotOutput("graph5")
+            verbatimTextOutput("text4"),
+            plotOutput("graph5"),
+            verbatimTextOutput("text5")
           )
         ),
 
@@ -53,23 +58,34 @@ graphviewerbuilder <- function(testgraphlist, clusters, data, hamming_consensus)
       output$graph1 <- renderPlot({
         graphs_section[["graph1"]]
       })
-
+      output$text1 <- renderPrint({
+        graphs_section[["text1"]]
+        })
       output$graph2 <- renderPlot({
         graphs_section[["graph2"]]
+      })
+      output$text2 <- renderPrint({
+        graphs_section[["text2"]]
       })
 
       output$graph3 <- renderPlot({
         graphs_section[["graph3"]]
       })
-
+      output$text3 <- renderPrint({
+        graphs_section[["text3"]]
+      })
       output$graph4 <- renderPlot({
         graphs_section[["graph4"]]
       })
-
+      output$text4 <- renderPrint({
+        graphs_section[["text4"]]
+      })
       output$graph5 <- renderPlot({
         graphs_section[["graph5"]]
       })
-
+      output$text5 <- renderPrint({
+        graphs_section[["text5"]]
+      })
       # Get the last part of graphlist
       last_graphs <- testgraphlist[[length(testgraphlist)]]
 

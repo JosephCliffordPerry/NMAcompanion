@@ -144,9 +144,9 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
       theme(legend.position = "none")
     graph2 <- gromph4 + gromph3
 
+    Graphtext<- Make_region_text(title = title)
 
-
-    graphs[[i]] <- list(graph1 = graph1, graph2 = graph2, graph3 = x5[[i]], graph4 = miniumapgraphs[[i]], graph5 = Cluster_consensus_images[[i]])
+    graphs[[i]] <- list(graph1 = graph1, graph2 = graph2, graph3 = x5[[i]], graph4 = miniumapgraphs[[i]], graph5 = Cluster_consensus_images[[i]],text1 = Graphtext[1],text2 = Graphtext[2],text3 = Graphtext[3],text4 = Graphtext[4],text5 = Graphtext[5])
     print(paste(i, "/", length(clusters)))
   }
 
