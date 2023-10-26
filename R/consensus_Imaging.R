@@ -68,6 +68,46 @@ make_cluster_consensus <- function(cluster, outlinedata) {
 
   return(consensus)
 }
+#######################################
+Make_hamming_consensus_images <- function(cluster, outlinedata) {
+  idtitles<-unique(cluster$idtitles)
+  custom_labeller <- function(variable, value) {
+    return(idtitles[as.integer(value)])
+  }
+  outline_clusters <- cbind(outlinedata, cluster$Clustering_file)
+  a <- list()
+  # Calculate the number of rows in each facet
+  facet_counts <- as.data.frame(table(cluster$Clustering_file))
+  facet_count_vector<-facet_counts[[2]]
+  for (j in 1:max(outline_clusters$`cluster$Clustering_file`)) {
+    A1 <- outline_clusters %>% filter(`cluster$Clustering_file` == j)
+    consensus_df <- MakeConsensusdf(A1) # Assuming this function creates the consensus dataframe
+
+    # Add a facet column to the consensus_df
+    consensus_df$facet <- j
+
+    consensus_df$facet_count <- facet_count_vector[j]
+
+    a[[j]] <- consensus_df
+  }
+
+
+
+  # Combine the individual consensus dataframes into one faceted dataframe
+  faceted_df <- dplyr::bind_rows(a)
+
+  colourfactor <- factor(faceted_df$facet)
+  consensus <- ggplot(faceted_df, aes(Column2, Column1, fill = colourfactor)) +
+    geom_polygon() +
+    geom_text(aes(x = Inf, y = Inf, label = facet_count), vjust = 1.5,hjust = 1.5) +
+    facet_wrap(faceted_df$facet,labeller =  custom_labeller) +
+    theme_minimal()
+
+
+
+  return(consensus)
+}
+
 
 
 #######################################

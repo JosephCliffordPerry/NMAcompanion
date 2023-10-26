@@ -111,7 +111,7 @@ Do_hamming_amalgamation <- function(df, CharVectors) {
 
   doof <- df
 
-
+  doof$idtitles<-doof$Cluster_characterising_ids
 
   # Convert 'ids' to a factor
   doof$Cluster_characterising_ids <- factor(doof$Cluster_characterising_ids)
@@ -152,10 +152,11 @@ hamming_amalgamate_Clustering <- function(data = data, ID_list = ID_list, rand_d
     hamming_cluster <- cluster_characterising(data = data, ids = ids)
     # makes the right column for cluster consensus then makes the consensus
     hamming_cluster$Clustering_file <- hamming_cluster$Cluster_characterising_ids
-    hamming_consensus <- make_cluster_consensus(outlinedata = outlinedata, cluster = hamming_cluster)
+    hamming_consensus <- Make_hamming_consensus_images(outlinedata = outlinedata, cluster = hamming_cluster)
     # Determine the range of numbers
 
     hamming_consensus <- hamming_consensus + labs(title = paste0("Morphotypes from clusterings", " ", paste(titleX, collapse = ", ")))
+
     hamming_consensus_list[[i]] <- list(graph1 = hamming_consensus)
   }
   cat("done")
