@@ -27,13 +27,15 @@ make.miniumapgraph <- function(clusters, umap, graphtype) {
     labs(title = NULL, x = NULL, y = NULL, colour = "clusters") +
     facet_wrap(clusters_factor) +
     theme_minimal() +
-    theme(legend.position = "none")
+    theme(legend.position = "none")+
+    coord_fixed(ratio = 1, xlim = NULL, ylim = NULL, expand = TRUE, clip = "on")
 
   gromph2 <- ggplot(data = umapcluster, aes(V1, V2, color = clusters_factor)) +
     geom_point() +
     labs(title = "UMAP of multimodal regions", x = "UMAP1", y = "UMAP2", colour = "clusters") +
     theme_minimal() +
-    theme(legend.position = "none")
+    theme(legend.position = "none")+
+    coord_fixed(ratio = 1, xlim = NULL, ylim = NULL, expand = TRUE, clip = "on")
 
   graph1 <- gromph2 + gromph1
   graph1
