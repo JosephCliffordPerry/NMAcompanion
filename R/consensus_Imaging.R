@@ -36,6 +36,84 @@ MakeConsensusdf <- function(outlinedata) {
 ####################
 make_cluster_consensus <- function(cluster, outlinedata) {
   outline_clusters <- cbind(outlinedata, cluster$Clustering_file)
+
+
+  title <- paste(names(cluster[1:(length(cluster)-1)]), collapse = " ")
+
+  words <- str_extract_all(title, "\\b\\w+\\b")[[1]]
+  # Extract words and numbers
+  extracted2 <- gsub("_\\d+", "", words[1])
+  words2 <- unique(gsub("_", " ", extracted2))
+
+  numbers <- gsub("[^0-9]+", " ", title)
+
+  # Split the numbers by space
+  number_parts <- as.numeric(unlist(strsplit(numbers, " ")))
+
+  # Determine the range of numbers
+  number_range <- paste(min(number_parts, na.rm = TRUE), max(number_parts, na.rm = TRUE), sep = ":")
+  if (any(grepl("\\d+:\\d+", number_range))) {
+    # Create new title
+    title <- paste0(words2, sep = " ", number_range, recycle0 = TRUE)
+  } else {
+    title <- paste0(words2, sep = " ", recycle0 = TRUE)
+  }
+path_data_list<- list()
+  for (i in 2:length(number_parts)) {
+
+
+  # Construct the column names to select
+  selected_Xcolumns <- paste0("Outline_OrientedCoordinates_X_", number_parts[i])
+  selected_ycolumns <- paste0("Outline_OrientedCoordinates_Y_", number_parts[i])
+
+  # Filter the columns based on the constructed names
+  path_datax <- outlinedata[selected_Xcolumns]
+  path_datay <- outlinedata[selected_ycolumns]
+
+  path_data_list[[i]]<- cbind(path_datax,path_datay)
+  }
+
+  a <- list()
+  # Calculate the number of rows in each facet
+  facet_counts <- as.data.frame(table(cluster$Clustering_file))
+  facet_count_vector<-facet_counts[[2]]
+  for (j in 1:max(outline_clusters$`cluster$Clustering_file`)) {
+    A1 <- outline_clusters %>% filter(`cluster$Clustering_file` == j)
+    consensus_df <- MakeConsensusdf(A1) # Assuming this function creates the consensus dataframe
+
+    # Add a facet column to the consensus_df
+    consensus_df$facet <- j
+    # Add a facet column to the
+    consensus_df$facet_count <- facet_count_vector[j]
+
+    a[[j]] <- consensus_df
+  }
+
+
+
+  # Combine the individual consensus dataframes into one faceted dataframe
+  faceted_df <- dplyr::bind_rows(a)
+
+  colourfactor <- factor(faceted_df$facet)
+  consensus <- ggplot(faceted_df, aes(Column2, Column1, fill = colourfactor)) +
+    geom_polygon() +
+    geom_text(aes(x = Inf, y = Inf, label = facet_count), vjust = 1.5,hjust = 1.5) +
+    facet_wrap(faceted_df$facet) +
+    theme_minimal()+
+    coord_fixed(ratio = 1, xlim = NULL, ylim = NULL, expand = TRUE, clip = "on")
+
+
+
+  return(consensus)
+}
+#######################################
+Make_hamming_consensus_images <- function(cluster, outlinedata) {
+  idtitles<-unique(cluster$idtitles)
+  custom_labeller <- function(variable, value) {
+    return(idtitles[as.integer(value)])
+  }
+  outline_clusters <- cbind(outlinedata, cluster$Clustering_file)
+
   a <- list()
   # Calculate the number of rows in each facet
   facet_counts <- as.data.frame(table(cluster$Clustering_file))
@@ -61,13 +139,16 @@ make_cluster_consensus <- function(cluster, outlinedata) {
   consensus <- ggplot(faceted_df, aes(Column2, Column1, fill = colourfactor)) +
     geom_polygon() +
     geom_text(aes(x = Inf, y = Inf, label = facet_count), vjust = 1.5,hjust = 1.5) +
-    facet_wrap(faceted_df$facet) +
-    theme_minimal()
+    facet_wrap(faceted_df$facet,labeller =  custom_labeller) +
+    theme_minimal()+
+    coord_fixed(ratio = 1, xlim = NULL, ylim = NULL, expand = TRUE, clip = "on")
+
 
 
 
   return(consensus)
 }
+
 
 
 #######################################
