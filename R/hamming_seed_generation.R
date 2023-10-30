@@ -190,7 +190,8 @@ Make_hamming_seeds <- function(df, data) {
         cat("Calculated hamming distance", i, "vs", j, "\n")
       }
     }
-    # ids condensed to make sure there are less than 16
+
+     # ids condensed to make sure there are less than 16
     unique_values <- 1:17
     hamming_distance_threshold <- 1
     while (length(unique_values) >= 16) {
