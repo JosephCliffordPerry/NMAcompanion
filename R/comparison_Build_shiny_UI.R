@@ -3,21 +3,6 @@ comparisongraphviewerbuilder <- function(testgraphlist, clusters, data, hamming_
   ui <- shinyUI(
 
     fluidPage(
-      tags$head(
-        tags$style(HTML(
-          "
-      .shiny-text-output {
-        white-space: pre-wrap; /* Allow text to wrap */
-        word-wrap: break-word; /* Break long words */
-      }
-      .table-text-output {
-       white-space: nowrap; /* Prevent wrapping to the next line */
-        overflow: auto; /* Enable horizontal scroll bars if needed */
-        width: 100%; /* Use 100% of the available width */
-      }
-      "
-        ))
-      ),
       titlePanel("Graph Viewer"),
       tabsetPanel(
         # First tab - Graphs
@@ -35,7 +20,7 @@ comparisongraphviewerbuilder <- function(testgraphlist, clusters, data, hamming_
             verbatimTextOutput("text4"),
             plotOutput("graph5"),
             verbatimTextOutput("text5"),
-            UiOutput("table1")
+            verbatimTextOutput("table1")
           )
         ),
 
@@ -103,10 +88,10 @@ comparisongraphviewerbuilder <- function(testgraphlist, clusters, data, hamming_
       output$text5 <- renderPrint({
         graphs_section[["text5"]]
       })
-      output$table1 <- renderUI({
-        tableContent <- graphs_section[["table1"]]
-        HTML(paste0("<div class='table-text-output'>", tableContent, "</div>"))
+       output$table1 <- renderPrint({
+        graphs_section[["table1"]]
       })
+
       # Get the last part of graphlist
       last_graphs <- testgraphlist[[length(testgraphlist)]]
 

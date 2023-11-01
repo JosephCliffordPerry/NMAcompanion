@@ -114,7 +114,7 @@ targeted_profile_comparison <- function(comparison_data, verbose_output = FALSE,
   ID_list3 <- ID_creation(confidence_groups[["low_confidence_grouping"]])
   full_id_list <- c(ID_list, ID_list2, ID_list3)
   # make consensus images of hamming amalgamated confidence grouping ids
-  hamming_consensus <- hamming_amalgamate_Clustering(data = data, rand_data = rand_data, ID_list = full_id_list, outlinedata = outlinedata)
+  hamming_consensus <- comparison_hamming_amalgamate_Clustering(data = data, rand_data = rand_data, ID_list = full_id_list, outlinedata = outlinedata)
 
   # makes consensus images
 
@@ -136,7 +136,7 @@ targeted_profile_comparison <- function(comparison_data, verbose_output = FALSE,
 
 
   # creates a popout to view the graphs
-  graphview <- comparisongraphviewerbuilder(testgraphlist = testgraphlist2, clusters = clusters, data = data, hamming_consensus = hamming_consensus)
+    graphview <- comparisongraphviewerbuilder(testgraphlist = testgraphlist2, clusters = clusters, data = data, hamming_consensus = hamming_consensus)
 
   # Creates the verbose output
   veboseoutput <- append(clusters, testgraphlist2)
