@@ -2,6 +2,16 @@
 graphviewerbuilder <- function(testgraphlist, clusters, data, hamming_consensus) {
   ui <- shinyUI(
     fluidPage(
+      tags$head(
+        tags$style(HTML(
+          "
+      .shiny-text-output {
+        white-space: pre-wrap; /* Allow text to wrap */
+        word-wrap: break-word; /* Break long words */
+      }
+      "
+        ))
+      ),
       titlePanel("Graph Viewer"),
       tabsetPanel(
         # First tab - Graphs

@@ -165,3 +165,5 @@ hamming_amalgamate_Clustering <- function(data = data, ID_list = ID_list, rand_d
 
   return(hamming_consensus_list)
 }
+
+
