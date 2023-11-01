@@ -53,3 +53,26 @@ targeted_profile_clusterer <- function(selected_datasets) {
   }
   return(clustering_results)
 }
+
+########################
+# cluster list builder
+
+combine_clusters <- function(dataset_names) {
+  # Initialize an empty list
+  clusters <- list()
+
+  # Check if the datasets exist and add them to the list
+  for (name in dataset_names) {
+    if (exists(name)) {
+      clusters <- c(clusters, get(name))
+    }
+  }
+
+  # Check if any datasets were added to the list
+  if (length(clusters) == 0) {
+    cat("No multimodal regions\n")
+  }
+
+  # Now 'clusters' contains the existing datasets as a list
+  return(clusters)
+}

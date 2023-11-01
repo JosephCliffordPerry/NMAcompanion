@@ -1,57 +1,15 @@
-#' Targeted profile analysis
-#' This function takes a NMA dataset and produces a page of graphs that help show
-#' it's structure
-#' @param Data the file path to nuclear measurements exported dataset
-#' from NMA
-#' @param verbose_output gives the output as a list of graphs and data instead
-#' of a Shiny interface
-#' @importFrom factoextra fviz_nbclust
-#' @importFrom factoextra hkmeans
-#' @importFrom umap umap
-#' @importFrom ggplot2 ggplot
-#' @importFrom ggplot2 aes
-#' @importFrom ggplot2 geom_point
-#' @importFrom ggplot2 labs
-#' @importFrom ggplot2 facet_wrap
-#' @importFrom ggplot2 geom_line
-#' @importFrom ggplot2 scale_color_discrete
-#' @importFrom ggplot2 theme
-#' @importFrom dplyr filter
-#' @importFrom shiny shinyUI
-#' @importFrom shiny fluidPage
-#' @importFrom shiny titlePanel
-#' @importFrom shiny mainPanel
-#' @importFrom shiny selectInput
-#' @importFrom shiny plotOutput
-#' @importFrom shiny sidebarLayout
-#' @importFrom shiny sidebarPanel
-#' @importFrom shiny verbatimTextOutput
-#' @importFrom shiny shinyServer
-#' @importFrom shiny observe
-#' @importFrom shiny renderPlot
-#' @importFrom shiny renderPrint
-#' @importFrom shiny shinyApp
-#' @importFrom shiny tabsetPanel
-#' @importFrom shiny tabPanel
-#' @importFrom stringr str_extract_all
-#' @importFrom dplyr %>%
-#' @importFrom dplyr starts_with
-#' @importFrom dplyr select
-#' @importFrom dplyr select_if
-#' @importFrom dplyr summarize
-#' @importFrom dplyr group_by
-#' @importFrom dplyr mutate
-#' @importFrom fossil rand.index
-#' @export
+# Data prep
+make_comparison_data <- function(...) {
+  # Combine all datasets using do.call and rbind
+  combined_data <- do.call(rbind, list(...))
+  combined_data$Dataset_id <- as.factor(combined_data$Dataset)
+  return(combined_data)
+}
 
-targeted_profile_analysis <- function(Data, verbose_output = FALSE, make_whole_dataset_tab = TRUE) {
-  if (is.data.frame(Data)) {
-    print("It's a data frame.")
-    rawdata <- Data
-  } else {
-    print("It's not a data frame.")
-    rawdata <- read.table(Data, header = TRUE, sep = "\t")
-  }
+# Cluster id + dataset id table maker
+
+# targeted profile comparison
+targeted_profile_comparison <- function(comparison_data, verbose_output = FALSE, make_whole_dataset_tab = TRUE) {
   Extreme_angle_detector <- function(data) {
     # cutting dataset into different portions based on content
     dataset <- data %>% dplyr::select(starts_with("Angle_profile_"))
@@ -70,7 +28,7 @@ targeted_profile_analysis <- function(Data, verbose_output = FALSE, make_whole_d
     return(data)
   }
 
-  error_tagged_angle_dataset <- Extreme_angle_detector(data = rawdata)
+  error_tagged_angle_dataset <- Extreme_angle_detector(data = comparison_data)
   data <- filter(error_tagged_angle_dataset, suspected_detection_error == 1)
   error <- filter(error_tagged_angle_dataset, suspected_detection_error == 2)
 
@@ -86,7 +44,7 @@ targeted_profile_analysis <- function(Data, verbose_output = FALSE, make_whole_d
   # Select columns that are numeric and don't contain the specified words ( redundant data and stuff)
   other_data <- data %>%
     select_if(is.numeric) %>%
-    select(-matches("Radius_profile_|Diameter_profile_|Angle_profile_|pixels|seg|Seg|suspected_detection_error|Outline_"))
+    select(-matches("Radius_profile_|Diameter_profile_|Angle_profile_|pixels|seg|Seg|suspected_detection_error|Outline_|Dataset"))
 
 
 
@@ -105,7 +63,11 @@ targeted_profile_analysis <- function(Data, verbose_output = FALSE, make_whole_d
   diameter_clusters <- targeted_profile_clusterer(selected_datasets = selected_diameter_data)
   radius_clusters <- targeted_profile_clusterer(selected_datasets = selected_radius_data)
   other_clusters <- targeted_profile_clusterer(selected_datasets = selected_other_data)
-  clusters <- c(angle_clusters, diameter_clusters, radius_clusters, other_clusters)
+  # clusters <- list(angle_clusters, diameter_clusters, radius_clusters, other_clusters)
+  # makes a cluster dataset that can deal with clusterings having no multimodal regions
+  dataset_names <- c("angle_clusters", "diameter_clusters", "radius_clusters", "other_clusters")
+  clusters <- combine_clusters(dataset_names)
+
   # clusters <-targeted_profile_clusterer(selected_datasets = selected_datasets)
   # umapping
   umaplist <- Umaping(originaldata = data, angle_data = angle_data, diameter_data = diameter_data, radius_data = radius_data)

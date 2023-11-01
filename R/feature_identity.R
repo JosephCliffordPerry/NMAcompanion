@@ -111,7 +111,7 @@ Do_hamming_amalgamation <- function(df, CharVectors) {
 
   doof <- df
 
-  doof$idtitles<-doof$Cluster_characterising_ids
+  doof$idtitles <- doof$Cluster_characterising_ids
 
   # Convert 'ids' to a factor
   doof$Cluster_characterising_ids <- factor(doof$Cluster_characterising_ids)

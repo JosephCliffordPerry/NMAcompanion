@@ -60,7 +60,7 @@ graphviewerbuilder <- function(testgraphlist, clusters, data, hamming_consensus)
       })
       output$text1 <- renderPrint({
         graphs_section[["text1"]]
-        })
+      })
       output$graph2 <- renderPlot({
         graphs_section[["graph2"]]
       })

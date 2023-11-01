@@ -60,7 +60,7 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
 
       x5[[i]] <- ggplot(d2, aes(x, y, group = group, color = as.factor(group))) +
         geom_line() +
-        labs(x = "Profile Position", y = "Diameter Length", color = "Group")+
+        labs(x = "Profile Position", y = "Diameter Length", color = "Group") +
         coord_fixed(ratio = 1, xlim = NULL, ylim = NULL, expand = TRUE, clip = "on")
 
       profileumapdata <- diameterumapdata
@@ -80,7 +80,7 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
 
       x5[[i]] <- ggplot(r2, aes(x, y, group = group, color = as.factor(group))) +
         geom_line() +
-        labs(x = "Profile Position", y = "Radius Length", color = "Group")+
+        labs(x = "Profile Position", y = "Radius Length", color = "Group") +
         coord_fixed(ratio = 1, xlim = NULL, ylim = NULL, expand = TRUE, clip = "on")
 
       profileumapdata <- radiusumapdata
@@ -100,7 +100,7 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
 
       x5[[i]] <- ggplot(a2, aes(x, y, group = group, color = as.factor(group))) +
         geom_line() +
-        labs(x = "Profile Position", y = "Angle", color = "Group")+
+        labs(x = "Profile Position", y = "Angle", color = "Group") +
         coord_fixed(ratio = 1, xlim = NULL, ylim = NULL, expand = TRUE, clip = "on")
       profileumapdata <- angleumapdata
       Xumap_title <- "Angle Umap Variable 1"
@@ -120,7 +120,7 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
       facet_wrap(clusters_factor) +
       scale_color_discrete() +
       theme_minimal() +
-      theme(legend.position = "none")+
+      theme(legend.position = "none") +
       coord_fixed(ratio = 1, xlim = NULL, ylim = NULL, expand = TRUE, clip = "on")
 
 
@@ -129,7 +129,7 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
       labs(title = title, x = "whole dataset variable 1", y = "whole dataset variable 2", colour = "clusters") +
       scale_color_discrete() +
       theme_minimal() +
-      theme(legend.position = "none")+
+      theme(legend.position = "none") +
       coord_fixed(ratio = 1, xlim = NULL, ylim = NULL, expand = TRUE, clip = "on")
     graph1 <- gromph2 + gromph1
 
@@ -140,20 +140,20 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
       theme(legend.position = "none") +
       scale_color_discrete() +
       theme_minimal() +
-      theme(legend.position = "none")+
+      theme(legend.position = "none") +
       coord_fixed(ratio = 1, xlim = NULL, ylim = NULL, expand = TRUE, clip = "on")
     gromph4 <- ggplot(data = profileumapcluster, aes(V1, V2, color = clusters_factor)) +
       geom_point() +
       labs(title = "UMAP on overall profile", x = "UMAP1", y = "UMAP2", colour = "clusters") +
       scale_color_discrete() +
       theme_minimal() +
-      theme(legend.position = "none")+
+      theme(legend.position = "none") +
       coord_fixed(ratio = 1, xlim = NULL, ylim = NULL, expand = TRUE, clip = "on")
     graph2 <- gromph4 + gromph3
 
-    Graphtext<- Make_region_text(title = title)
+    Graphtext <- Make_region_text(title = title)
 
-    graphs[[i]] <- list(graph1 = graph1, graph2 = graph2, graph3 = x5[[i]], graph4 = miniumapgraphs[[i]], graph5 = Cluster_consensus_images[[i]],text1 = Graphtext[1],text2 = Graphtext[2],text3 = Graphtext[3],text4 = Graphtext[4],text5 = Graphtext[5])
+    graphs[[i]] <- list(graph1 = graph1, graph2 = graph2, graph3 = x5[[i]], graph4 = miniumapgraphs[[i]], graph5 = Cluster_consensus_images[[i]], text1 = Graphtext[1], text2 = Graphtext[2], text3 = Graphtext[3], text4 = Graphtext[4], text5 = Graphtext[5])
     print(paste(i, "/", length(clusters)))
   }
 
