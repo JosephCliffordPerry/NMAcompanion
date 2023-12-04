@@ -44,7 +44,8 @@ comparisongraphviewerbuilder <- function(testgraphlist, clusters, data, hamming_
           "Morphotypes",
           mainPanel(
             selectInput("morphoSection", "Select Morphotype Section", choices = 1:(length(hamming_consensus))),
-            plotOutput("morphoGraph1")
+            plotOutput("morphoGraph1"),
+            verbatimTextOutput("table_bable")
           )
         )
       )
@@ -136,6 +137,9 @@ comparisongraphviewerbuilder <- function(testgraphlist, clusters, data, hamming_
 
       output$morphoGraph1 <- renderPlot({
         morpho_graphs_section[["graph1"]]
+      })
+      output$table_bable <- renderPrint({
+        morpho_graphs_section[["table_bable"]]
       })
     })
   })

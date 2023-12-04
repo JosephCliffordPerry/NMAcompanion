@@ -97,6 +97,10 @@ get.dip.test.regions <- function(data, dip.test.alpha = 0.05, is.profile = TRUE)
     result <- data[diptest.vals]
     names(result) <- paste0(data.name, which(diptest.vals) - 1)
   }
+   if (as.numeric(gsub("\\D", "", rownames(result[[1]][1, , drop = FALSE]))) == 1 & as.numeric(gsub("\\D", "", rownames(result[[length(result)]][nrow(result[[length(result)]]), , drop = FALSE]))) == nrow(result[[length(result)]])) {
+     result_df <- as.data.frame(append(result[1], result[length(result)]))
 
+  }
   result
 }
+
