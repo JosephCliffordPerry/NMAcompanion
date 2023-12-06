@@ -99,7 +99,8 @@ get.dip.test.regions <- function(data, dip.test.alpha = 0.05, is.profile = TRUE)
   }
    if (as.numeric(gsub("\\D", "", rownames(result[[1]][1, , drop = FALSE]))) == 1 & as.numeric(gsub("\\D", "", rownames(result[[length(result)]][nrow(result[[length(result)]]), , drop = FALSE]))) == nrow(result[[length(result)]])) {
      result_df <- as.data.frame(append(result[1], result[length(result)]))
-
+     result[[1]]<- result_df
+     result[[length(result)]]<- NULL
   }
   result
 }
