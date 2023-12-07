@@ -106,8 +106,10 @@ targeted_profile_analysis <- function(Data, verbose_output = FALSE, make_whole_d
   diameter_clusters <- targeted_profile_clusterer(selected_datasets = selected_diameter_data)
   radius_clusters <- targeted_profile_clusterer(selected_datasets = selected_radius_data)
   other_clusters <- targeted_profile_clusterer(selected_datasets = selected_other_data)
-  clusters <- c(angle_clusters, diameter_clusters, radius_clusters, other_clusters)
-  # clusters <-targeted_profile_clusterer(selected_datasets = selected_datasets)
+  dataset_names <- c("angle_clusters"," diameter_clusters","radius_clusters", "other_clusters")
+
+  clusters <- combine_clusters(dataset_names)
+   # clusters <-targeted_profile_clusterer(selected_datasets = selected_datasets)
   # umapping
   umaplist <- Umaping(originaldata = data, angle_data = angle_data, diameter_data = diameter_data, radius_data = radius_data)
   miniumaps <- make_miniumaps(clusters = clusters)
