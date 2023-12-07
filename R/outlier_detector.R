@@ -28,7 +28,7 @@ for (i in 1:length(pvaluevector)) {
 if (pvaluevector[i]<0.05) {
 boolean_dataframe[indexvector[i],columnumber] <- TRUE
 }
-
+which()
 }
 
 }
