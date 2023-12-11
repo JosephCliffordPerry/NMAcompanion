@@ -2,7 +2,7 @@
 #'
 #' @importFrom ggplot2 scale_color_discrete
 #' @importFrom ggplot2 theme_minimal
-comparisonplotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radius_data, umaplist, selected_datasets, miniumapgraphs, Cluster_consensus_images,table_list) {
+comparisonplotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radius_data, umaplist, selected_datasets, miniumapgraphs, Cluster_consensus_images, table_list) {
   # make umap dataframes
   umapo <- umaplist[1]
   angleumap <- umaplist[2]

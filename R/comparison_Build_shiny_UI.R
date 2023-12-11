@@ -1,7 +1,6 @@
 # comparison Shiny UI builder
 comparisongraphviewerbuilder <- function(testgraphlist, clusters, data, hamming_consensus) {
   ui <- shinyUI(
-
     fluidPage(
       titlePanel("Graph Viewer"),
       tabsetPanel(
@@ -89,7 +88,7 @@ comparisongraphviewerbuilder <- function(testgraphlist, clusters, data, hamming_
       output$text5 <- renderPrint({
         graphs_section[["text5"]]
       })
-       output$table1 <- renderPrint({
+      output$table1 <- renderPrint({
         graphs_section[["table1"]]
       })
 

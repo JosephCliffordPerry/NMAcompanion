@@ -1,5 +1,3 @@
-
-
 # Data prep
 make_comparison_data <- function(...) {
   # Combine all datasets using do.call and rbind
@@ -9,32 +7,32 @@ make_comparison_data <- function(...) {
 }
 
 # Cluster id + dataset id table maker
-make_comparison_tables<-function(clusters,data){
- datasetlist<-list()
- dataset_table<-as.data.frame(table(data$Dataset_id))
-   for (j in 1:length(unique(data$Dataset_id))) {
-     datasetlist[[dataset_table[j,1]]]<-dataset_table[j,2]
+make_comparison_tables <- function(clusters, data) {
+  datasetlist <- list()
+  dataset_table <- as.data.frame(table(data$Dataset_id))
+  for (j in 1:length(unique(data$Dataset_id))) {
+    datasetlist[[dataset_table[j, 1]]] <- dataset_table[j, 2]
   }
-  table_list<-list()
-  for(i in 1:length(clusters)){
-    cluster_table<-as.data.frame(table(clusters[[i]][["Clustering_file"]]))
+  table_list <- list()
+  for (i in 1:length(clusters)) {
+    cluster_table <- as.data.frame(table(clusters[[i]][["Clustering_file"]]))
 
 
-    clusdataid<-cbind(clusters[[i]][["Clustering_file"]],data$Dataset_id)
-    clusdataiddf<-as.data.frame(clusdataid)
-    clusdataidtable<-table(clusdataiddf)
-    comparison_df<-as.data.frame(clusdataidtable)
+    clusdataid <- cbind(clusters[[i]][["Clustering_file"]], data$Dataset_id)
+    clusdataiddf <- as.data.frame(clusdataid)
+    clusdataidtable <- table(clusdataiddf)
+    comparison_df <- as.data.frame(clusdataidtable)
     colnames(comparison_df) <- c("Cluster", "Dataset", "Freq")
-    #dataset_vector
-    dataset_vector<-as.numeric(datasetlist[as.integer(comparison_df$Dataset)])
+    # dataset_vector
+    dataset_vector <- as.numeric(datasetlist[as.integer(comparison_df$Dataset)])
     # Calculate the percentage of each dataset for each cluster
     comparison_df$Percentage_Of_Dataset <- ((comparison_df$Freq) / dataset_vector) * 100
     # Calculate the percentage of the cluster for each dataset
-    comparison_df$Percentage_Of_Cluster <- ((comparison_df$Freq) / cluster_table[(as.numeric(comparison_df$Cluster)),2]) * 100
+    comparison_df$Percentage_Of_Cluster <- ((comparison_df$Freq) / cluster_table[(as.numeric(comparison_df$Cluster)), 2]) * 100
 
-    table_list[[i]]<-kable(comparison_df)
-    }
-return(table_list)
+    table_list[[i]] <- kable(comparison_df)
+  }
+  return(table_list)
 }
 # targeted profile comparison
 targeted_profile_comparison <- function(comparison_data, verbose_output = FALSE, make_whole_dataset_tab = TRUE) {
@@ -120,14 +118,15 @@ targeted_profile_comparison <- function(comparison_data, verbose_output = FALSE,
   # makes consensus images
 
   Cluster_consensus_images <- make_consensus_for_all_clusters(clusters, outlinedata = outlinedata)
- #make comparison
-  table_list<-make_comparison_tables(clusters = clusters,data = data)
+  # make comparison
+  table_list <- make_comparison_tables(clusters = clusters, data = data)
 
-   # creates list of graphs and umaps
+  # creates list of graphs and umaps
   testgraphlist2 <- comparisonplotbuilder3(
     clusters = clusters, originaldata = data, angle_data = angle_data, diameter_data = diameter_data, radius_data = radius_data,
-    umaplist = umaplist, selected_datasets = selected_datasets, miniumapgraphs = miniumapgraphs, Cluster_consensus_images = Cluster_consensus_images
-  ,table_list = table_list)
+    umaplist = umaplist, selected_datasets = selected_datasets, miniumapgraphs = miniumapgraphs, Cluster_consensus_images = Cluster_consensus_images,
+    table_list = table_list
+  )
 
   if (make_whole_dataset_tab) {
     # #add a entire dataset clustered graph set
@@ -137,7 +136,7 @@ targeted_profile_comparison <- function(comparison_data, verbose_output = FALSE,
 
 
   # creates a popout to view the graphs
-    graphview <- comparisongraphviewerbuilder(testgraphlist = testgraphlist2, clusters = clusters, data = data, hamming_consensus = hamming_consensus)
+  graphview <- comparisongraphviewerbuilder(testgraphlist = testgraphlist2, clusters = clusters, data = data, hamming_consensus = hamming_consensus)
 
   # Creates the verbose output
   veboseoutput <- append(clusters, testgraphlist2)
@@ -148,4 +147,3 @@ targeted_profile_comparison <- function(comparison_data, verbose_output = FALSE,
     return(graphview)
   }
 }
-
