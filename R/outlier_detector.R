@@ -14,7 +14,7 @@
 # cluster on those consistent regions
 #
 # Use as a new distinct set of cluster identities
-
+#####################################################
 get_outlier_features <- function(profile_data) {
   boolean_matrix <- matrix(FALSE, nrow = nrow(profile_data), ncol = ncol(profile_data))
   for (columnumber in 1:ncol(profile_data)) {
@@ -29,7 +29,7 @@ get_outlier_features <- function(profile_data) {
   }
   return(boolean_matrix)
 }
-
+#############################################################
 make_outlier_cluster <- function(profile_data, profile_type) {
   boolean_matrix <- get_outlier_features(profile_data)
   tboolean <- which(boolean_matrix, arr.ind = TRUE)
@@ -46,7 +46,7 @@ make_outlier_cluster <- function(profile_data, profile_type) {
 
 
 
-
+#####################################
 
 
 
@@ -60,8 +60,46 @@ make_outlier_data <- function() {
   outliercluster[as.numeric(outlier_rows), 2] <- 2
 
   profile_outliers <- profile_data[as.numeric(outlier_rows), ]
-  variance_vector <- c()
+  outlier_sd_vector <- c()
   for (i in 1:length(profile_outliers)) {
-    variance_vector[i] <- var(profile_outliers[i])
+   outlier_sd_vector[i] <- sd(profile_outliers[[i]])
   }
+  profile_sd_vector <- c()
+  for (q in 1:length(profile_data)) {
+   profile_sd_vector[q] <- sd(profile_data[[i]])
+  }
+lowsd_Outlier_features<-which(x = outlier_sd_vector <= max(profile_sd_vector))
+lowsd_Outliers<-profile_outliers[lowsd_Outlier_features]
+control<-profile_data[lowsd_Outlier_features]
+is_outlier_normal_vector <-c()
+is_control_normal_vector <- c()
+for (j in 1:length(lowsd_Outlier_features)) {
+is_outlier_normal_vector[j]<-shapiro.test(lowsd_Outlier[[j]])[["p.value"]]<=0.05
+is_control_normal_vector[j]<-shapiro.test(control[[j]])[["p.value"]]<=0.05
+#false = normally distributed
 }
+normal_columns <-lowsd_Outlier_features[which(!is_outlier_normal_vector & !is_control_normal_vector)]
+
+abnormal_columns <- lowsd_Outlier_features[which(is_outlier_normal_vector & is_control_normal_vector)]
+if (length(normal_columns)>1) {
+
+
+normal_outliers <-profile_outliers[normal_columns]
+normal_outlier_control <- profile_data[normal_columns]
+normal_significantly_different_vector<-c()
+for(c in 1:length(normal_columns))
+  normal_significantly_different_vector[c]<-t.test(normal_outliers[[c]],normal_outlier_control[[c]])<=0.05
+}
+if (length(abnormal_columns)>1) {
+
+
+  abnormal_outliers <-profile_outliers[abnormal_columns]
+  abnormal_outlier_control <- profile_data[abnormal_columns]
+  abnormal_significantly_different_vector<-c()
+  for(c in 1:length(abnormal_columns)){
+    normal_significantly_different_vector[c]<-wilcox.test(abnormal_outliers[[c]],abnormal_outlier_control[[c]])<=0.05
+}
+
+}
+
+ }
