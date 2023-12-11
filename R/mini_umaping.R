@@ -1,19 +1,17 @@
 make_miniumaps <- function(clusters) {
   miniumaps <- list()
   for (i in 1:length(clusters)) {
-
     cluster_column <- clusters[[i]]$Clustering_file
     other_columns <- as.data.frame(clusters[[1]][, -which(names(clusters[[1]]) == "Clustering_file")])
-    if(is.numeric(other_columns[[1]])) {
-    cat("umap", i, "/", length(clusters), "started", "....")
-    umap_result <- umap(other_columns)
-    cat("umap", i, "/", length(clusters), "finished", ".....")
-    miniumaps[[i]] <- umap_result
-  }else{
-    cat("umap not applicable")
-    miniumaps[[i]] <-"umap not applicable"
-
-  }
+    if (is.numeric(other_columns[[1]])) {
+      cat("umap", i, "/", length(clusters), "started", "....")
+      umap_result <- umap(other_columns)
+      cat("umap", i, "/", length(clusters), "finished", ".....")
+      miniumaps[[i]] <- umap_result
+    } else {
+      cat("umap not applicable")
+      miniumaps[[i]] <- "umap not applicable"
+    }
   }
   cat("miniumaps complete")
   return(miniumaps)

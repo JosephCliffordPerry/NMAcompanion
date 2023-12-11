@@ -24,8 +24,13 @@ targeted_profile_clusterer <- function(selected_datasets) {
     print(paste(i, "/", length(selected_datasets)))
     # Scale the selected columns
     scaleddata <- scale(dataset)
-    # sample out the maximum amount of data that can be processed with  fviz_nbclust
-    sampled_data <- as.data.frame(scaleddata[sample(nrow(dataset), 1000), ])
+    if (nrow(dataset) >= 1000) {
+      # sample out the maximum amount of data that can be processed with  fviz_nbclust
+      sampled_data <- as.data.frame(scaleddata[sample(nrow(dataset), 1000), ])
+    } else {
+      sampled_data <- scaleddata
+    }
+
     # Perform clustering and determine the optimal number of clusters
     clustersSil <- fviz_nbclust(sampled_data, FUNcluster = kmeans, method = "silhouette")
 

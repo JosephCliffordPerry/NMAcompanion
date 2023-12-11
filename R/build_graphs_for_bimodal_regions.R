@@ -17,7 +17,7 @@ plotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radi
   graphs <- list()
   x5 <- list()
 
-  for (i in 1:length(clusters)) {
+  for (i in 1:(length(clusters) - 3)) {
     X <- as.data.frame(names(clusters[[i]]))
 
     x2 <- X[grepl("Diameter_", X)]

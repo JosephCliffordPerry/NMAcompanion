@@ -1,12 +1,12 @@
-
-#outlier processing for potentially valuable rare phenotypes
+# outlier processing for potentially valuable rare phenotypes
 #
-#find outliers
+# find outliers
 # using profile points to find variable outliers with interquartile ranges to find outlier groupings for each dataset
 # itterate through profile
 # add outlier rows as booleen logic to corresponding column in booleen dataframe
+# this can then be added to clustering to search for rare phenotypes
 #
-#take rows with consistent number of outlier angles
+# take rows with consistent number of outlier angles
 #
 # find consitencies within the outlier data
 # compare to the overall data find distinct consistencies
@@ -30,15 +30,16 @@ get_outlier_features <- function(profile_data) {
   return(boolean_matrix)
 }
 
-make_outlier_cluster <- function(profile_data) {
+make_outlier_cluster <- function(profile_data, profile_type) {
   boolean_matrix <- get_outlier_features(profile_data)
   tboolean <- which(boolean_matrix, arr.ind = TRUE)
   outlier_threshold <- nrow(profile_data) / 20
   booleancount <- table(tboolean[, 1])
   outliercluster <- cbind(data$CellID, 1)
   outlier_rows <- names(head(sort(booleancount, decreasing = TRUE), outlier_threshold))
-  outliercluster[as.numeric(outlier_rows),2 ] <- 2
-  outliercluster<-as.data.frame(outliercluster)
+  outliercluster[as.numeric(outlier_rows), 2] <- 2
+  outliercluster <- as.data.frame(outliercluster)
+  names(outliercluster)[names(outliercluster) == "V1"] <- paste0(profile_type, " ", "outliers")
   names(outliercluster)[names(outliercluster) == "V2"] <- "Clustering_file"
   return(list(outliercluster))
 }
@@ -50,18 +51,17 @@ make_outlier_cluster <- function(profile_data) {
 
 
 
-make_outlier_data<-function(){
-tboolean<-which(boolean_matrix, arr.ind = TRUE)
-outlier_threshold<-nrow(data)/20
-booleancount<-table(tboolean[,1])
-outliercluster<-cbind(data$CellID,1)
-outlier_rows <- names(head(sort(booleancount, decreasing = TRUE), outlier_threshold))
-outliercluster[as.numeric(outlier_rows),2]<-2
+make_outlier_data <- function() {
+  tboolean <- which(boolean_matrix, arr.ind = TRUE)
+  outlier_threshold <- nrow(data) / 20
+  booleancount <- table(tboolean[, 1])
+  outliercluster <- cbind(data$CellID, 1)
+  outlier_rows <- names(head(sort(booleancount, decreasing = TRUE), outlier_threshold))
+  outliercluster[as.numeric(outlier_rows), 2] <- 2
 
-profile_outliers<- profile_data[as.numeric(outlier_rows),]
-variance_vector<-c()
-for (i in 1:length(profile_outliers)) {
-variance_vector[i]<-var(profile_outliers[i])
-}
-
+  profile_outliers <- profile_data[as.numeric(outlier_rows), ]
+  variance_vector <- c()
+  for (i in 1:length(profile_outliers)) {
+    variance_vector[i] <- var(profile_outliers[i])
+  }
 }
