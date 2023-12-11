@@ -5,7 +5,7 @@ make_randindex_data <- function(data, clusters) {
   clusties <- data$CellID
 
   for (i in 1:length(clusters)) {
-    x <- clusters[[i]][["Clustering_file"]]
+    x <- as.numeric(clusters[[i]][["Clustering_file"]])
     # Assign a unique name to x based on the cluster index (i)
     col_name <- paste0("Clustering_", i)
     # Create a new data frame with the same number of rows as data
