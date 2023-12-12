@@ -107,7 +107,7 @@ targeted_profile_analysis <- function(Data, verbose_output = FALSE, make_whole_d
   # clusters data
   angle_clusters <- targeted_profile_clusterer(selected_datasets = selected_angle_data)
   angle_outliers <- make_outlier_cluster(angle_data, "angle")
-  if (exists("angle_outlier_biased")) {
+  if (NULL != angle_outlier_biased) {
     biased_angle_clusters <- targeted_profile_clusterer(selected_datasets = angle_outlier_biased)
   }
   diameter_clusters <- targeted_profile_clusterer(selected_datasets = selected_diameter_data)
