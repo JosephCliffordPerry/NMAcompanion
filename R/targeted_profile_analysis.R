@@ -107,17 +107,17 @@ targeted_profile_analysis <- function(Data, verbose_output = FALSE, make_whole_d
   # clusters data
   angle_clusters <- targeted_profile_clusterer(selected_datasets = selected_angle_data)
   angle_outliers <- make_outlier_cluster(angle_data, "angle")
-  if (NULL != angle_outlier_biased) {
+  if (length(angle_outlier_biased)>0) {
     biased_angle_clusters <- targeted_profile_clusterer(selected_datasets = angle_outlier_biased)
   }
   diameter_clusters <- targeted_profile_clusterer(selected_datasets = selected_diameter_data)
   diameter_outliers <- make_outlier_cluster(diameter_data, "diameter")
-  if (exists("diameter_outlier_biased")) {
+  if (length(diameter_outlier_biased)>0) {
     biased_diameter_clusters <- targeted_profile_clusterer(selected_datasets = diameter_outlier_biased)
   }
   radius_clusters <- targeted_profile_clusterer(selected_datasets = selected_radius_data)
   radius_outliers <- make_outlier_cluster(radius_data, "radius")
-  if (exists("radius_outlier_biased")) {
+  if (length(radius_outlier_biased)>0) {
   biased_radius_clusters <- targeted_profile_clusterer(selected_datasets = radius_outlier_biased)
   }
   other_clusters <- targeted_profile_clusterer(selected_datasets = selected_other_data)

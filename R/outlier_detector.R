@@ -72,7 +72,8 @@ lowsd_Outlier_features<-which(x = outlier_sd_vector <= max(profile_sd_vector))
 
 lowsd_Outliers<-profile_outliers[lowsd_Outlier_features]
 unsampled_control<-profile_data[lowsd_Outlier_features]
-control<-unsampled_control[sample(nrow(unsampled_control),5000),]
+if (nrow(unsampled_control)>5000){control<-unsampled_control[sample(nrow(unsampled_control),5000),]
+}else {control<- unsampled_control}
 is_outlier_normal_vector <-c()
 is_control_normal_vector <- c()
 for (j in 1:length(lowsd_Outlier_features)) {
