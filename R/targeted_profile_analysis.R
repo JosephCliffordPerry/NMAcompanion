@@ -33,6 +33,7 @@
 #' @importFrom shiny shinyApp
 #' @importFrom shiny tabsetPanel
 #' @importFrom shiny tabPanel
+#' @importFrom shiny tags
 #' @importFrom stringr str_extract_all
 #' @importFrom dplyr %>%
 #' @importFrom dplyr starts_with
