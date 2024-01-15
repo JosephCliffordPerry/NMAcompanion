@@ -134,7 +134,7 @@ targeted_profile_analysis <- function(Data, verbose_output = FALSE, make_whole_d
 
   # calculate rand index matrix
   rand_data <- make_randindex_data(data = data, clusters = clusters)
-  rand_matrix <- calculate_rand_indexes(rand_data)
+     rand_matrix <- calculate_rand_indexes(rand_data)
   # calculate IDs from rand index confidence groups
   confidence_groups <- give_featureidentities(rand_matrix)
   ID_list <- ID_creation(confidence_groups[["high_confidence_grouping"]])

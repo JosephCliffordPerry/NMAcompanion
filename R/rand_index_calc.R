@@ -9,7 +9,7 @@ make_randindex_data <- function(data, clusters) {
     # Assign a unique name to x based on the cluster index (i)
     col_name <- paste0("Clustering_", i)
     # Create a new data frame with the same number of rows as data
-    x_df <- data.frame(x = x)
+    x_df <- as.data.frame(x = x)
 
     # Rename the column to col_name
     colnames(x_df) <- col_name
