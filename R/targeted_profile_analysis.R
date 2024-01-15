@@ -105,23 +105,32 @@ targeted_profile_analysis <- function(Data, verbose_output = FALSE, make_whole_d
   radius_outlier_biased <- make_outlier_data(radius_data, "radius")
 
   # clusters data
+  #this section could be greatly improved by moving the if cases to the functions
+  if (length(selected_angle_data)>0) {
   angle_clusters <- targeted_profile_clusterer(selected_datasets = selected_angle_data)
+  }
   angle_outliers <- make_outlier_cluster(angle_data, "angle")
   if (length(angle_outlier_biased)>0) {
     biased_angle_clusters <- targeted_profile_clusterer(selected_datasets = angle_outlier_biased)
   }
+  if (length(selected_diameter_data)>0) {
   diameter_clusters <- targeted_profile_clusterer(selected_datasets = selected_diameter_data)
+  }
   diameter_outliers <- make_outlier_cluster(diameter_data, "diameter")
   if (length(diameter_outlier_biased)>0) {
     biased_diameter_clusters <- targeted_profile_clusterer(selected_datasets = diameter_outlier_biased)
   }
+  if (length(selected_radius_data)>0) {
   radius_clusters <- targeted_profile_clusterer(selected_datasets = selected_radius_data)
+  }
   radius_outliers <- make_outlier_cluster(radius_data, "radius")
   if (length(radius_outlier_biased)>0) {
   biased_radius_clusters <- targeted_profile_clusterer(selected_datasets = radius_outlier_biased)
   }
+  if(length(selected_other_data)>0){
   other_clusters <- targeted_profile_clusterer(selected_datasets = selected_other_data)
-  dataset_names <- c("angle_clusters", "diameter_clusters", "radius_clusters", "other_clusters","angle_outlier_biased","diameter_outlier_biased","radius_outlier_biased", "angle_outliers", "diameter_outliers", "radius_outliers")
+  }
+  dataset_names <- c("angle_clusters", "diameter_clusters", "radius_clusters", "other_clusters","angle_outliers","diameter_outliers", "radius_outliers","biased_angle_clusters"," biased_diameter_clusters","biased_radius_clusters")
 
   clusters <- combine_clusters(dataset_names)
   # clusters <-targeted_profile_clusterer(selected_datasets = selected_datasets)
@@ -129,12 +138,12 @@ targeted_profile_analysis <- function(Data, verbose_output = FALSE, make_whole_d
   umaplist <- Umaping(originaldata = data, angle_data = angle_data, diameter_data = diameter_data, radius_data = radius_data)
   miniumaps <- make_miniumaps(clusters = clusters)
   # makes graphs of umaps of individual multimodal regions
-  miniumapgraphs <- make_miniumap_graphlist(selected_datasets = selected_datasets, miniumaps = miniumaps, clusters = clusters)
+  miniumapgraphs <- make_miniumap_graphlist(miniumaps = miniumaps, clusters = clusters)
 
 
   # calculate rand index matrix
   rand_data <- make_randindex_data(data = data, clusters = clusters)
-     rand_matrix <- calculate_rand_indexes(rand_data)
+  rand_matrix <- calculate_rand_indexes(rand_data)
   # calculate IDs from rand index confidence groups
   confidence_groups <- give_featureidentities(rand_matrix)
   ID_list <- ID_creation(confidence_groups[["high_confidence_grouping"]])
@@ -150,7 +159,7 @@ targeted_profile_analysis <- function(Data, verbose_output = FALSE, make_whole_d
   # creates list of graphs and umaps
   testgraphlist2 <- plotbuilder3(
     clusters = clusters, originaldata = data, angle_data = angle_data, diameter_data = diameter_data, radius_data = radius_data,
-    umaplist = umaplist, selected_datasets = selected_datasets, miniumapgraphs = miniumapgraphs, Cluster_consensus_images = Cluster_consensus_images
+    umaplist = umaplist, miniumapgraphs = miniumapgraphs, Cluster_consensus_images = Cluster_consensus_images
   )
 
   if (make_whole_dataset_tab) {
@@ -172,3 +181,4 @@ targeted_profile_analysis <- function(Data, verbose_output = FALSE, make_whole_d
     return(graphview)
   }
 }
+

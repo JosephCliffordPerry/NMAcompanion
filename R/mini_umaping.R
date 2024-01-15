@@ -45,10 +45,10 @@ make.miniumapgraph <- function(clusters, umap, graphtype) {
   graph1
 }
 
-make_miniumap_graphlist <- saveminiumap <- function(selected_datasets, miniumaps, clusters) {
+make_miniumap_graphlist <- saveminiumap <- function( miniumaps, clusters) {
   miniumaplist <- list()
-  for (i in 1:length(selected_datasets)) {
-    miniumapgraph1 <- make.miniumapgraph(clusters = clusters[[i]][["Clustering_file"]], umap = miniumaps[[i]], graphtype = names(selected_datasets)[i])
+  for (i in 1:length(clusters)) {
+    miniumapgraph1 <- make.miniumapgraph(clusters = clusters[[i]][["Clustering_file"]], umap = miniumaps[[i]], graphtype = names(clusters)[i])
 
     miniumaplist[[i]] <- miniumapgraph1
   }
