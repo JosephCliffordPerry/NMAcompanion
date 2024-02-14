@@ -157,7 +157,7 @@ Make_hamming_seeds <- function(df, data) {
     mutate(UUIDs_length = sapply(UUIDs, length))
   orderedresult <- result[order(-result$UUIDs_length), ]
   # checks if the dataset needs condensing
-  if (nrow(orderedresult) >= 16) {
+  if (nrow(orderedresult) > 16) {
     # amount of numbers needed to cover 25% of the cells in the dataset
     dataset_covered <- 1
     # amount of data
