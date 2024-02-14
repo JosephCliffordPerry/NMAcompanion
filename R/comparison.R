@@ -100,7 +100,7 @@ targeted_profile_comparison <- function(comparison_data, verbose_output = FALSE,
   umaplist <- Umaping(originaldata = data, angle_data = angle_data, diameter_data = diameter_data, radius_data = radius_data)
   miniumaps <- make_miniumaps(clusters = clusters)
   # makes graphs of umaps of individual multimodal regions
-  miniumapgraphs <- make_miniumap_graphlist(selected_datasets = selected_datasets, miniumaps = miniumaps, clusters = clusters)
+  miniumapgraphs <- make_miniumap_graphlist(miniumaps = miniumaps, clusters = clusters)
 
 
   # calculate rand index matrix
