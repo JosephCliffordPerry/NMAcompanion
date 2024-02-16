@@ -2,7 +2,7 @@
 #'
 #' @importFrom ggplot2 scale_color_discrete
 #' @importFrom ggplot2 theme_minimal
-comparisonplotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radius_data, umaplist, selected_datasets, miniumapgraphs, Cluster_consensus_images, table_list) {
+comparisonplotbuilder3 <- function(clusters, originaldata, angle_data, diameter_data, radius_data, umaplist, miniumapgraphs, Cluster_consensus_images, table_list) {
   # make umap dataframes
   umapo <- umaplist[1]
   angleumap <- umaplist[2]
@@ -23,7 +23,7 @@ comparisonplotbuilder3 <- function(clusters, originaldata, angle_data, diameter_
     x2 <- X[grepl("Diameter_", X)]
     x3 <- X[grepl("Radius", X)]
     x4 <- X[grepl("Angle", X)]
-    title <- paste(names(selected_datasets[[i]]), collapse = " ")
+    title <- paste(names(clusters[[i]]), collapse = " ")
 
     words <- str_extract_all(title, "\\b\\w+\\b")[[1]]
     # Extract words and numbers

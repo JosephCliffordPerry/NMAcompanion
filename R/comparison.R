@@ -28,7 +28,8 @@ make_comparison_tables <- function(clusters, data) {
     # Calculate the percentage of each dataset for each cluster
     comparison_df$Percentage_Of_Dataset <- ((comparison_df$Freq) / dataset_vector) * 100
     # Calculate the percentage of the cluster for each dataset
-    comparison_df$Percentage_Of_Cluster <- ((comparison_df$Freq) / cluster_table[(as.numeric(comparison_df$Cluster)), 2]) * 100
+    vector<-as.vector(comparison_df$Cluster)
+    comparison_df$Percentage_Of_Cluster <- ((comparison_df$Freq) / cluster_table[vector,2 ]) * 100
 
     table_list[[i]] <- kable(comparison_df)
   }
@@ -73,26 +74,48 @@ targeted_profile_comparison <- function(comparison_data, verbose_output = FALSE,
     select(-matches("Radius_profile_|Diameter_profile_|Angle_profile_|pixels|seg|Seg|suspected_detection_error|Outline_|Dataset"))
 
 
-
-
   # checks all portions for bimodality
   selected_angle_data <- get.dip.test.regions(angle_data)
   selected_diameter_data <- get.dip.test.regions(diameter_data)
   selected_radius_data <- get.dip.test.regions(radius_data)
   selected_other_data <- monohartigansdipper(dataset = other_data)
 
-
   selected_datasets <- c(selected_angle_data, selected_diameter_data, selected_radius_data, selected_other_data)
 
+  # select data biased towards the outliers
+  angle_outlier_biased <- make_outlier_data(angle_data, "angle")
+  diameter_outlier_biased <- make_outlier_data(diameter_data, "diameter")
+  radius_outlier_biased <- make_outlier_data(radius_data, "radius")
 
   # clusters data
-  angle_clusters <- targeted_profile_clusterer(selected_datasets = selected_angle_data)
-  diameter_clusters <- targeted_profile_clusterer(selected_datasets = selected_diameter_data)
-  radius_clusters <- targeted_profile_clusterer(selected_datasets = selected_radius_data)
-  other_clusters <- targeted_profile_clusterer(selected_datasets = selected_other_data)
-  # clusters <- list(angle_clusters, diameter_clusters, radius_clusters, other_clusters)
-  # makes a cluster dataset that can deal with clusterings having no multimodal regions
-  dataset_names <- c("angle_clusters", "diameter_clusters", "radius_clusters", "other_clusters")
+  #this section could be greatly improved by moving the if cases to the functions
+  if (length(selected_angle_data)>0) {
+    angle_clusters <- targeted_profile_clusterer(selected_datasets = selected_angle_data)
+  }
+  angle_outliers <- make_outlier_cluster(angle_data, "angle")
+  if (length(angle_outlier_biased)>0) {
+    biased_angle_clusters <- targeted_profile_clusterer(selected_datasets = angle_outlier_biased)
+  }
+  if (length(selected_diameter_data)>0) {
+    diameter_clusters <- targeted_profile_clusterer(selected_datasets = selected_diameter_data)
+  }
+  diameter_outliers <- make_outlier_cluster(diameter_data, "diameter")
+  if (length(diameter_outlier_biased)>0) {
+    biased_diameter_clusters <- targeted_profile_clusterer(selected_datasets = diameter_outlier_biased)
+  }
+  if (length(selected_radius_data)>0) {
+    radius_clusters <- targeted_profile_clusterer(selected_datasets = selected_radius_data)
+  }
+  radius_outliers <- make_outlier_cluster(radius_data, "radius")
+  if (length(radius_outlier_biased)>0) {
+    biased_radius_clusters <- targeted_profile_clusterer(selected_datasets = radius_outlier_biased)
+  }
+  if(length(selected_other_data)>0){
+    other_clusters <- targeted_profile_clusterer(selected_datasets = selected_other_data)
+  }
+  dataset_names <- c("angle_clusters", "diameter_clusters", "radius_clusters", "other_clusters","angle_outliers","diameter_outliers", "radius_outliers","biased_angle_clusters"," biased_diameter_clusters","biased_radius_clusters")
+
+
   clusters <- combine_clusters(dataset_names)
 
   # clusters <-targeted_profile_clusterer(selected_datasets = selected_datasets)
@@ -124,7 +147,7 @@ targeted_profile_comparison <- function(comparison_data, verbose_output = FALSE,
   # creates list of graphs and umaps
   testgraphlist2 <- comparisonplotbuilder3(
     clusters = clusters, originaldata = data, angle_data = angle_data, diameter_data = diameter_data, radius_data = radius_data,
-    umaplist = umaplist, selected_datasets = selected_datasets, miniumapgraphs = miniumapgraphs, Cluster_consensus_images = Cluster_consensus_images,
+    umaplist = umaplist, miniumapgraphs = miniumapgraphs, Cluster_consensus_images = Cluster_consensus_images,
     table_list = table_list
   )
 
@@ -147,3 +170,4 @@ targeted_profile_comparison <- function(comparison_data, verbose_output = FALSE,
     return(graphview)
   }
 }
+
