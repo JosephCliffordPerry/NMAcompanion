@@ -100,10 +100,6 @@ targeted_profile_analysis <- function(Data, verbose_output = FALSE, make_whole_d
   selected_other_data <- monohartigansdipper(dataset = other_data)
 
   selected_datasets <- c(selected_angle_data, selected_diameter_data, selected_radius_data, selected_other_data)
-  # select data biased towards the outliers
-  angle_outlier_biased <- make_outlier_data(angle_data, "angle")
-  diameter_outlier_biased <- make_outlier_data(diameter_data, "diameter")
-  radius_outlier_biased <- make_outlier_data(radius_data, "radius")
 
   # clusters data
   #this section could be greatly improved by moving the if cases to the functions
@@ -111,22 +107,17 @@ targeted_profile_analysis <- function(Data, verbose_output = FALSE, make_whole_d
   angle_clusters <- targeted_profile_clusterer(selected_datasets = selected_angle_data)
   }
   angle_outliers <- make_outlier_cluster(angle_data, "angle")
-  if (length(angle_outlier_biased)>0) {
-    biased_angle_clusters <- targeted_profile_clusterer(selected_datasets = angle_outlier_biased)
-  }
+
   if (length(selected_diameter_data)>0) {
   diameter_clusters <- targeted_profile_clusterer(selected_datasets = selected_diameter_data)
   }
   diameter_outliers <- make_outlier_cluster(diameter_data, "diameter")
-  if (length(diameter_outlier_biased)>0) {
-    biased_diameter_clusters <- targeted_profile_clusterer(selected_datasets = diameter_outlier_biased)
-  }
+
   if (length(selected_radius_data)>0) {
   radius_clusters <- targeted_profile_clusterer(selected_datasets = selected_radius_data)
   }
   radius_outliers <- make_outlier_cluster(radius_data, "radius")
-  if (length(radius_outlier_biased)>0) {
-  biased_radius_clusters <- targeted_profile_clusterer(selected_datasets = radius_outlier_biased)
+ofile_clusterer(selected_datasets = radius_outlier_biased)
   }
   if(length(selected_other_data)>0){
   other_clusters <- targeted_profile_clusterer(selected_datasets = selected_other_data)
