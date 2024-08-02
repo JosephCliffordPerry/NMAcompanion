@@ -4,7 +4,8 @@
 #' hartigans dippers.
 # function that takes a list of datasets itterates through them determining optimum clusters then clustering
 targeted_profile_clusterer <- function(selected_datasets) {
-  clusters <- list()
+
+   clusters <- list()
   # function that calculates the number of clusters from the WSS cluster number calculator
   WSSNclustercalc <- function(clusterWSS) {
     x <- clusterWSS[["data"]][["y"]]
@@ -17,6 +18,7 @@ targeted_profile_clusterer <- function(selected_datasets) {
   # Create an empty list to store the clustering results
   clustering_results <- list()
   set.seed(0800001066)
+if(length(selected_datasets)>0 & is.list(selected_datasets)){
   # Iterate through the selected datasets
   for (i in 1:length(selected_datasets)) {
     # Get the current dataset
@@ -55,7 +57,18 @@ targeted_profile_clusterer <- function(selected_datasets) {
 
     # Add the clustering results to the list
     clustering_results[[i]] <- clustering_data
+  }}else{
+    clustering_results[[1]] <-paste0("error")
+
+     if (length(selected_datasets == 0)) {
+       clustering_results[[1]] <-paste0(clustering_results[[1]]," no profiles in selected dataset")
+    }
+    if(is.list(selected_datasets)==FALSE){
+      clustering_results[[1]] <-paste0(clustering_results[[1]]," dataset is not a list")
+    }
   }
+
+
   return(clustering_results)
 }
 
