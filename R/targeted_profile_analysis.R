@@ -103,9 +103,9 @@ targeted_profile_analysis <- function(Data, verbose_output = FALSE, make_whole_d
 
   # clusters data
   #this section could be greatly improved by moving the if cases to the functions
-  if (length(selected_angle_data)>0) {
+
   angle_clusters <- targeted_profile_clusterer(selected_datasets = selected_angle_data)
-  }
+
   angle_outliers <- make_outlier_cluster(angle_data, "angle")
 
   if (length(selected_diameter_data)>0) {
@@ -113,7 +113,7 @@ targeted_profile_analysis <- function(Data, verbose_output = FALSE, make_whole_d
   }
   diameter_outliers <- make_outlier_cluster(diameter_data, "diameter")
 
-  if (length(selected_radius_data)>0) {
+
   radius_clusters <- targeted_profile_clusterer(selected_datasets = selected_radius_data)
   }
   radius_outliers <- make_outlier_cluster(radius_data, "radius")

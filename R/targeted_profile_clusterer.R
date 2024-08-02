@@ -67,7 +67,7 @@ if(length(selected_datasets)>0 & is.list(selected_datasets)){
       clustering_results[[1]] <-paste0(clustering_results[[1]]," dataset is not a list")
     }
   }
-
+names(clustering_results)<-names(selected_datasets)
 
   return(clustering_results)
 }

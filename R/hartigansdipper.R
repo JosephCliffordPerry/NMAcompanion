@@ -90,19 +90,20 @@ get.dip.test.regions <- function(data, dip.test.alpha = 0.05, is.profile = TRUE)
     result <- mapply(function(s, e) data[, s:e], start.indexes, end.indexes, SIMPLIFY = FALSE)
     if (length(result) > 0) {
       names(result) <- paste0(data.name, start.indexes - 1, ":", end.indexes - 1)
-    }
+      # check if start and end indexes overlap and if so combine
+      if (end.indexes[length(end.indexes)] == length(expanded.blocks) & start.indexes[1] == 1) {
+        result_df <- as.data.frame(append(result[length(result)],result[[1]]))
+        result[[1]]<- result_df
+        names(result)[1]<-paste0(names(result[1]),":",names(result[length(result)]))
+        result[[length(result)]]<- NULL
+      }
+      }
   } else {
     col1.name <- colnames(data)
     data.name <- gsub("_\\d+$", "", col1.name)[diptest.vals]
     result <- data[diptest.vals]
     names(result) <- paste0(data.name, which(diptest.vals) - 1)
   }
-# check if start and end indexes overlap and if so combine
-  if (end.indexes[length(end.indexes)] == length(expanded.blocks) & start.indexes[1] == 1) {
-     result_df <- as.data.frame(append(result[length(result)],result[[1]]))
-     result[[1]]<- result_df
-     names(result)[1]<-paste0(names(result[1]),":",names(result[length(result)]))
-     result[[length(result)]]<- NULL
-  }
+
   result
 }

@@ -1,5 +1,5 @@
 Package: NMAcompanion
-Title: What the Package Does (One Line, Title Case)
+Title: Analysing Nuclear Morphometric Profile Data 
 Version: 0.0.0.9000
 Authors@R: 
     person("Joe", "Perry", , "theduckofawe@gmail.com", role = c("aut", "cre"),
