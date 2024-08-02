@@ -97,10 +97,12 @@ get.dip.test.regions <- function(data, dip.test.alpha = 0.05, is.profile = TRUE)
     result <- data[diptest.vals]
     names(result) <- paste0(data.name, which(diptest.vals) - 1)
   }
-  #  if (as.numeric(gsub("\\D", "", rownames(result[[1]][1, , drop = FALSE]))) == 1 & as.numeric(gsub("\\D", "", rownames(result[[length(result)]][nrow(result[[length(result)]]), , drop = FALSE]))) == nrow(result[[length(result)]]) & length(result) > 1 ) {
-  #    result_df <- as.data.frame(append(result[1], result[length(result)]))
-  #    result[[1]]<- result_df
-  #    result[[length(result)]]<- NULL
-  # }
+# check if start and end indexes overlap and if so combine
+  if (end.indexes[length(end.indexes)] == length(expanded.blocks) & start.indexes[1] == 1) {
+     result_df <- as.data.frame(append(result[length(result)],result[[1]]))
+     result[[1]]<- result_df
+     names(result)[1]<-paste0(names(result[1]),":",names(result[length(result)]))
+     result[[length(result)]]<- NULL
+  }
   result
 }
