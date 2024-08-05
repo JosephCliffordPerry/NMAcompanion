@@ -19,7 +19,7 @@ make_randindex_data <- function(data, clusters) {
   return(clusties)
 }
 
-# rand_data<-make_randindex_data(data = data,clusters = clusters)
+#rand_data<-make_randindex_data(data = data,clusters = clusters)
 
 
 ######################
