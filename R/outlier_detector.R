@@ -29,6 +29,9 @@ get_outlier_features <- function(profile_data) {
   }
   return(boolean_matrix)
 }
+###################################################
+#Outlier ROI functions
+
 #############################################################
 make_outlier_cluster <- function(profile_data, profile_type) {
   boolean_matrix <- get_outlier_features(profile_data)
