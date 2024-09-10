@@ -34,4 +34,4 @@ hamming_consensus <- hamming_amalgamate_Clustering(data = data, rand_data = rand
 return(hamming_consensus)
 }
 
-#d<-Amalgamate_morphological_features(rawdata,clusters)
+

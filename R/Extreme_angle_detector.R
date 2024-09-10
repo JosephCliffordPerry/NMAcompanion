@@ -6,9 +6,7 @@
 
 Extreme_angle_detector <- function(data) {
   # cutting dataset into different portions based on content
-  dataset <- data %>% (dplyr::select(starts_with("Angle_profile_")))
-
-  # Iterate through the dataset row by row
+  dataset <- data %>% dplyr::select(starts_with("Angle_profile_"))  # Iterate through the dataset row by row
   for (i in 1:nrow(dataset)) {
     # Check if any value in the row is over 280
     if (any(dataset[i, ] > 280)) {
