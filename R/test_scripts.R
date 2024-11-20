@@ -1,5 +1,5 @@
 #testsuite scripts#
-#load("~data/NMA_toy_dataset.rda")
+~load("~data/NMA_toy_dataset.rda")
 run_tests<-FALSE
 if(run_tests){
 a<-get_regions_of_interest(data)

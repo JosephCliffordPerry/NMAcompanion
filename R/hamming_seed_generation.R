@@ -137,13 +137,6 @@
 
 
 
-
-
-
-
-#
-
-
 # hamming seeds with a combination of both size based
 # filtering and then filtering the remaining groups
 Make_hamming_seeds <- function(df, data) {
@@ -168,7 +161,7 @@ Make_hamming_seeds <- function(df, data) {
     }
     # ids that represent the largest groups covering 25% of cells in the dataset
     CharVectors <- unlist(orderedresult[1:(dataset_covered - 1), 1])
-    if (length(CharVectors) < 2) {
+    if (length(CharVectors) <= 2) {
       CharVectors <- unlist(orderedresult[1:(nrow(orderedresult)), 1])
     }
     # a matrix is made

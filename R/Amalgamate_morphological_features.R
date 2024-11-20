@@ -24,10 +24,11 @@ rand_data <- make_randindex_data(data = filtereddata, clusters = clusters)
 rand_matrix <- calculate_rand_indexes(rand_data)
 # calculate IDs from rand index confidence groups
 confidence_groups <- give_featureidentities(rand_matrix)
-ID_list <- ID_creation(confidence_groups[["high_confidence_grouping"]])
-ID_list2 <- ID_creation(confidence_groups[["medium_confidence_grouping"]])
-ID_list3 <- ID_creation(confidence_groups[["low_confidence_grouping"]])
-full_id_list <- c(ID_list, ID_list2, ID_list3)
+full_id_list<-list()
+full_id_list <-append(x = full_id_list,values = ID_creation(confidence_groups[["high_confidence_grouping"]]))
+full_id_list <- append(x = full_id_list,values = ID_creation(confidence_groups[["medium_confidence_grouping"]]))
+full_id_list <-append(x = full_id_list,values = ID_creation(confidence_groups[["low_confidence_grouping"]]))
+
 # make consensus images of hamming amalgamated confidence grouping ids
 outlinedata <- data %>% dplyr::select(starts_with("Outline_Oriented"))
 hamming_consensus <- hamming_amalgamate_Clustering(data = data, rand_data = rand_data, ID_list = full_id_list, outlinedata = outlinedata)

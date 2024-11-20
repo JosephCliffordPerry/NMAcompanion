@@ -29,6 +29,9 @@ give_featureidentities <- function(rand_matrix) {
 ###############
 ID_creation <- function(df) {
   result_list <- list() # Initialize an empty list to store the results
+  if (nrow(df) == 0) {
+    return(result_list) # Return an empty list if the dataframe is empty
+  }
 
   # Iterate through the rows of the dataframe
   for (i in 1:nrow(df)) {
