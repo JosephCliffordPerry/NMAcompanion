@@ -44,7 +44,7 @@ make_outlier_cluster <- function(profile_data, profile_type) {
   outliercluster <- as.data.frame(outliercluster)
   names(outliercluster)[names(outliercluster) == "V1"] <- paste0(profile_type, " ", "outliers")
   names(outliercluster)[names(outliercluster) == "V2"] <- "Clustering_file"
-  return(list(outliercluster))
+  return(outliercluster)
 }
 
 

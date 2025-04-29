@@ -164,12 +164,12 @@ Make_hamming_consensus_images <- function(cluster, outlinedata) {
   outline_clusters <- cbind(outlinedata, cluster$Clustering_file)
 
   a <- list()
-  # Calculate the number of rows in each facet
+  # Calculate the number of rows in each face
   facet_counts <- as.data.frame(table(cluster$Clustering_file))
   facet_count_vector <- facet_counts[[2]]
   for (j in 1:max(outline_clusters$`cluster$Clustering_file`)) {
     A1 <- outline_clusters %>% filter(`cluster$Clustering_file` == j)
-    consensus_df <- MakeConsensusdf(A1) # Assuming this function creates the consensus dataframe
+    consensus_df <- MakeConsensusdf(A1)
 
     # Add a facet column to the consensus_df
     consensus_df$facet <- j

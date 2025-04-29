@@ -1,9 +1,11 @@
+
+###TODO fix documentation
 #############################################
 #' clusters data automatically using hkmeans
 #' @param selected_datasets this is the output of the hartigansdippers and mono
 #' hartigans dippers.
 # function that takes a list of datasets itterates through them determining optimum clusters then clustering
-targeted_profile_clusterer <- function(selected_datasets) {
+targeted_profile_clusterer <- function(selected_datasets, allow_further_itteration = FALSE) {
 
    clusters <- list()
   # function that calculates the number of clusters from the WSS cluster number calculator
@@ -46,7 +48,19 @@ if(length(selected_datasets)>0 & is.list(selected_datasets)){
 
     Nclusters <- round(mean(c(WSSNclusters, SilNclusters, gapNclusters))) # add clusterNBCN if needed
     # clusters dataset
-    clusters <- hkmeans(scaleddata, k = Nclusters)
+    # Attempt clustering with default iteration limit
+    clusters <- tryCatch({
+      hkmeans(scaleddata, k = Nclusters)
+    }, warning = function(w) {
+      message("Warning during hkmeans: ", conditionMessage(w))
+      if (allow_further_itteration == TRUE) {
+        message("Retrying with increased max iterations (100)...")
+        return(hkmeans(scaleddata, k = Nclusters, iter.max = 100))
+      } else {
+        warning("Clustering may not have converged. Consider enabling allow_further_itteration.")
+        return(hkmeans(scaleddata, k = Nclusters))  # Retry anyway, or leave it here
+      }
+    })
 
     # Extract the clustering results
     Clustering_file <- clusters$cluster
@@ -58,7 +72,7 @@ if(length(selected_datasets)>0 & is.list(selected_datasets)){
     # Add the clustering results to the list
     clustering_results[[i]] <- clustering_data
   }}else{
-    clustering_results[[1]] <-paste0("error")
+    clustering_results[[1]] <-paste0("no profiles")
 
      if (length(selected_datasets == 0)) {
        clustering_results[[1]] <-paste0(clustering_results[[1]]," no profiles in selected dataset")
@@ -82,7 +96,7 @@ combine_clusters <- function(dataset_names) {
   # Check if the datasets exist and add them to the list
   for (name in dataset_names) {
     if (exists(name)) {
-      clusters <- c(clusters, get(name))
+      clusters <- c(clusters, list(get(name)))
     }
   }
 
