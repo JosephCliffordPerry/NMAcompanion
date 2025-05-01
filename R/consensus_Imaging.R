@@ -158,9 +158,10 @@ make_cluster_consensus <- function(cluster, outlinedata) {
 #######################################
 Make_hamming_consensus_images <- function(cluster, outlinedata) {
   idtitles <- unique(cluster$idtitles)
-  custom_labeller <- function(variable, value) {
-    return(idtitles[as.integer(value)])
-  }
+  # Create a named vector to use as a labeller map
+  labels_vec <- setNames(idtitles, as.character(seq_along(idtitles)))
+  custom_labeller <- ggplot2::as_labeller(labels_vec)
+
   outline_clusters <- cbind(outlinedata, cluster$Clustering_file)
 
   a <- list()
@@ -188,7 +189,7 @@ Make_hamming_consensus_images <- function(cluster, outlinedata) {
   consensus <- ggplot(faceted_df, aes(Column2, Column1, fill = colourfactor)) +
     geom_polygon() +
     geom_text(aes(x = Inf, y = Inf, label = facet_count), vjust = 1.5, hjust = 1.5) +
-    facet_wrap(faceted_df$facet, labeller = custom_labeller) +
+      facet_wrap(faceted_df$facet, labeller = custom_labeller) +
     theme_minimal() +
     coord_fixed(ratio = 1, xlim = NULL, ylim = NULL, expand = TRUE, clip = "on")
 

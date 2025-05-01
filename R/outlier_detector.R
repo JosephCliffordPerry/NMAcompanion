@@ -38,7 +38,7 @@ make_outlier_cluster <- function(profile_data, profile_type) {
   tboolean <- which(boolean_matrix, arr.ind = TRUE)
   outlier_threshold <- nrow(profile_data) / 20
   booleancount <- table(tboolean[, 1])
-  outliercluster <- cbind(data$CellID, 1)
+  outliercluster <- cbind(filtereddata$CellID, 1)
   outlier_rows <- names(head(sort(booleancount, decreasing = TRUE), outlier_threshold))
   outliercluster[as.numeric(outlier_rows), 2] <- 2
   outliercluster <- as.data.frame(outliercluster)
