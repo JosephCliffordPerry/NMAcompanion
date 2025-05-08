@@ -10,6 +10,10 @@ Make_profile_graphs(profile_data, clusters, umaplist = umaplist, profiletype)
 \item{profile_data}{the profile that will be graphed against}
 
 \item{clusters}{the clustered bimodal regions to be graphed}
+
+\item{umaplist}{A list of UMAP outputs}
+
+\item{profiletype}{A string indicating the type of profile}
 }
 \description{
 Build a single profile chart over a bimodal region displaying clusters

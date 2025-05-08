@@ -11,6 +11,8 @@ get.dip.test.regions(data, dip.test.alpha = 0.05, is.profile = TRUE)
 
 \item{dip.test.alpha}{the p-value threshold for the dip test}
 
+\item{is.profile}{whether the region is a profile or not}
+
 \item{data.name}{the name of the data to use in the output}
 }
 \value{
@@ -19,12 +21,4 @@ a list of data.frames, containing the columns of interest
 \description{
 Performs Hartigan's dip-test, and returns subset data frames containing
 potentially non-unimodal columns plus the surrounding two columns.
-}
-\examples{
-ap <- NMA_toy_dataset \%>\% dplyr::select(starts_with("Angle_profile"))
-get.dip.test.regions(ap, "Angle_profile")
-
-perims <- NMA_toy_dataset \%>\% dplyr::select(starts_with("Perimeter_microns"))
-get.dip.test.regions(perims, "Perimeter")
-
 }

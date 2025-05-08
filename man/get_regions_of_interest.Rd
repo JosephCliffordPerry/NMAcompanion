@@ -34,7 +34,6 @@ to assess bimodality in the data.
 \dontrun{
 selected_rois <- get_regions_of_interest(an_NMA_export)
 }
-
 }
 \seealso{
 \code{\link{get.dip.test.regions}}, \code{\link{monohartigansdipper}}
