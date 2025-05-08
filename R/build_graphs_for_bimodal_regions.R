@@ -28,10 +28,24 @@
 #'
 #' The output is useful for validating and visually assessing detected morphological subtypes.
 #'
-#' @importFrom ggplot2 ggplot aes geom_line labs coord_fixed scale_color_discrete theme_minimal geom_polygon
+#' @importFrom ggplot2 ggplot aes geom_line labs coord_fixed scale_color_discrete theme_minimal geom_polygon geom_text
 #' @importFrom stringr str_extract_all
+#' @import patchwork
 #' @import dplyr
 #' @import knitr
+#' @importFrom factoextra fviz_nbclust
+#' @importFrom factoextra hkmeans
+#' @importFrom umap umap
+#' @importFrom ggplot2 geom_path
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 geom_point
+#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 facet_wrap
+#' @importFrom ggplot2 geom_line
+#' @importFrom ggplot2 scale_color_discrete
+#' @importFrom ggplot2 theme
+#' @importFrom dplyr filter
 #' @seealso \code{\link{make_miniumaps}}, \code{\link{make_miniumap_graphlist}},
 #'   \code{\link{make_consensus_for_all_clusters}}, \code{\link{Extreme_angle_detector}}
 #'
@@ -189,6 +203,9 @@ make.umapgraph <- function(clusters, umap, graphtype) {
 #'
 #' @param profile_data the profile that will be graphed against
 #' @param clusters the clustered bimodal regions to be graphed
+#' @param umaplist A list of UMAP outputs
+#' @param profiletype A string indicating the type of profile
+
 
 
 Make_profile_graphs <- function(profile_data, clusters, umaplist = umaplist, profiletype) {

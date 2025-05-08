@@ -2,7 +2,7 @@
 % Please edit documentation in R/hartigansdipper.R
 \name{hartigansdipper}
 \alias{hartigansdipper}
-\title{Bimodality detector(grouped)}
+\title{non-unimodality detector(grouped)}
 \usage{
 hartigansdipper(dataset)
 }
@@ -11,9 +11,7 @@ hartigansdipper(dataset)
 this function can itterate through the colunns of a dataset and add the
 multimodal columns to a list in blocks of 5 this is designed aroud it being used
 on regions of the profile regions of the dataset}
-
-\item{selected_datasets}{the list you want to add multimodal columns to}
 }
 \description{
-Bimodality detector(grouped)
+non-unimodality detector(grouped)
 }

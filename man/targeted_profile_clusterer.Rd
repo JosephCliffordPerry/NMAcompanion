@@ -7,7 +7,9 @@
 targeted_profile_clusterer(selected_datasets, allow_further_itteration = FALSE)
 }
 \arguments{
-\item{selected_datasets}{this is the output of the hartigansdippers and mono
+\item{selected_datasets}{this is the output of the hartigansdippers and mono}
+
+\item{allow_further_itteration}{if true increases clustering itterations
 hartigans dippers.}
 }
 \description{

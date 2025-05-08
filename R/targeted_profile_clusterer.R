@@ -3,6 +3,7 @@
 #############################################
 #' clusters data automatically using hkmeans
 #' @param selected_datasets this is the output of the hartigansdippers and mono
+#' @param allow_further_itteration if true increases clustering itterations
 #' hartigans dippers.
 # function that takes a list of datasets itterates through them determining optimum clusters then clustering
 targeted_profile_clusterer <- function(selected_datasets, allow_further_itteration = FALSE) {

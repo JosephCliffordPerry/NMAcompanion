@@ -27,7 +27,15 @@
 #' \dontrun{
 #' selected_rois <- get_regions_of_interest(an_NMA_export)
 #' }
-#'
+#' @importFrom stringr str_extract_all
+#' @importFrom dplyr %>%
+#' @importFrom dplyr starts_with
+#' @importFrom dplyr select
+#' @importFrom dplyr select_if
+#' @importFrom dplyr summarize
+#' @importFrom dplyr group_by
+#' @importFrom dplyr mutate
+#' @importFrom fossil rand.index
 #' @export
 #accessible region of interest data detection script
 get_regions_of_interest<-function(rawdata){

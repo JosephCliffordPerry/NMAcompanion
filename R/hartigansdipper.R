@@ -1,6 +1,5 @@
-#' Bimodality detector(grouped)
+#' non-unimodality detector(grouped)
 #' @importFrom diptest dip.test
-#' @param selected_datasets the list you want to add multimodal columns to
 #' @param dataset the dataset you want to take multimodal columns from
 #' this function can itterate through the colunns of a dataset and add the
 #' multimodal columns to a list in blocks of 5 this is designed aroud it being used
@@ -57,6 +56,7 @@ hartigansdipper <- function(dataset) {
 #' @param data the data frame to input
 #' @param data.name the name of the data to use in the output
 #' @param dip.test.alpha the p-value threshold for the dip test
+#' @param is.profile whether the region is a profile or not
 #'
 #' @return a list of data.frames, containing the columns of interest
 #' @export
