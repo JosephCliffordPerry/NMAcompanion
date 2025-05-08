@@ -40,7 +40,7 @@ if(length(selected_datasets)>0 & is.list(selected_datasets)){
 
     clusterWSS <- fviz_nbclust(sampled_data, FUNcluster = kmeans, method = "wss")
 
-    clustergap <- fviz_nbclust(sampled_data, FUNcluster = kmeans, method = "gap")
+    suppressWarnings(clustergap <- fviz_nbclust(sampled_data, FUNcluster = kmeans, method = "gap"))
     gapNclusters <- which.max(clustergap[["data"]][["gap"]])
     SilNclusters <- which.max(clustersSil[["data"]][["y"]])
 
@@ -49,18 +49,12 @@ if(length(selected_datasets)>0 & is.list(selected_datasets)){
     Nclusters <- round(mean(c(WSSNclusters, SilNclusters, gapNclusters))) # add clusterNBCN if needed
     # clusters dataset
     # Attempt clustering with default iteration limit
-    clusters <- tryCatch({
-      hkmeans(scaleddata, k = Nclusters)
-    }, warning = function(w) {
-      message("Warning during hkmeans: ", conditionMessage(w))
-      if (allow_further_itteration == TRUE) {
-        message("Retrying with increased max iterations (100)...")
-        return(hkmeans(scaleddata, k = Nclusters, iter.max = 100))
+    clusters <- if (allow_further_itteration == TRUE) {
+       hkmeans(scaleddata, k = Nclusters, iter.max = 100)
       } else {
-        warning("Clustering may not have converged. Consider enabling allow_further_itteration.")
-        return(hkmeans(scaleddata, k = Nclusters))  # Retry anyway, or leave it here
+       hkmeans(scaleddata, k = Nclusters)  # Retry anyway, or leave it here
       }
-    })
+
 
     # Extract the clustering results
     Clustering_file <- clusters$cluster

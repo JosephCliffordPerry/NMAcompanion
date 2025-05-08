@@ -4,7 +4,7 @@
 \alias{targeted_profile_clusterer}
 \title{clusters data automatically using hkmeans}
 \usage{
-targeted_profile_clusterer(selected_datasets)
+targeted_profile_clusterer(selected_datasets, allow_further_itteration = FALSE)
 }
 \arguments{
 \item{selected_datasets}{this is the output of the hartigansdippers and mono

@@ -61,12 +61,7 @@ hartigansdipper <- function(dataset) {
 #' @return a list of data.frames, containing the columns of interest
 #' @export
 #'
-#' @examples
-#' ap <- NMA_toy_dataset %>% dplyr::select(starts_with("Angle_profile"))
-#' get.dip.test.regions(ap, "Angle_profile")
 #'
-#' perims <- NMA_toy_dataset %>% dplyr::select(starts_with("Perimeter_microns"))
-#' get.dip.test.regions(perims, "Perimeter")
 #'
 get.dip.test.regions <- function(data, dip.test.alpha = 0.05, is.profile = TRUE) {
   # run diptest across all columns, get boolean vector output

@@ -1,6 +1,16 @@
-# install.packages("fossil")
-# library(fossil)
-# rand index calc
+#' Create Rand Index Input Data
+#'
+#' This internal function prepares a data frame suitable for calculating pairwise
+#' Rand Index comparisons between multiple clustering results.
+#'
+#' @param data A data frame containing at least a \code{CellID} column used to align clustering results.
+#' @param clusters A list of clustering outputs, where each element contains a \code{Clustering_file}
+#'   vector assigning cluster labels to the observations in \code{data}.
+#'
+#' @return A data frame where the first column is \code{CellID} and each additional column contains
+#' numeric cluster assignments from a specific clustering result.
+#'
+#' @keywords internal
 make_randindex_data <- function(data, clusters) {
   clusties <- data$CellID
 
@@ -21,7 +31,24 @@ make_randindex_data <- function(data, clusters) {
 
 #rand_data<-make_randindex_data(data = data,clusters = clusters)
 
-
+#' Calculate Pairwise Rand Index Scores Between Clusterings
+#'
+#' This internal function computes the Rand Index between all pairs of clustering results
+#' provided in the input data frame.
+#'
+#' @param rand_data A data frame returned by \code{make_randindex_data()}, where each column
+#' (after the first) represents a set of cluster labels.
+#'
+#' @return A symmetric matrix of Rand Index values comparing each pair of clusterings.
+#'
+#' @details
+#' The Rand Index quantifies the similarity between two clusterings by considering all
+#' pairs of elements and counting pairs that are assigned in the same or different clusters
+#' in both clusterings.
+#'@import fossil
+#' @importFrom fossil rand.index
+#' @seealso \code{\link[fossil]{rand.index}} from the \pkg{fossil} package.
+#' @keywords internal
 ######################
 calculate_rand_indexes <- function(rand_data) {
   n <- ncol(rand_data)

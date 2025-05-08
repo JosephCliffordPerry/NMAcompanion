@@ -1,3 +1,34 @@
+#' Detect Regions of Interest from Raw Morphological Data
+#'
+#' This function identifies and extracts regions of interest (ROIs) from raw morphological data
+#' by filtering out rows with extreme angle values (potential detection errors),
+#' and selecting features that show statistical evidence of bimodality.
+#'
+#' @param rawdata A standard NMA full profiles export
+#'
+#' @return A list of data frames or vectors representing selected regions of interest
+#'   from angle, diameter, radius, and other relevant numeric data.
+#'
+#' @details
+#' The function performs the following steps:
+#' \enumerate{
+#'   \item Applies \code{Extreme_angle_detector} to remove rows where any angle exceeds 280 degrees.
+#'   \item Segments the dataset into angle, diameter, radius, outline, and other numeric features.
+#'   \item Applies dip tests for non-unimodality on each data type to identify statistically relevant regions.
+#'   \item Returns a combined list of selected ROIs across all relevant data segments.
+#' }
+#'
+#' Internally uses \code{\link{get.dip.test.regions}} and \code{\link{monohartigansdipper}}
+#' to assess bimodality in the data.
+#'
+#' @seealso \code{\link{get.dip.test.regions}}, \code{\link{monohartigansdipper}}
+#'
+#' @examples
+#' \dontrun{
+#' selected_rois <- get_regions_of_interest(an_NMA_export)
+#' }
+#'
+#' @export
 #accessible region of interest data detection script
 get_regions_of_interest<-function(rawdata){
 Extreme_angle_detector <- function(data) {
@@ -43,7 +74,3 @@ Extreme_angle_detector <- function(data) {
 selected_datasets <- c(selected_angle_data, selected_diameter_data, selected_radius_data, selected_other_data)
 return(selected_datasets)
 }
-
-
-#a<-get_regions_of_interest(rawdata)
-#b<-get_regions_of_interest(rawdata)

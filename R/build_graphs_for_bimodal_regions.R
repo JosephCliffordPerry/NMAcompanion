@@ -1,7 +1,47 @@
-#' Build Graphs for Bimodal regions
+#' Build Graphs for Bimodal Regions and Clustered Morphological Profiles
 #'
-#' @importFrom ggplot2 scale_color_discrete
-#' @importFrom ggplot2 theme_minimal
+#' This function generates a set of plots to visualize clustered morphological profile data
+#' (e.g., angle, diameter, or radius), including consensus images and UMAP representations
+#' of identified regions of interest (ROIs).
+#'
+#' @param clusters A list of clustered ROI data, typically generated from a function such as
+#'   \code{\link{Cluster_ROI_list}} or \code{\link{find_contious_clusters}}.
+#' @param rawdata A data frame containing the raw morphological measurements, including columns
+#'   prefixed with "Angle_profile_", "Diameter_profile_", "Radius_profile_", and "Outline_Oriented".
+#'
+#' @return A list where each element corresponds to a cluster. Each cluster contains:
+#' \describe{
+#'   \item{\code{graph3}}{A ggplot2 line plot showing the median profile by cluster (angle, diameter, or radius).}
+#'   \item{\code{graph4}}{UMAP-based cluster visualization of multimodal ROI regions.}
+#'   \item{\code{graph5}}{Consensus outline images generated for each cluster.}
+#' }
+#'
+#' @details
+#' This function:
+#' \enumerate{
+#'   \item Filters raw data using \code{Extreme_angle_detector} to exclude rows with suspected detection errors.
+#'   \item Separates the data by measurement type (angle, diameter, radius, outline).
+#'   \item Applies clustering and summarizes each cluster by its median profile.
+#'   \item Constructs line plots and UMAP visualizations of these clusters.
+#'   \item Builds consensus outline images for each cluster.
+#' }
+#'
+#' The output is useful for validating and visually assessing detected morphological subtypes.
+#'
+#' @importFrom ggplot2 ggplot aes geom_line labs coord_fixed scale_color_discrete theme_minimal geom_polygon
+#' @importFrom stringr str_extract_all
+#' @import dplyr
+#' @import knitr
+#' @seealso \code{\link{make_miniumaps}}, \code{\link{make_miniumap_graphlist}},
+#'   \code{\link{make_consensus_for_all_clusters}}, \code{\link{Extreme_angle_detector}}
+#'
+#' @examples
+#' \dontrun{
+#' graphs <- Graph_clustered_ROIs(clusters = roi_clusters, rawdata = raw_morphology_data)
+#' }
+#'
+#' @export
+
 Graph_clustered_ROIs <- function(clusters, rawdata) {
   #filters datasets
   error_tagged_angle_dataset <- Extreme_angle_detector(data = rawdata)
@@ -43,7 +83,7 @@ Graph_clustered_ROIs <- function(clusters, rawdata) {
     number_parts <- as.numeric(unlist(strsplit(numbers, " ")))
 
     # Determine the range of numbers
-    number_range <- paste(min(number_parts, na.rm = TRUE), max(number_parts, na.rm = TRUE), sep = ":")
+    number_range <- paste(min(number_parts), max(number_parts), sep = ":")
     if (any(grepl("\\d+:\\d+", number_range))) {
       # Create new title
       title <- paste0(words2, sep = " ", number_range, recycle0 = TRUE)
@@ -120,7 +160,7 @@ Graph_clustered_ROIs <- function(clusters, rawdata) {
   }
 
 
-  return(graphs)
+return(graphs)
 }
 
 
@@ -149,7 +189,6 @@ make.umapgraph <- function(clusters, umap, graphtype) {
 #'
 #' @param profile_data the profile that will be graphed against
 #' @param clusters the clustered bimodal regions to be graphed
-
 
 
 Make_profile_graphs <- function(profile_data, clusters, umaplist = umaplist, profiletype) {

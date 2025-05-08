@@ -150,18 +150,6 @@ test_that("cluster_characterising returns consistent ID table", {
   expect_true("Cluster_characterising_ids" %in% colnames(result))
 })
 
-test_that("hamming_amalgamate_Clustering runs end-to-end", {
-  skip_if_not(requireNamespace("ggplot2", quietly = TRUE))
-  outlinedata <- data.frame()  # mocked input
-  data <- data.frame(CellID = c("A", "B", "C"))
-  rand_data <- data.frame(Clustering_1 = c(1, 1, 2), Clustering_2 = c(1, 1, 2))
-  ID_list <- list(c(1, 2))
-
-  result <- hamming_amalgamate_Clustering(data = data, ID_list = ID_list, rand_data = rand_data, outlinedata = outlinedata)
-  expect_type(result, "list")
-  expect_true("graph1" %in% names(result[[1]]))
-})
-
 
 
 

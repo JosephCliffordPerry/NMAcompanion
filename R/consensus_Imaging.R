@@ -51,7 +51,7 @@ make_cluster_consensus <- function(cluster, outlinedata) {
   number_parts <- as.numeric(unlist(strsplit(numbers, " ")))
 
   # Determine the range of numbers
-  number_range <- paste(min(number_parts, na.rm = TRUE), max(number_parts, na.rm = TRUE), sep = ":")
+  number_range <- paste(min(number_parts), max(number_parts), sep = ":")
   if (any(grepl("\\d+:\\d+", number_range))) {
     # Create new title
     title <- paste0(words2, sep = " ", number_range, recycle0 = TRUE)
@@ -145,6 +145,7 @@ make_cluster_consensus <- function(cluster, outlinedata) {
     # Combine the individual consensus dataframes into one faceted dataframe
     faceted_df <- dplyr::bind_rows(a)
 
+    colourfactor <- factor(faceted_df$facet)
     consensus <- ggplot(faceted_df, aes(Column2, Column1, fill = colourfactor)) +
       geom_polygon() +
       geom_text(aes(x = Inf, y = Inf, label = facet_count), vjust = 1.5, hjust = 1.5) +
