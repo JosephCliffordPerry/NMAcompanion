@@ -3,8 +3,9 @@
 #' @title NMA_toy_dataset
 #' @name NMA_toy_dataset
 #'
-#' @description This is a dataset made from a fbxo7 mutant that has at least two
-#' different phenotypes in it. It is rounded to two decimals and sampled to save
+#' @description This is a dataset made from the sperm  data of a
+#'  fbxo7 mutant mouse a phodopus sungorus hamster and a domestic pig.
+#'  It is rounded to two decimals and sampled to save
 #' space
 #'
 #' @format ## "NMA_toy_dataset" a data frame with all the variables exported in

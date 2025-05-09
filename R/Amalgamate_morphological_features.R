@@ -15,8 +15,10 @@
 #' \enumerate{
 #'   \item Detects and removes rows with suspected detection errors (angle > 280).
 #'   \item Computes Rand indices to assess clustering confidence.
-#'   \item Assigns feature identities to high, medium, and low confidence groups.
-#'   \item Constructs a consensus representation using Hamming amalgamation.
+#'   \item Assigns feature based id codes made from clusters
+#'    to high, medium, and low confidence groups.
+#'   \item Constructs a consensus representation using Hamming distance between
+#'   representative feature id codes.
 #' }
 #'
 # @seealso \code{\link{make_randindex_data}}, \code{\link{calculate_rand_indexes}},
