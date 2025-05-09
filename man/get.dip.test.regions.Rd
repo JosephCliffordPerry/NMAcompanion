@@ -12,7 +12,6 @@ get.dip.test.regions(data, dip.test.alpha = 0.05, is.profile = TRUE)
 \item{dip.test.alpha}{the p-value threshold for the dip test}
 
 \item{is.profile}{whether the region is a profile or not}
-
 }
 \value{
 a list of data.frames, containing the columns of interest
