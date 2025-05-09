@@ -44,7 +44,3 @@ graphs <- Graph_clustered_ROIs(clusters = roi_clusters, rawdata = raw_morphology
 }
 
 }
-\seealso{
-\code{\link{make_miniumaps}}, \code{\link{make_miniumap_graphlist}},
-\code{\link{make_consensus_for_all_clusters}}, \code{\link{Extreme_angle_detector}}
-}

@@ -29,8 +29,3 @@ The function performs the following steps:
 \item Constructs a consensus representation using Hamming amalgamation.
 }
 }
-\seealso{
-\code{\link{make_randindex_data}}, \code{\link{calculate_rand_indexes}},
-\code{\link{give_featureidentities}}, \code{\link{ID_creation}},
-\code{\link{hamming_amalgamate_Clustering}}
-}

@@ -35,6 +35,3 @@ clusters <- find_contious_clusters(raw_morphology_data)
 }
 
 }
-\seealso{
-\code{\link{Extreme_angle_detector}}, \code{\link{make_outlier_cluster}}
-}

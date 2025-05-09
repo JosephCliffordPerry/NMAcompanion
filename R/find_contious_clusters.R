@@ -20,7 +20,7 @@
 #'   \item Applies \code{make_outlier_cluster} to each profile type to identify continuous outlier clusters.
 #' }
 #'
-#' @seealso \code{\link{Extreme_angle_detector}}, \code{\link{make_outlier_cluster}}
+# @seealso \code{\link{Extreme_angle_detector}}, \code{\link{make_outlier_cluster}}
 #'
 #' @examples
 #' \dontrun{

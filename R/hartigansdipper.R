@@ -54,7 +54,6 @@ hartigansdipper <- function(dataset) {
 #' potentially non-unimodal columns plus the surrounding two columns.
 #'
 #' @param data the data frame to input
-#' @param data.name the name of the data to use in the output
 #' @param dip.test.alpha the p-value threshold for the dip test
 #' @param is.profile whether the region is a profile or not
 #'
