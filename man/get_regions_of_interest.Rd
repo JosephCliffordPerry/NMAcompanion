@@ -16,7 +16,7 @@ from angle, diameter, radius, and other relevant numeric data.
 \description{
 This function identifies and extracts regions of interest (ROIs) from raw morphological data
 by filtering out rows with extreme angle values (potential detection errors),
-and selecting features that show statistical evidence of bimodality.
+and selecting features that show statistical evidence of non-unimodality.
 }
 \details{
 The function performs the following steps:
@@ -28,7 +28,7 @@ The function performs the following steps:
 }
 
 Internally uses \code{\link{get.dip.test.regions}} and \code{\link{monohartigansdipper}}
-to assess bimodality in the data.
+to assess modality in the data.
 }
 \examples{
 \dontrun{
