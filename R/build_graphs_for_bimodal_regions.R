@@ -46,8 +46,13 @@
 #' @importFrom ggplot2 scale_color_discrete
 #' @importFrom ggplot2 theme
 #' @importFrom dplyr filter
+<<<<<<< HEAD
 # @seealso \code{\link{make_miniumaps}}, \code{\link{make_miniumap_graphlist}},
 #   \code{\link{make_consensus_for_all_clusters}}, \code{\link{Extreme_angle_detector}}
+=======
+#' @seealso \code{\link{make_miniumaps}}, \code{\link{make_miniumap_graphlist}},
+#'   \code{\link{make_consensus_for_all_clusters}}, \code{\link{Extreme_angle_detector}}
+>>>>>>> 0912b8c5afdc218ee42ead611652f268f142b190
 #'
 #' @examples
 #' \dontrun{
