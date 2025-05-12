@@ -3,6 +3,7 @@
 export(Amalgamate_morphological_features)
 export(Cluster_ROI_list)
 export(Graph_clustered_ROIs)
+export(NMAcompanion_wrapper)
 export(find_contious_clusters)
 export(get.dip.test.regions)
 export(get_regions_of_interest)
