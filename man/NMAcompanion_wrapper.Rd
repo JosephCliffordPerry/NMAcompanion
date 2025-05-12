@@ -2,7 +2,7 @@
 % Please edit documentation in R/pipeline_wrapper.R
 \name{NMAcompanion_wrapper}
 \alias{NMAcompanion_wrapper}
-\title{Runs entire pipeline}
+\title{A NMAcompanion_wrapper that runs the entire pipeline}
 \usage{
 NMAcompanion_wrapper(path_to_export)
 }
