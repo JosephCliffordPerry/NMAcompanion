@@ -176,6 +176,12 @@ Graph_clustered_ROIs <- function(clusters, rawdata) {
 
 return(graphs)
 }
+#' Build a single umap chart over a bimodal region displaying clusters
+#'
+#'
+#' @param clusters the clustered bimodal regions to be graphed
+#' @param umap A single UMAP object
+#' @param graphtype A string indicating the type of graph
 
 
 ###############
