@@ -6,33 +6,59 @@
 #' on regions that contain adjacent columns that aren't conected
 # a function that itterates through a dataset and adds single column bimodal data to a list
 monohartigansdipper <- function(dataset) {
+  # Run Hartigan's dip test on the given column, testing if the p-value is less
+  # than 0.05
+  run.dip.test <- function(col.name) {
+    dip.test(dataset[[col.name]])$p.value < 0.05
+  }
+
+  # Retain only columns significantly non-monomodal
+  is.keep.column <- sapply(colnames(dataset), run.dip.test)
+
+  # Simple output would be to return one data frame. However for compatibility
+  # with the functions that are expecting a list of data frames...
+  # return(dataset[, is.keep.column])
+
+  # Create a list of data frames
   selected_datasets <- list()
-  # Iterate over each column of the dataset
-  i <- 1
-  while (i <= ncol(dataset)) {
-    # Perform Hartigan's Dip Test
-    dip_test <- dip.test(dataset[[i]])
+  subset.data <- dataset[, is.keep.column]
 
-    # Check if the distribution is bimodal
-    if (dip_test$p.value < 0.05) {
-      # Extract the relevant columns
-      selected_dataset <- dataset[i]
-
-      dataset_label <- colnames(selected_dataset)
-
-      # Get the dataset name
-      dataset_name <- paste0("Dataset_", paste0(colnames(selected_dataset), collapse = "_"))
-
-      # Append the selected dataset to the list with the dataset name as the label
-      selected_datasets[[dataset_name]] <- selected_dataset
-
-
-      # Update the index to the next column after the extracted columns
-      i <- i + 1
-    } else {
-      # Move to the next column
-      i <- i + 1
-    }
+  for (col.name in colnames(subset.data)) {
+    tmp <- data.frame(subset.data[[col.name]])
+    colnames(tmp) <- col.name
+    selected_datasets[[paste0("Dataset_", col.name)]] <- tmp
   }
   return(selected_datasets)
+
+
+
+  # selected_datasets <- list()
+  # Iterate over each column of the dataset
+  # i <- 1
+  # while (i <= ncol(dataset)) {
+  #   # Perform Hartigan's Dip Test
+  #   dip_test <- dip.test(dataset[[i]])
+  #
+  #   # Check if the distribution is bimodal
+  #   if (dip_test$p.value < 0.05) {
+  #     # Extract the relevant columns
+  #     selected_dataset <- dataset[i]
+  #
+  #     dataset_label <- colnames(selected_dataset)
+  #
+  #     # Get the dataset name
+  #     dataset_name <- paste0("Dataset_", paste0(colnames(selected_dataset), collapse = "_"))
+  #
+  #     # Append the selected dataset to the list with the dataset name as the label
+  #     selected_datasets[[dataset_name]] <- selected_dataset
+  #
+  #
+  #     # Update the index to the next column after the extracted columns
+  #     i <- i + 1
+  #   } else {
+  #     # Move to the next column
+  #     i <- i + 1
+  #   }
+  # }
+  # return(selected_datasets)
 }
