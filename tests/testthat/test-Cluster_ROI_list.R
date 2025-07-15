@@ -9,7 +9,7 @@ test_that("targeted_profile_clusterer works with valid input and default setting
     dataset2 = generate_test_data(1200)
   )
 
-  result <- suppressWarnings(targeted_profile_clusterer(test_datasets))  # suppress benign convergence warnings
+  result <- suppressWarnings(targeted_profile_clusterer(test_datasets)) # suppress benign convergence warnings
 
   expect_type(result, "list")
   expect_equal(length(result), length(test_datasets))
@@ -70,4 +70,3 @@ test_that("combine_clusters works with valid and invalid dataset names", {
   result_none <- combine_clusters(c("fake1", "fake2"))
   expect_equal(length(result_none), 0)
 })
-

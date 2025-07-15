@@ -30,10 +30,10 @@ get_outlier_features <- function(profile_data) {
   return(boolean_matrix)
 }
 ###################################################
-#Outlier ROI functions
+# Outlier ROI functions
 
 #############################################################
-make_outlier_cluster <- function(profile_data, profile_type,filtereddata) {
+make_outlier_cluster <- function(profile_data, profile_type, filtereddata) {
   boolean_matrix <- get_outlier_features(profile_data)
   tboolean <- which(boolean_matrix, arr.ind = TRUE)
   outlier_threshold <- nrow(profile_data) / 20
@@ -50,5 +50,3 @@ make_outlier_cluster <- function(profile_data, profile_type,filtereddata) {
 
 
 #####################################
-
-

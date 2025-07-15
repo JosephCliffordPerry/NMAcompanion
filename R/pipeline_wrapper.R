@@ -32,10 +32,10 @@
 #' @export
 
 
-NMAcompanion_wrapper<-function(path_to_export){
-  data<-read_NMA_export(path_to_export)
+NMAcompanion_wrapper <- function(path_to_export) {
+  data <- read_NMA_export(path_to_export)
   a <- get_regions_of_interest(data)
-  b <- Cluster_ROI_list(a,allow_further_itteration = TRUE)
+  b <- Cluster_ROI_list(a, allow_further_itteration = TRUE)
   c <- find_contious_clusters(data)
   b <- append(b, c)
   d <- Amalgamate_morphological_features(data, b)

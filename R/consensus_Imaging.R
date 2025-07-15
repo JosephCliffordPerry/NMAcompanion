@@ -190,7 +190,7 @@ Make_hamming_consensus_images <- function(cluster, outlinedata) {
   consensus <- ggplot(faceted_df, aes(Column2, Column1, fill = colourfactor)) +
     geom_polygon() +
     geom_text(aes(x = Inf, y = Inf, label = facet_count), vjust = 1.5, hjust = 1.5) +
-      facet_wrap(faceted_df$facet, labeller = custom_labeller) +
+    facet_wrap(faceted_df$facet, labeller = custom_labeller) +
     theme_minimal() +
     coord_fixed(ratio = 1, xlim = NULL, ylim = NULL, expand = TRUE, clip = "on")
 

@@ -37,9 +37,9 @@
 #' @importFrom dplyr mutate
 #' @importFrom fossil rand.index
 #' @export
-#accessible region of interest data detection script
-get_regions_of_interest<-function(rawdata){
-Extreme_angle_detector <- function(data) {
+# accessible region of interest data detection script
+get_regions_of_interest <- function(rawdata) {
+  Extreme_angle_detector <- function(data) {
     # cutting dataset into different portions based on content
     dataset <- data %>% dplyr::select(starts_with("Angle_profile_"))
 
@@ -79,6 +79,6 @@ Extreme_angle_detector <- function(data) {
   selected_radius_data <- get.dip.test.regions(radius_data)
   selected_other_data <- monohartigansdipper(dataset = other_data)
 
-selected_datasets <- c(selected_angle_data, selected_diameter_data, selected_radius_data, selected_other_data)
-return(selected_datasets)
+  selected_datasets <- c(selected_angle_data, selected_diameter_data, selected_radius_data, selected_other_data)
+  return(selected_datasets)
 }
