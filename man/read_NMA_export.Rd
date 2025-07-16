@@ -14,7 +14,8 @@ A data frame containing the imported data.
 }
 \description{
 Reads a tab-delimited nuclear morphology analysis (NMA) export file
-into a data frame.
+into a data frame for analysis. The export must be produced using NMA with profiles and outlines included
+for most package functionality.
 }
 \examples{
 \dontrun{

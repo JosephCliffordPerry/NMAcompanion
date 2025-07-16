@@ -2,7 +2,7 @@
 #'
 #' This function identifies clusters of outlier values in morphological profile data (angle, diameter, radius)
 #' after filtering out rows with potential detection errors.
-#'
+#' @importFrom utils hasName
 #' @param rawdata A standard NMA full profiles export
 #'
 #' @return A named list containing three elements:
@@ -29,6 +29,7 @@
 #'
 #' @export
 find_contious_clusters<-function(rawdata){
+  if(hasName(rawdata,"Angle_profile_0")& hasName(rawdata, "Outline_OrientedCoordinates_Y_0")) {
   error_tagged_angle_dataset <- Extreme_angle_detector(data = rawdata)
   filtereddata <- filter(error_tagged_angle_dataset, suspected_detection_error == 1)
   angle_data <- filtereddata  %>% dplyr::select(starts_with("Angle_profile_"))
@@ -38,5 +39,6 @@ find_contious_clusters<-function(rawdata){
   diameter_outliers <- make_outlier_cluster(diameter_data, "diameter",filtereddata)
   radius_outliers <- make_outlier_cluster(radius_data, "radius",filtereddata)
   output<-list(angle_outliers=angle_outliers,radius_outliers=radius_outliers,diameter_outliers=diameter_outliers)
+  }else{stop("Profiles or outlines not found check nma export")}
 return(output)
   }

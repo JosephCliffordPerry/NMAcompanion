@@ -26,4 +26,18 @@ test_that("make_outlier_cluster returns expected output structure", {
   expect_true(all(c("test outliers", "Clustering_file") %in% colnames(out)))
 })
 
+test_that("find_contious_clusters returns reasonable error if you try to cluster without any profiles", {
+  # Load the toy dataset
+  data <- NMAcompanion::NMA_toy_dataset
+
+  # Remove all columns containing 'profile' or 'outline' (case-insensitive)
+  data_clean <- data[, !grepl("profile|outline", names(data), ignore.case = TRUE)]
+
+  # Expect an error with a specific message when calling find_contious_clusters
+  expect_error(
+    find_contious_clusters(data_clean),
+    "Profiles or outlines not found check nma export"
+  )
+})
+
 
