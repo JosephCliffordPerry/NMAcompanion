@@ -1,5 +1,5 @@
 ###
-#first step is test the rand index calculations
+# first step is test the rand index calculations
 
 # Sample mock data for testing
 set.seed(1215)
@@ -17,14 +17,14 @@ rand_data <- make_randindex_data(mock_data, mock_clusters)
 test_that("make_randindex_data returns expected data frame", {
   expect_s3_class(rand_data, "data.frame")
   expect_equal(nrow(rand_data), nrow(mock_data))
-  expect_equal(ncol(rand_data), length(mock_clusters) + 1)  # +1 for CellID
+  expect_equal(ncol(rand_data), length(mock_clusters) + 1) # +1 for CellID
   expect_equal(colnames(rand_data)[1], "clusties")
   expect_true(all(grepl("^Clustering_", colnames(rand_data)[-1])))
 })
 
 test_that("make_randindex_data handles empty cluster list", {
   empty_clusters <- list()
- expect_error(result <- make_randindex_data(mock_data, empty_clusters))
+  expect_error(result <- make_randindex_data(mock_data, empty_clusters))
 })
 
 
@@ -122,7 +122,7 @@ test_that("ID_creation handles empty dataframe", {
 test_that("ID_creation merges overlapping IDs", {
   df <- data.frame(V1 = c(1, 2, 5), V2 = c(2, 3, 6))
   result <- ID_creation(df)
-  expect_true(any(lengths(result) >= 3))  # 1,2,3 in same group
+  expect_true(any(lengths(result) >= 3)) # 1,2,3 in same group
 })
 
 test_that("Make_cluster_id_df returns valid dataframe", {
@@ -149,7 +149,3 @@ test_that("cluster_characterising returns consistent ID table", {
   expect_s3_class(result, "data.frame")
   expect_true("Cluster_characterising_ids" %in% colnames(result))
 })
-
-
-
-

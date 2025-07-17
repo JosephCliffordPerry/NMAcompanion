@@ -29,7 +29,7 @@ make_randindex_data <- function(data, clusters) {
   return(clusties)
 }
 
-#rand_data<-make_randindex_data(data = data,clusters = clusters)
+# rand_data<-make_randindex_data(data = data,clusters = clusters)
 
 #' Calculate Pairwise Rand Index Scores Between Clusterings
 #'
@@ -45,7 +45,7 @@ make_randindex_data <- function(data, clusters) {
 #' The Rand Index quantifies the similarity between two clusterings by considering all
 #' pairs of elements and counting pairs that are assigned in the same or different clusters
 #' in both clusterings.
-#'@import fossil
+#' @import fossil
 #' @importFrom fossil rand.index
 #' @seealso \code{\link[fossil]{rand.index}} from the \pkg{fossil} package.
 #' @keywords internal

@@ -4,14 +4,14 @@ test_that("get_outlier_features identifies outliers correctly in large dataset",
   test_matrix <- matrix(rnorm(1000 * 50, mean = 10, sd = 2), nrow = 1000, ncol = 50)
 
   # Introduce artificial outliers in a few random locations
-  test_matrix[1:5, 1:5] <- test_matrix[1:5, 1:5] + 50  # Inject extreme values
+  test_matrix[1:5, 1:5] <- test_matrix[1:5, 1:5] + 50 # Inject extreme values
 
   result <- get_outlier_features(as.data.frame(test_matrix))
 
   # Expectations
   expect_type(result, "logical")
   expect_equal(dim(result), dim(test_matrix))
-  expect_true(any(result))  # Should detect the injected outliers
+  expect_true(any(result)) # Should detect the injected outliers
 })
 
 test_that("make_outlier_cluster returns expected output structure", {
@@ -39,5 +39,3 @@ test_that("find_contious_clusters returns reasonable error if you try to cluster
     "Profiles or outlines not found check nma export"
   )
 })
-
-

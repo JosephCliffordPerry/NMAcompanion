@@ -28,6 +28,7 @@
 #' }
 #'
 #' @export
+
 find_contious_clusters<-function(rawdata){
   if(hasName(rawdata,"Angle_profile_0")& hasName(rawdata, "Outline_OrientedCoordinates_Y_0")) {
   error_tagged_angle_dataset <- Extreme_angle_detector(data = rawdata)
@@ -42,3 +43,4 @@ find_contious_clusters<-function(rawdata){
   }else{stop("Profiles or outlines not found check nma export")}
 return(output)
   }
+

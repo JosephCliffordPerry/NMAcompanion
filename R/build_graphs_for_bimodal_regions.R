@@ -57,7 +57,7 @@
 #' @export
 
 Graph_clustered_ROIs <- function(clusters, rawdata) {
-  #filters datasets
+  # filters datasets
   error_tagged_angle_dataset <- Extreme_angle_detector(data = rawdata)
   data <- filter(error_tagged_angle_dataset, suspected_detection_error == 1)
 
@@ -72,7 +72,7 @@ Graph_clustered_ROIs <- function(clusters, rawdata) {
   # makes graphs of umaps of individual multimodal regions
   miniumapgraphs <- make_miniumap_graphlist(miniumaps = miniumaps, clusters = clusters)
   #
-    Cluster_consensus_images <- make_consensus_for_all_clusters(clusters, outlinedata = outlinedata)
+  Cluster_consensus_images <- make_consensus_for_all_clusters(clusters, outlinedata = outlinedata)
 
 
   graphs <- list()
@@ -123,8 +123,6 @@ Graph_clustered_ROIs <- function(clusters, rawdata) {
         geom_line() +
         labs(x = "Profile Position", y = "Diameter Length", color = "Group") +
         coord_fixed(ratio = 1, xlim = NULL, ylim = NULL, expand = TRUE, clip = "on")
-
-
     } else if (ncol(x3) > 0) {
       radius_clusters <- cbind(radius_data, clusters[[i]][["Clustering_file"]])
       r1 <- list()
@@ -141,8 +139,6 @@ Graph_clustered_ROIs <- function(clusters, rawdata) {
         geom_line() +
         labs(x = "Profile Position", y = "Radius Length", color = "Group") +
         coord_fixed(ratio = 1, xlim = NULL, ylim = NULL, expand = TRUE, clip = "on")
-
-
     } else if (ncol(x4) > 0) {
       angle_clusters <- cbind(angle_data, clusters[[i]][["Clustering_file"]])
       a1 <- list()
@@ -159,7 +155,6 @@ Graph_clustered_ROIs <- function(clusters, rawdata) {
         geom_line() +
         labs(x = "Profile Position", y = "Angle", color = "Group") +
         coord_fixed(ratio = 1, xlim = NULL, ylim = NULL, expand = TRUE, clip = "on")
-
     } else {
       print("No applicable profile graph")
       x5[[i]] <- "No applicable profile graph"
@@ -174,7 +169,7 @@ Graph_clustered_ROIs <- function(clusters, rawdata) {
   }
 
 
-return(graphs)
+  return(graphs)
 }
 #' Build a single umap chart over a bimodal region displaying clusters
 #'

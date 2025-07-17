@@ -22,6 +22,7 @@ Imports:
     umap,
     fossil,
     knitr,
+    purrr,
 Depends: 
     R (>= 2.10)
 LazyData: true
