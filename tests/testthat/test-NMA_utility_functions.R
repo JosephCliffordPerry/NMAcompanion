@@ -95,4 +95,51 @@ test_that("make_profile_graphs errors with invalid profile_type", {
                "must be one of")
 })
 
+###
+# tests/testthat/test-umapnmadata.R
+
+test_that("UmapNMAdata runs without groups and returns a ggplot", {
+  data <- NMA_toy_dataset %>%
+    dplyr::select(starts_with("Angle_profile_")) %>%
+    as.matrix()
+
+  plot <- UmapNMAdata(data)
+
+  expect_s3_class(plot, "ggplot")
+})
+
+test_that("UmapNMAdata runs with groups and returns patchworked ggplot", {
+  data <- NMA_toy_dataset %>%
+    dplyr::select(starts_with("Angle_profile_")) %>%
+    as.matrix()
+
+  groups <- rep(1:2, length.out = nrow(data))
+
+  plot <- UmapNMAdata(data, groups = groups)
+
+  # patchwork plots are gg objects with class "patchwork"
+  expect_s3_class(plot, "gg")
+})
+
+test_that("UmapNMAdata throws error for mismatched group length", {
+  data <- NMA_toy_dataset %>%
+    dplyr::select(starts_with("Angle_profile_")) %>%
+    as.matrix()
+
+  groups <- rep(1, nrow(data) - 1)
+
+  expect_error(
+    UmapNMAdata(data, groups = groups),
+    "Length of 'groups' must match number of rows"
+  )
+})
+
+test_that("UmapNMAdata throws error for non-numeric input", {
+  bad_data <- list(A = letters[1:10], B = letters[11:20])
+
+  expect_error(
+    UmapNMAdata(bad_data),
+    "'data' must be a data frame or matrix"
+  )
+})
 

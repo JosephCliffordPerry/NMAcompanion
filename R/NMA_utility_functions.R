@@ -137,4 +137,77 @@ make_profile_graphs <- function(data,
 
 
 # make a umap graph
+#' Generate UMAP Plot (with optional grouping)
+#'
+#' @param data A numeric matrix or data frame to perform UMAP on (e.g. profile data)
+#' @param groups Optional vector of group/cluster assignments (same length as nrow(data)), or NULL
+#' @param title Optional character string for plot title
+#' @param n_neighbors Number of neighbors for UMAP (default: 15)
+#' @param min_dist Minimum distance for UMAP (default: 0.1)
+#' @param metric Distance metric (default: "euclidean")
+#'
+#' @return A ggplot object (with or without faceting)
+#' @export
+UmapNMAdata <- function(data,
+                            groups = NULL,
+                            title = NULL,
+                            n_neighbors = 15,
+                            min_dist = 0.1,
+                            metric = "euclidean") {
+    # Validate data
+  if (!is.data.frame(data) && !is.matrix(data)) {
+    stop("'data' must be a data frame or matrix")
+  }
+
+  # Run UMAP
+  umap_result <- umap::umap(data,
+                            config = umap::umap.defaults,
+                            n_neighbors = n_neighbors,
+                            min_dist = min_dist,
+                            metric = metric)
+
+  umap_df <- as.data.frame(umap_result$layout)
+  colnames(umap_df) <- c("UMAP1", "UMAP2")
+
+  if (!is.null(groups)) {
+    if (length(groups) != nrow(data)) {
+      stop("Length of 'groups' must match number of rows in 'data'")
+    }
+    umap_df$group <- factor(groups)
+
+    # Full colored plot
+    p_full <- ggplot(umap_df, aes(x = UMAP1, y = UMAP2, color = group)) +
+      geom_point(size = 1.2, alpha = 0.8) +
+      labs(
+        title = title %||% "UMAP of Groups",
+        x = "UMAP1", y = "UMAP2", color = "Group"
+      ) +
+      theme_minimal() +
+      coord_fixed()
+
+    # Faceted plot by group
+    p_facet <- ggplot(umap_df, aes(x = UMAP1, y = UMAP2, color = group)) +
+      geom_point(size = 1.2, alpha = 0.8) +
+      facet_wrap(~group) +
+      theme_minimal() +
+      theme(legend.position = "none") +
+      labs(x = NULL, y = NULL) +
+      coord_fixed()
+
+    return(p_full + p_facet)  # requires patchwork
+
+  } else {
+    # Plot without grouping
+    p <- ggplot(umap_df, aes(x = UMAP1, y = UMAP2)) +
+      geom_point(size = 1.2, alpha = 0.8) +
+      labs(
+        title = title %||% "UMAP Projection",
+        x = "UMAP1", y = "UMAP2"
+      ) +
+      theme_minimal() +
+      coord_fixed()
+
+    return(p)
+  }
+}
 
