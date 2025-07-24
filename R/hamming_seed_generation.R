@@ -180,7 +180,7 @@ Make_hamming_seeds <- function(df, data) {
         result_matrix[i, j] <- hamming_distance
         # result_matrix[j - 1, i - 1] <- rand_idx
         # Print progress
-        cat("Calculated hamming distance", i, "vs", j, "\n")
+
       }
     }
 
@@ -213,3 +213,6 @@ Make_hamming_seeds <- function(df, data) {
   }
   return(CharVectors)
 }
+
+
+

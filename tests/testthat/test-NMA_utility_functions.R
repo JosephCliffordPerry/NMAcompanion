@@ -12,16 +12,9 @@ test_that("MakeNMAConsensus returns a ggplot object without groups", {
 })
 
 test_that("MakeNMAConsensus returns a ggplot object with valid groups", {
-  fake_data <- data.frame(
-    Outline_OrientedCoordinates_X_1 = c(1, 2, 3),
-    Outline_OrientedCoordinates_X_2 = c(4, 5, 6),
-    Outline_OrientedCoordinates_Y_1 = c(7, 8, 9),
-    Outline_OrientedCoordinates_Y_2 = c(10, 11, 12)
-  )
 
-  groups <- c("A", "B" ,"B")
 
-  result <- MakeNMAConsensus(fake_data, groups = groups)
+  result <- MakeNMAConsensus(NMA_toy_dataset, groups = NMA_toy_dataset$Dataset)
 
   expect_s3_class(result, "ggplot")
 })
@@ -58,40 +51,40 @@ test_that("MakeNMAConsensus produces different plots for different groupings", {
 
 ###
 
-test_that("make_profile_graphs works without clusters (faceted)", {
-  p <- make_profile_graphs(data = NMA_toy_dataset)
+test_that("make_NMA_profile_graphs works without clusters (faceted)", {
+  p <- make_NMA_profile_graphs(data = NMA_toy_dataset)
   expect_s3_class(p, "ggplot")
   expect_true("type" %in% names(p$data))
   expect_equal(length(unique(p$data$type)), 3) # All three profile types
 })
 
-test_that("make_profile_graphs works for a single profile type", {
-  p <- make_profile_graphs(data = NMA_toy_dataset, profile_type = "Angle")
+test_that("make_NMA_profile_graphs works for a single profile type", {
+  p <- make_NMA_profile_graphs(data = NMA_toy_dataset, profile_type = "Angle")
   expect_s3_class(p, "ggplot")
   expect_equal(unique(p$data$type), "Angle")
 })
 
-test_that("make_profile_graphs works with clusters", {
-  p <- make_profile_graphs(data = NMA_toy_dataset, groups = NMA_toy_dataset$Dataset)
+test_that("make_NMA_profile_graphs works with clusters", {
+  p <- make_NMA_profile_graphs(data = NMA_toy_dataset, groups = NMA_toy_dataset$Dataset)
   expect_s3_class(p, "ggplot")
   expect_true("group" %in% names(p$data))
   expect_true(length(unique(p$data$group)) <=6)
 })
 
-test_that("make_profile_graphs works with clusters and one profile type", {
-  p <- make_profile_graphs(data = NMA_toy_dataset, groups =  NMA_toy_dataset$Dataset, profile_type = "Radius")
+test_that("make_NMA_profile_graphs works with clusters and one profile type", {
+  p <- make_NMA_profile_graphs(data = NMA_toy_dataset, groups =  NMA_toy_dataset$Dataset, profile_type = "Radius")
   expect_s3_class(p, "ggplot")
   expect_equal(unique(p$data$type), "Radius")
 })
 
-test_that("make_profile_graphs errors if group length mismatch", {
+test_that("make_NMA_profile_graphs errors if group length mismatch", {
   bad_clusters <- rep(1, 10) # Too short
-  expect_error(make_profile_graphs(data = NMA_toy_dataset, groups = bad_clusters),
+  expect_error(make_NMA_profile_graphs(data = NMA_toy_dataset, groups = bad_clusters),
                "Length of groups must match")
 })
 
-test_that("make_profile_graphs errors with invalid profile_type", {
-  expect_error(make_profile_graphs(data = NMA_toy_dataset, profile_type = "Invalid"),
+test_that("make_NMA_profile_graphs errors with invalid profile_type", {
+  expect_error(make_NMA_profile_graphs(data = NMA_toy_dataset, profile_type = "Invalid"),
                "must be one of")
 })
 

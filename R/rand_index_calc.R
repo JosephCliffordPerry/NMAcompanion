@@ -65,8 +65,7 @@ calculate_rand_indexes <- function(rand_data) {
       rand_idx <- rand.index(vector1, vector2)
       result_matrix[i - 1, j - 1] <- rand_idx
       # result_matrix[j - 1, i - 1] <- rand_idx
-      # Print progress
-      cat("Calculated Rand Index for", colnames(rand_data)[i], "vs", colnames(rand_data)[j], "\n")
+
     }
   }
 
