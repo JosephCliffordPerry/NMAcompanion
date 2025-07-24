@@ -8,7 +8,9 @@
 #'
 #' @return A ggplot2 object showing the consensus outline(s)
 #'
-#'@importFrom purrr map_dfr
+#' @importFrom purrr map_dfr
+#' @importFrom ggplot2 element_blank theme geom_ribbon aes
+
 #'@export
 MakeNMAConsensus <- function(data, groups = NULL) {
   # Extract outlines
